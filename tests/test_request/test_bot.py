@@ -37,6 +37,9 @@ class TestAuthenticationRequest:
 
         self.session.mount("mock", self.adapter)
 
+    def test_url(self):
+        assert self.request.url[-5:] == "getMe"
+
     def test_found_status(self):
         with open(
             "tests/resources/responses/bot.TestAuthenticationRequest.1.json"
@@ -116,3 +119,18 @@ class TestAuthenticationRequest:
 
         response = self.session.send(self.request)
         assert response.json().get("description") == "Not Found"
+
+
+class TestSendMessageRequest:
+    def setup_method(self):
+        self.adapter = requests_mock.Adapter()
+
+        self.session = tgcli.request.bot.BotSession("0")
+        self.session._is_mocked = True
+
+        self.request = tgcli.request.bot.SendMessageRequest(self.session)
+
+        self.session.mount("mock", self.adapter)
+
+    def test_url(self):
+        assert self.request.url[-11:] == "sendMessage"

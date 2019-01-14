@@ -40,3 +40,9 @@ class AuthenticationRequest(BotRequest):
     def __init__(self, session: BotSession):
         super().__init__(session, "getMe")
         self.prepare_method("post")
+
+
+class SendMessageRequest(BotRequest):
+    def __init__(self, session: BotSession):
+        super().__init__(session, "sendMessage")
+        self.prepare_method("post")
