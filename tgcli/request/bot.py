@@ -53,6 +53,11 @@ class SendMessageRequest(BotRequest):
         disable_web_page_preview: bool = False,
         disable_notification: bool = False,
     ):
+        try:
+            chat_id = int(chat_id)
+        except ValueError:
+            pass
+
         super().__init__(session, "sendMessage")
         self.prepare_method("post")
         self.prepare_body(

@@ -1,2 +1,4 @@
 requests
 Click
+yaspin
+colorful

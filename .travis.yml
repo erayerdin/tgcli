@@ -1,39 +1,38 @@
 language: python
 cache: pip
-
 jobs:
   include:
   - stage: Style Checking
     python: '3.6'
     install:
-      - pip install -r requirements.txt
-      - pip install -r dev.requirements.txt
-      - pip install black
+    - pip install -r requirements.txt
+    - pip install -r dev.requirements.txt
+    - pip install black
     script: black setup.py tests/ tgcli/ -l 79
   - stage: Testing (Python 3.5)
     python: '3.5'
     install:
-      - pip install -r requirements.txt
-      - pip install -r dev.requirements.txt
+    - pip install -r requirements.txt
+    - pip install -r dev.requirements.txt
     script: pytest
   - stage: Testing (Python 3.6)
     python: '3.6'
     install:
-      - pip install -r requirements.txt
-      - pip install -r dev.requirements.txt
+    - pip install -r requirements.txt
+    - pip install -r dev.requirements.txt
     script: pytest
   - stage: Covering / Deploy
     python: '3.6'
     install:
-      - pip install -r requirements.txt
-      - pip install -r dev.requirements.txt
+    - pip install -r requirements.txt
+    - pip install -r dev.requirements.txt
     script:
-      - pytest --cov tgcli tests/
-      - codecov
+    - pytest --cov tgcli tests/
+    - codecov
     deploy:
       provider: pypi
       user: erayerdin
       password:
-        secure: "c3iijOp0URruxB7UPXrTVIuwRYvGMZ3ZewO8PvUCrVu5tl2DTpiwadERJ1LWxw7vXH8NyVwM8RHACWbM2YCk2TkL8Il4T0fOZ49aMTX0fWnLj4NMfqdAE8/t+KPyU7s3AKfXzgj9xtm52DXxydtUJYfFSUG3JK3RvYLEfZDWDEVEJJ1T8slkEOK7da09Qgpvh9LdT9VIsHyFqVA+SIXoBFRY1Mj1FBS3qX3QVfJtUSg9jKslnG+y8roZROjSsecut+g824woURNEe8SKuZPpbdWnOYJQ7/wvjrlMOPmcONmU7hiArRDEpiIRRZ0gxEfwSJ9I589/JWUaJlD43MMzeSplU7HuoHix096Vcf/RkdUKT7k5Q93zkpkB+PD4IskOxtZTglKSUc5NLmeBBlEPj22kfXerJvM1B1F7Exf6WakikGRLVbn0Amsmv118xFBx3I4E5smrebbVPCmmKE159Mbee8J5XUUSl7NpqozPjbbs8vQrfBxGQmXqZTDk7hm+Q0cW44HILM5H1fa++GX7f3ZUjPJtTH133HNyfB5U7cbmzU/vAjL6ES4kegtr6XiJNhW2JLePUfI21qaV6AgkIDZu/Wg0a7Mn4bn3lMuOBlYVfIiV5wE+I71cEjF2G4X7ft6FYp3XmdkVMPoOKFYcwNvuqUE3sw9mrEiSzXxeHr8="
+        secure: "ir4ktqmr2bCrz4qe7HPSHEXNajACJZMZkTXE4UEIY4Wk1pNahj+Tjdq1Ehkm0sNhb/hT5m3DTDI9gnxBH7JeLxrgOO5PTWagpyODhTPVyjukNfBiTRxQvYQXl/O2wH718wHup7xkWjbCcn1k+ZD12Bmgv6je276jdk74quW/G02jdePeRSnUhgFxFhKGJdnst3cDgvCkfbpjT7mfljnBhbtEvTjTjjEBBn8Kb0kr/GqrjeId448wJbMp3zcSqiC5i8oOkjRaUq8Ney3t8U7P9xYSvDPK7rFA4KKO8NQojUq6mQLdPPgUZnc3Sc5pb7tefPG97mNLPlKtngFQbBA5x+zq5xlwexYKSBpkN+kCUeH+WViOtXQGXCXa556WhO5chSHwKvoOJMSRkSYcqD1w3EkzjA0xglSlTUr0m7L8cw/OBqLzUm3JtoVCK5iIf874chOM0rIZkE15iVnAXF5VO7YaM9ucenlSzd4qYJ1s6xh3/x0GbOoSdjE/WuZdNNtAelq0kcFncnk+gWW/yYnQsOdTTP5Kgn2fY30kNasg6azkLQ9onxvaH6JuiV//qJ/fBmXGec5Qcfq3FqqE/aqIk7fGuPOubIZcuAWdhbogwjADdkZ4wl2vLL8b4TQslvKFAS+TmfqYto77tC32bw3ccT7Es0KNRnu7lR0A2QPyMsY="
       on:
         tags: true
