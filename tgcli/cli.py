@@ -1,3 +1,4 @@
+import sys
 import colorful
 import click
 import yaspin
@@ -67,3 +68,4 @@ def send(token: str, format: str, receiver: str, message: str):
 
             spinner.text = "Failed sending message."
             spinner.fail("❌")
+            sys.exit(1)
