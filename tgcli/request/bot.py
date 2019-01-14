@@ -1,3 +1,4 @@
+import typing
 import requests
 
 
@@ -43,6 +44,25 @@ class AuthenticationRequest(BotRequest):
 
 
 class SendMessageRequest(BotRequest):
-    def __init__(self, session: BotSession):
+    def __init__(
+        self,
+        session: BotSession,
+        chat_id: typing.Union[str, int],
+        text: str,
+        parse_mode: bool = "Markdown",
+        disable_web_page_preview: bool = False,
+        disable_notification: bool = False,
+    ):
         super().__init__(session, "sendMessage")
         self.prepare_method("post")
+        self.prepare_body(
+            data=None,
+            files=None,
+            json={
+                "chat_id": chat_id,
+                "text": str(text),
+                "parse_mode": str(parse_mode),
+                "disable_web_page_preview": bool(disable_web_page_preview),
+                "disable_notification": bool(disable_notification),
+            },
+        )

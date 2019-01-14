@@ -128,9 +128,24 @@ class TestSendMessageRequest:
         self.session = tgcli.request.bot.BotSession("0")
         self.session._is_mocked = True
 
-        self.request = tgcli.request.bot.SendMessageRequest(self.session)
+        self.request = tgcli.request.bot.SendMessageRequest(
+            self.session, 1, "foo"
+        )
+
+        import json
+
+        self.request_body = json.loads(self.request.body.decode("utf-8"))
 
         self.session.mount("mock", self.adapter)
 
     def test_url(self):
         assert self.request.url[-11:] == "sendMessage"
+
+    def test_request_body_chat_id(self):
+        assert self.request_body.get("chat_id") == 1
+
+    def test_request_body_text(self):
+        assert self.request_body.get("text") == "foo"
+
+    def test_request_body_parse_mode(self):
+        assert self.request_body.get("parse_mode") == "Markdown"
