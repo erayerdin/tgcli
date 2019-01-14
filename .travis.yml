@@ -26,7 +26,7 @@ jobs:
     python: '3.6'
     install:
       - pip install -r requirements.txt
-      - pip install pytest pytest-cov codecov
+      - pip install -r dev.requirements.txt
     script:
       - pytest --cov tgcli tests/
       - codecov
