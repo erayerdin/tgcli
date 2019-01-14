@@ -1,0 +1,39 @@
+language: python
+cache: pip
+
+jobs:
+  include:
+  - stage: Style Checking
+    python: '3.6'
+    install:
+      - pip install -r requirements.txt
+      - pip install -r dev.requirements.txt
+      - pip install black
+    script: black setup.py tests/ tgcli/ -l 79
+  - stage: Testing (Python 3.5)
+    python: '3.5'
+    install:
+      - pip install -r requirements.txt
+      - pip install -r dev.requirements.txt
+    script: pytest
+  - stage: Testing (Python 3.6)
+    python: '3.6'
+    install:
+      - pip install -r requirements.txt
+      - pip install -r dev.requirements.txt
+    script: pytest
+  - stage: Covering / Deploy
+    python: '3.6'
+    install:
+      - pip install -r requirements.txt
+      - pip install pytest pytest-cov codecov
+    script:
+      - pytest --cov tgcli tests/
+      - codecov
+    deploy:
+      provider: pypi
+      user: erayerdin
+      password:
+        secure: "c3iijOp0URruxB7UPXrTVIuwRYvGMZ3ZewO8PvUCrVu5tl2DTpiwadERJ1LWxw7vXH8NyVwM8RHACWbM2YCk2TkL8Il4T0fOZ49aMTX0fWnLj4NMfqdAE8/t+KPyU7s3AKfXzgj9xtm52DXxydtUJYfFSUG3JK3RvYLEfZDWDEVEJJ1T8slkEOK7da09Qgpvh9LdT9VIsHyFqVA+SIXoBFRY1Mj1FBS3qX3QVfJtUSg9jKslnG+y8roZROjSsecut+g824woURNEe8SKuZPpbdWnOYJQ7/wvjrlMOPmcONmU7hiArRDEpiIRRZ0gxEfwSJ9I589/JWUaJlD43MMzeSplU7HuoHix096Vcf/RkdUKT7k5Q93zkpkB+PD4IskOxtZTglKSUc5NLmeBBlEPj22kfXerJvM1B1F7Exf6WakikGRLVbn0Amsmv118xFBx3I4E5smrebbVPCmmKE159Mbee8J5XUUSl7NpqozPjbbs8vQrfBxGQmXqZTDk7hm+Q0cW44HILM5H1fa++GX7f3ZUjPJtTH133HNyfB5U7cbmzU/vAjL6ES4kegtr6XiJNhW2JLePUfI21qaV6AgkIDZu/Wg0a7Mn4bn3lMuOBlYVfIiV5wE+I71cEjF2G4X7ft6FYp3XmdkVMPoOKFYcwNvuqUE3sw9mrEiSzXxeHr8="
+      on:
+        tags: true
