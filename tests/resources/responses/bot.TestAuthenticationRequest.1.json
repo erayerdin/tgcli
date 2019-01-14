@@ -1,0 +1,9 @@
+{
+    "ok": true,
+    "result":{
+        "id": 1,
+        "is_bot": true,
+        "first_name": "FooBot",
+        "username": "foobot"
+    }
+}

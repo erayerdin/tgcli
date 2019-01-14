@@ -16,7 +16,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/erayerdin/tgcli",
     download_url="https://github.com/erayerdin/tgcli/archive/master.zip",
-    packages=["tgcli"],
+    packages=("tgcli", "tgcli.request", "tgcli.response"),
     include_package_data=True,
     keywords="telegram messaging communication terminal tool cli",
     classifiers=[
