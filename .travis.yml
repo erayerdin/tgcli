@@ -27,8 +27,8 @@ jobs:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
     script:
-    - pytest --cov tgcli tests/
-    - codecov
+    - pytest --cov-config .coveragerc --cov tgcli tests/
+    - coveralls
     deploy:
       provider: pypi
       user: erayerdin

@@ -1,0 +1,4 @@
+[run]
+omit =
+    tgcli/cli.py
+    tests/*
