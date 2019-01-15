@@ -15,11 +15,11 @@
 
 |              | Build | Coverage |
 |--------------|-------|----------|
-| **Master**   | [![Travis (.com) master](https://img.shields.io/travis/com/erayerdin/tgcli/master.svg?style=flat-square&logo=travis&logoColor=white)][travis_url] | [![Codecov master](https://img.shields.io/codecov/c/github/erayerdin/tgcli/master.svg?style=flat-square&logo=codecov&logoColor=white)][codecov_url] |
-| **Development** | [![Travis (.com) development](https://img.shields.io/travis/com/erayerdin/tgcli/development.svg?style=flat-square&logo=travis&logoColor=white)][travis_url] | [![Codecov development](https://img.shields.io/codecov/c/github/erayerdin/tgcli/development.svg?style=flat-square&logo=codecov&logoColor=white)][codecov_url] |
+| **Master**   | [![Travis (.com) master](https://img.shields.io/travis/com/erayerdin/tgcli/master.svg?style=flat-square&logo=travis&logoColor=white)][travis_url] | [![](https://img.shields.io/coveralls/github/erayerdin/tgcli/master.svg?logo=star&logoColor=white&style=flat-square)][coveralls_url] |
+| **Development** | [![Travis (.com) development](https://img.shields.io/travis/com/erayerdin/tgcli/development.svg?style=flat-square&logo=travis&logoColor=white)][travis_url] | [![](https://img.shields.io/coveralls/github/erayerdin/tgcli/development.svg?logo=star&logoColor=white&style=flat-square)][coveralls_url] |
 
 [travis_url]: https://travis-ci.org/erayerdin/tgcli
-[codecov_url]: https://codecov.io/gh/erayerdin/tgcli
+[coveralls_url]: https://coveralls.io/github/erayerdin/tgcli
 
 ## Installing
 
