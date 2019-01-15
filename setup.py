@@ -8,6 +8,9 @@ with open("README.md", "r") as f:
 with open("requirements.txt", "r") as f:
     DEPS = f.readlines()
 
+with open("dev.requirements.txt", "r") as f:
+    TEST_DEPS = f.readlines()
+
 setup(
     name="tgcli",
     version=tgcli.__version__,
@@ -36,7 +39,7 @@ setup(
     author=tgcli.__author__,
     author_email="eraygezer.94@gmail.com",
     license="Apache License 2.0",
-    tests_require=["pytest", "coverage"],
+    tests_require=TEST_DEPS,
     install_requires=DEPS,
     zip_safe=False,
 )
