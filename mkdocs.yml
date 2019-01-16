@@ -1,0 +1,6 @@
+site_name: tgcli
+nav:
+    - Home: index.md
+    - Getting Started: introduction.md
+    - Bot: bot.md
+theme: readthedocs
