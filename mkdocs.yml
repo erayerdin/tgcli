@@ -1,5 +1,5 @@
 site_name: tgcli
-repo_url: https://github.com/erayerdin/tgcli/
+repo_url: https://github.com/erayerdin/tgcli
 nav:
     - Home: index.md
     - Getting Started: introduction.md

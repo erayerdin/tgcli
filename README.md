@@ -4,6 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
 [![PyPI](https://img.shields.io/pypi/status/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
 [![PyPI](https://img.shields.io/pypi/l/tgcli.svg?style=flat-square)][pypi_url]
+[![](https://img.shields.io/readthedocs/tgcli.svg?style=flat-square)](https://tgcli.readthedocs.io/en/latest/)
 [![Telegram](https://img.shields.io/badge/telegram-%40erayerdin-%2332afed.svg?style=flat-square&logo=telegram&logoColor=white)](https://t.me/erayerdin)
 [![Code Style](https://img.shields.io/badge/style-black-000000.svg?style=flat-square)](https://github.com/ambv/black)
 
@@ -33,7 +34,7 @@ pip install tgcli
 
 [A similar project](https://github.com/vysheng/tg), built on Python, was created by [@vysheng](https://github.com/vysheng), but it has not been updated since 2016 and considered abandoned. This tool *is not a fork* of the mentioned project, it is built from ground up.
 
-## Usage
+## Example
 
 For now, the use case is pretty simple. To send a message:
 
@@ -57,3 +58,5 @@ tgcli bot send --help
 
 This application serves a really small purpose for now. It might face
 breaking changes in the future.
+
+For more information, refer to the [documentation](https://tgcli.readthedocs.io/en/latest/).
