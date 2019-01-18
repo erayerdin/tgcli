@@ -135,7 +135,6 @@ class TestSendMessageRequest:
         import json
 
         self.request_body = json.loads(self.request.body.decode("utf-8"))
-
         self.session.mount("mock", self.adapter)
 
     def test_url(self):
@@ -149,3 +148,35 @@ class TestSendMessageRequest:
 
     def test_request_body_parse_mode(self):
         assert self.request_body.get("parse_mode") == "Markdown"
+
+
+class TestSendFileRequest:
+    def setup_method(self):
+        self.adapter = requests_mock.Adapter()
+
+        self.session = tgcli.request.bot.BotSession("0")
+        self.session._is_mocked = True
+
+        file = open("tests/resources/file.png", "rb")
+        self.request = tgcli.request.bot.SendFileRequest(
+            self.session, 1, file, "lorem ipsum"
+        )
+        self.session.mount("mock", self.adapter)
+
+    def test_url(self):
+        assert self.request.url[-12:] == "sendDocument"
+
+    def test_request_body_chat_id(self):
+        assert b"chat_id" in self.request.body
+
+    def test_request_body_caption(self):
+        assert b"caption" in self.request.body
+
+    def test_request_body_parse_mode(self):
+        assert b"parse_mode" in self.request.body
+
+    def test_request_body_disable_notification(self):
+        assert b"disable_notification" in self.request.body
+
+    def test_request_body_document(self):
+        assert b'filename="file.png"' in self.request.body
