@@ -21,7 +21,6 @@ jobs:
     install:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
-    - pip install black
     # - pip install "tgcli==0.1.0a3" --upgrade
     script:
     # - tgcli bot send -r $TELEGRAM_RECEIVER "📝 Testing `tgcli` with Python 3.5..."
@@ -35,7 +34,6 @@ jobs:
     install:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
-    - pip install black
     # - pip install "tgcli==0.1.0a3" --upgrade
     script:
     # - tgcli bot send -r $TELEGRAM_RECEIVER "📝 Testing `tgcli` with Python 3.6..."
@@ -49,7 +47,6 @@ jobs:
     install:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
-    - pip install black
     # - pip install "tgcli==0.1.0a3" --upgrade
     script:
     # - tgcli bot send -r $TELEGRAM_RECEIVER "📏 Covering `tgcli`..."
