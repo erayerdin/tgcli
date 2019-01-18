@@ -1,3 +1,4 @@
+import io
 import typing
 import requests
 
@@ -49,14 +50,14 @@ class SendMessageRequest(BotRequest):
         session: BotSession,
         chat_id: typing.Union[str, int],
         text: str,
-        parse_mode: bool = "Markdown",
+        parse_mode: str = "Markdown",
         disable_web_page_preview: bool = False,
         disable_notification: bool = False,
     ):
         try:
             chat_id = int(chat_id)
-        except ValueError:
-            pass
+        except ValueError:  # pragma: no cover
+            pass  # pragma: no cover
 
         super().__init__(session, "sendMessage")
         self.prepare_method("post")
@@ -71,3 +72,33 @@ class SendMessageRequest(BotRequest):
                 "disable_notification": bool(disable_notification),
             },
         )
+
+
+class SendFileRequest(BotRequest):
+    def __init__(
+        self,
+        session: BotSession,
+        chat_id: typing.Union[str, int],
+        file: io.BytesIO,
+        caption: str,
+        parse_mode: str = "Markdown",
+        disable_notification: bool = False,
+    ):
+        try:
+            chat_id = int(chat_id)
+        except ValueError:  # pragma: no cover
+            pass  # pragma: no cover
+
+        super().__init__(session, "sendDocument")
+        self.prepare_method("post")
+        self.prepare_body(
+            data={
+                "chat_id": chat_id,
+                "caption": str(caption),
+                "parse_mode": str(parse_mode),
+                "disable_notification": bool(disable_notification),
+            },
+            files={"document": file},
+            json=None,
+        )
+        self.file = file

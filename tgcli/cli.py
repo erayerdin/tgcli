@@ -1,3 +1,4 @@
+import io
 import sys
 import colorful
 import click
@@ -29,21 +30,30 @@ def bot():
     help="Token of bot. Can be provided via TELEGRAM_BOT_TOKEN environment variable.",
 )
 @click.option(
-    "-f",
     "--format",
     default="markdown",
     type=click.Choice(MESSAGE_FORMATS.keys()),
     help="Format of the message.",
 )
+@click.option("-f", "--file", type=click.File("rb"), help="File to send.")
 @click.option(
     "-r", "--receiver", required=True, help="Receiver of the message."
 )
 @click.argument("message", required=True)
-def send(token: str, format: str, receiver: str, message: str):
+def send(
+    token: str, format: str, file: io.BytesIO, receiver: str, message: str
+):
     session = tgcli.request.bot.BotSession(token)
-    request = tgcli.request.bot.SendMessageRequest(
-        session, receiver, message, MESSAGE_FORMATS[format]
-    )
+
+    if file:
+        request = tgcli.request.bot.SendFileRequest(
+            session, receiver, file, message, MESSAGE_FORMATS[format]
+        )
+        file.close()
+    else:
+        request = tgcli.request.bot.SendMessageRequest(
+            session, receiver, message, MESSAGE_FORMATS[format]
+        )
 
     with yaspin.yaspin(yaspin.spinners.Spinners.clock) as spinner:
         spinner.text = "Sending message..."
