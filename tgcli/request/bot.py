@@ -56,8 +56,8 @@ class SendMessageRequest(BotRequest):
     ):
         try:
             chat_id = int(chat_id)
-        except ValueError:
-            pass
+        except ValueError:  # pragma: no cover
+            pass  # pragma: no cover
 
         super().__init__(session, "sendMessage")
         self.prepare_method("post")
@@ -86,8 +86,8 @@ class SendFileRequest(BotRequest):
     ):
         try:
             chat_id = int(chat_id)
-        except ValueError:
-            pass
+        except ValueError:  # pragma: no cover
+            pass  # pragma: no cover
 
         super().__init__(session, "sendDocument")
         self.prepare_method("post")
