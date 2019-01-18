@@ -56,6 +56,10 @@ You can get more information by doing:
 tgcli bot send --help
 ```
 
+Also, this repository uses notification from a private bot, you can see the
+example Travis configuration [here](.travis.yml). Private `TELEGRAM_BOT_TOKEN`
+and `TELEGRAM_RECEIVER` environment variables were set.
+
 This application serves a really small purpose for now. It might face
 breaking changes in the future.
 
