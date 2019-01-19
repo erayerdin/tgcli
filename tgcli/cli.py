@@ -65,8 +65,8 @@ def send(
         else:
             data = response.json()
 
-            code = data.get("error_code")
-            description = data.get("description")
+            code = data.get("error_code", "Unknown")
+            description = data.get("description", "No description found.")
             spinner.write(
                 "{c.bold_red}Error Code:{c.reset} {}".format(code, c=colorful)
             )
