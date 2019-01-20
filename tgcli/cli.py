@@ -1,4 +1,6 @@
 import io
+import platform
+
 import sys
 import colorful
 import click
@@ -6,6 +8,9 @@ import yaspin
 import yaspin.spinners
 
 import tgcli.request.bot
+
+
+IS_DARWIN = platform.system().lower() == "darwin"
 
 
 MESSAGE_FORMATS = {"html": "HTML", "markdown": "Markdown"}
@@ -39,11 +44,18 @@ def bot():
 @click.option(
     "-r", "--receiver", required=True, help="Receiver of the message."
 )
+@click.option("--secure/--no-secure", default=(not IS_DARWIN))
 @click.argument("message", required=True)
 def send(
-    token: str, format: str, file: io.BytesIO, receiver: str, message: str
+    token: str,
+    format: str,
+    file: io.BytesIO,
+    receiver: str,
+    secure: bool,
+    message: str,
 ):
     session = tgcli.request.bot.BotSession(token)
+    session.verify = secure
 
     if file:
         request = tgcli.request.bot.SendFileRequest(
