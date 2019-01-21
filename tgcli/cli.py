@@ -31,11 +31,6 @@ def cli(ctx, secure: bool):
 
 
 @cli.group()
-def bot():
-    pass
-
-
-@bot.command()
 @click.option(
     "-t",
     "--token",
@@ -43,6 +38,12 @@ def bot():
     required=True,
     help="Token of bot. Can be provided via TELEGRAM_BOT_TOKEN environment variable.",
 )
+@click.pass_context
+def bot(ctx, token):
+    ctx.obj["token"] = token
+
+
+@bot.command()
 @click.option(
     "--format",
     default="markdown",
@@ -55,10 +56,8 @@ def bot():
 )
 @click.argument("message", required=True)
 @click.pass_context
-def send(
-    ctx, token: str, format: str, file: io.BytesIO, receiver: str, message: str
-):
-    session = tgcli.request.bot.BotSession(token)
+def send(ctx, format: str, file: io.BytesIO, receiver: str, message: str):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
 
     if file:
