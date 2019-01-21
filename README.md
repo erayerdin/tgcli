@@ -39,7 +39,7 @@ pip install tgcli
 For now, the use case is pretty simple. To send a message:
 
 ```python
-tgcli bot send --token "BotToken" --receiver "UserID" "Your message"
+tgcli bot --token "BotToken" send --receiver "UserID" "Your message"
 ```
 
 You don't need to expose your token as flag. If you set
