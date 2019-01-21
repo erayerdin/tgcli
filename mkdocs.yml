@@ -3,5 +3,6 @@ repo_url: https://github.com/erayerdin/tgcli
 nav:
     - Home: index.md
     - Getting Started: introduction.md
+    - Root: root.md
     - Bot: bot.md
 theme: readthedocs

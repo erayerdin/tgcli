@@ -17,16 +17,20 @@ MESSAGE_FORMATS = {"html": "HTML", "markdown": "Markdown"}
 
 
 @click.group()
-def cli():
-    pass
+@click.option(
+    "--secure/--no-secure",
+    default=(not IS_DARWIN),
+    help='Whether to validate HTTPS requests. Default is "secure" except OSX. '
+    'You have to update built-in OpenSSL and manually pass "secure" each '
+    "time in OSX.",
+)
+@click.pass_context
+def cli(ctx, secure: bool):
+    ctx.obj = dict()
+    ctx.obj["secure"] = secure
 
 
 @cli.group()
-def bot():
-    pass
-
-
-@bot.command()
 @click.option(
     "-t",
     "--token",
@@ -34,6 +38,12 @@ def bot():
     required=True,
     help="Token of bot. Can be provided via TELEGRAM_BOT_TOKEN environment variable.",
 )
+@click.pass_context
+def bot(ctx, token):
+    ctx.obj["token"] = token
+
+
+@bot.command()
 @click.option(
     "--format",
     default="markdown",
@@ -44,18 +54,11 @@ def bot():
 @click.option(
     "-r", "--receiver", required=True, help="Receiver of the message."
 )
-@click.option("--secure/--no-secure", default=(not IS_DARWIN))
 @click.argument("message", required=True)
-def send(
-    token: str,
-    format: str,
-    file: io.BytesIO,
-    receiver: str,
-    secure: bool,
-    message: str,
-):
-    session = tgcli.request.bot.BotSession(token)
-    session.verify = secure
+@click.pass_context
+def send(ctx, format: str, file: io.BytesIO, receiver: str, message: str):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
 
     if file:
         request = tgcli.request.bot.SendFileRequest(
