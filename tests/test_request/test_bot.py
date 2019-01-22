@@ -150,21 +150,57 @@ class TestSendMessageRequest:
         assert self.request_body.get("parse_mode") == "Markdown"
 
 
-class TestSendFileRequest:
+class TestSendDocumentRequest:
     def setup_method(self):
         self.adapter = requests_mock.Adapter()
 
         self.session = tgcli.request.bot.BotSession("0")
         self.session._is_mocked = True
 
-        file = open("tests/resources/file.png", "rb")
+        self.file = open("tests/resources/file.png", "rb")
         self.request = tgcli.request.bot.SendFileRequest(
-            self.session, 1, file, "lorem ipsum"
+            self.session, 1, self.file, "lorem ipsum"
         )
         self.session.mount("mock", self.adapter)
 
-    def test_url(self):
+    def teardown_method(self):
+        self.file.close()
+
+    def test_default_url(self):
         assert self.request.url[-12:] == "sendDocument"
+
+    def test_photo_url(self):
+        session = tgcli.request.bot.BotSession("0")
+        request = tgcli.request.bot.SendFileRequest(
+            self.session,
+            1,
+            self.file,
+            "lorem ipsum",
+            tgcli.request.bot.MediaType.PHOTO,
+        )
+        assert request.url[-9:] == "sendPhoto"
+
+    def test_audio_url(self):
+        session = tgcli.request.bot.BotSession("0")
+        request = tgcli.request.bot.SendFileRequest(
+            self.session,
+            1,
+            self.file,
+            "lorem ipsum",
+            tgcli.request.bot.MediaType.AUDIO,
+        )
+        assert request.url[-9:] == "sendAudio"
+
+    def test_video_url(self):
+        session = tgcli.request.bot.BotSession("0")
+        request = tgcli.request.bot.SendFileRequest(
+            self.session,
+            1,
+            self.file,
+            "lorem ipsum",
+            tgcli.request.bot.MediaType.VIDEO,
+        )
+        assert request.url[-9:] == "sendVideo"
 
     def test_request_body_chat_id(self):
         assert b"chat_id" in self.request.body
