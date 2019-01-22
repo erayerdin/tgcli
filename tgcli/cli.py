@@ -14,6 +14,7 @@ IS_DARWIN = platform.system().lower() == "darwin"
 
 
 MESSAGE_FORMATS = {"html": "HTML", "markdown": "Markdown"}
+MEDIA_TYPES = [str(v.value) for v in list(tgcli.request.bot.MediaType)]
 
 
 @click.group()
@@ -48,21 +49,35 @@ def bot(ctx, token):
     "--format",
     default="markdown",
     type=click.Choice(MESSAGE_FORMATS.keys()),
-    help="Format of the message.",
+    help='Format of the message. Default is "markdown".',
 )
 @click.option("-f", "--file", type=click.File("rb"), help="File to send.")
+@click.option(
+    "--as",
+    "as_",
+    default="document",
+    type=click.Choice(MEDIA_TYPES),
+    help='Send the file as as type. Default is "document".',
+)
 @click.option(
     "-r", "--receiver", required=True, help="Receiver of the message."
 )
 @click.argument("message", required=True)
 @click.pass_context
-def send(ctx, format: str, file: io.BytesIO, receiver: str, message: str):
+def send(
+    ctx, format: str, file: io.BytesIO, as_: str, receiver: str, message: str
+):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
 
     if file:
         request = tgcli.request.bot.SendFileRequest(
-            session, receiver, file, message, MESSAGE_FORMATS[format]
+            session,
+            receiver,
+            file,
+            message,
+            tgcli.request.bot.MediaType(as_),
+            MESSAGE_FORMATS[format],
         )
         file.close()
     else:

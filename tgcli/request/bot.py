@@ -1,3 +1,4 @@
+import enum
 import io
 import typing
 import requests
@@ -74,6 +75,14 @@ class SendMessageRequest(BotRequest):
         )
 
 
+@enum.unique
+class MediaType(enum.Enum):
+    DOCUMENT = "document"
+    PHOTO = "photo"
+    VIDEO = "video"
+    AUDIO = "audio"
+
+
 class SendFileRequest(BotRequest):
     def __init__(
         self,
@@ -81,6 +90,7 @@ class SendFileRequest(BotRequest):
         chat_id: typing.Union[str, int],
         file: io.BytesIO,
         caption: str,
+        media_type: MediaType = MediaType.DOCUMENT,
         parse_mode: str = "Markdown",
         disable_notification: bool = False,
     ):
@@ -89,7 +99,9 @@ class SendFileRequest(BotRequest):
         except ValueError:  # pragma: no cover
             pass  # pragma: no cover
 
-        super().__init__(session, "sendDocument")
+        super().__init__(
+            session, "send{}".format(str(media_type.value.title()))
+        )
         self.prepare_method("post")
         self.prepare_body(
             data={
@@ -98,7 +110,7 @@ class SendFileRequest(BotRequest):
                 "parse_mode": str(parse_mode),
                 "disable_notification": bool(disable_notification),
             },
-            files={"document": file},
+            files={str(media_type.value): file},
             json=None,
         )
         self.file = file
