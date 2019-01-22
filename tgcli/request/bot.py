@@ -75,6 +75,7 @@ class SendMessageRequest(BotRequest):
         )
 
 
+@enum.unique
 class MediaType(enum.Enum):
     DOCUMENT = "document"
     PHOTO = "photo"
