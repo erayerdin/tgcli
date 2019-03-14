@@ -11,6 +11,8 @@ with open("requirements.txt", "r") as f:
 with open("dev.requirements.txt", "r") as f:
     TEST_DEPS = f.readlines()
 
+GITHUB_RELEASE_URL = "https://github.com/erayerdin/tgcli/archive/v{}.tar.gz"
+
 setup(
     name="tgcli",
     version=tgcli.__version__,
@@ -18,7 +20,7 @@ setup(
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/erayerdin/tgcli",
-    download_url="https://github.com/erayerdin/tgcli/archive/master.zip",
+    download_url=GITHUB_RELEASE_URL.format(tgcli.__version__),
     packages=("tgcli", "tgcli.request"),
     entry_points="""
         [console_scripts]
