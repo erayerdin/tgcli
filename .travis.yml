@@ -51,7 +51,7 @@ jobs:
     - pip install -r dev.requirements.txt
     - pip install "tgcli==0.1.0a4" --upgrade
     script:
-    - tgcli bot send -r $TELEGRAM_RECEIVER "📝 Testing \`tgcli\` with Python 3.6..."
+    - tgcli bot send -r $TELEGRAM_RECEIVER "📝 Testing \`tgcli\` with Python 3.7..."
     - pytest
     after_success:
     - tgcli bot send -r $TELEGRAM_RECEIVER "🍻 The code works."
