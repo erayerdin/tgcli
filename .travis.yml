@@ -56,7 +56,7 @@ jobs:
     after_success:
     - tgcli bot send -r $TELEGRAM_RECEIVER "🍻 The code works."
     after_failure:
-    - tgcli bot send -r $TELEGRAM_RECEIVER "📦💥 Tests failed with Python 3.6. [See](https://travis-ci.com/erayerdin/tgcli)."
+    - tgcli bot send -r $TELEGRAM_RECEIVER "📦💥 Tests failed with Python 3.7. [See](https://travis-ci.com/erayerdin/tgcli)."
   - stage: Covering / Deploy
     python: '3.7'
     install:
