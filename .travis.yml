@@ -1,9 +1,11 @@
 language: python
 cache: pip
+dist: xenial
+
 jobs:
   include:
   - stage: Style Checking
-    python: '3.6'
+    python: '3.7'
     install:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
@@ -16,7 +18,7 @@ jobs:
     - tgcli bot send -r $TELEGRAM_RECEIVER "🥂 The code shines."
     after_failure:
     - tgcli bot send -r $TELEGRAM_RECEIVER "✂️💥 Style checking failed. [See](https://travis-ci.com/erayerdin/tgcli)."
-  - stage: Testing (Python 3.5)
+  - stage: Testing
     python: '3.5'
     install:
     - pip install -r requirements.txt
@@ -29,7 +31,7 @@ jobs:
     - tgcli bot send -r $TELEGRAM_RECEIVER "🍻 The code works."
     after_failure:
     - tgcli bot send -r $TELEGRAM_RECEIVER "📦💥 Tests failed with Python 3.5. [See](https://travis-ci.com/erayerdin/tgcli)."
-  - stage: Testing (Python 3.6)
+  - stage: Testing
     python: '3.6'
     install:
     - pip install -r requirements.txt
@@ -42,8 +44,21 @@ jobs:
     - tgcli bot send -r $TELEGRAM_RECEIVER "🍻 The code works."
     after_failure:
     - tgcli bot send -r $TELEGRAM_RECEIVER "📦💥 Tests failed with Python 3.6. [See](https://travis-ci.com/erayerdin/tgcli)."
+  - stage: Testing
+    python: '3.7'
+    install:
+    - pip install -r requirements.txt
+    - pip install -r dev.requirements.txt
+    - pip install "tgcli==0.1.0a4" --upgrade
+    script:
+    - tgcli bot send -r $TELEGRAM_RECEIVER "📝 Testing \`tgcli\` with Python 3.6..."
+    - pytest
+    after_success:
+    - tgcli bot send -r $TELEGRAM_RECEIVER "🍻 The code works."
+    after_failure:
+    - tgcli bot send -r $TELEGRAM_RECEIVER "📦💥 Tests failed with Python 3.6. [See](https://travis-ci.com/erayerdin/tgcli)."
   - stage: Covering / Deploy
-    python: '3.6'
+    python: '3.7'
     install:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
