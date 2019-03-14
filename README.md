@@ -19,7 +19,7 @@
 | **Master**   | [![Travis (.com) master](https://img.shields.io/travis/com/erayerdin/tgcli/master.svg?style=flat-square&logo=travis&logoColor=white)][travis_url] | [![](https://img.shields.io/coveralls/github/erayerdin/tgcli/master.svg?logo=star&logoColor=white&style=flat-square)][coveralls_url] |
 | **Development** | [![Travis (.com) development](https://img.shields.io/travis/com/erayerdin/tgcli/development.svg?style=flat-square&logo=travis&logoColor=white)][travis_url] | [![](https://img.shields.io/coveralls/github/erayerdin/tgcli/development.svg?logo=star&logoColor=white&style=flat-square)][coveralls_url] |
 
-[travis_url]: https://travis-ci.org/erayerdin/tgcli
+[travis_url]: https://travis-ci.com/erayerdin/tgcli
 [coveralls_url]: https://coveralls.io/github/erayerdin/tgcli
 
 ## Installing
