@@ -1,5 +1,7 @@
 # Welcome to tgcli
 
+## Introduction
+
 [![PyPI](https://img.shields.io/pypi/pyversions/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
 [![PyPI](https://img.shields.io/pypi/l/tgcli.svg?style=flat-square)][pypi_url]
 [![Telegram](https://img.shields.io/badge/telegram-%40erayerdin-%2332afed.svg?style=flat-square&logo=telegram&logoColor=white)](https://t.me/erayerdin)
@@ -10,10 +12,10 @@
 `tgcli` is a Telegram client that you can use on terminal. You can automate
 repetitive tasks on Telegram with `tgcli`.
 
-`tgcli` is still on pre-alpha stage, which means new features can be added and
-some features are subject to change.
+`tgcli` is on beta stage, which means new features can be added and some
+features are subject to change.
 
-# License
+## License
 
 `tgcli` is licensed under Apache License 2.0.
 
