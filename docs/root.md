@@ -16,7 +16,7 @@ Short Flag | Full Flag | Required/Optional | Description
 [^1]: OSX might be bundled with an older version of OpenSSL, which
       requires to point at certificate manually and causes `tgcli` to fail.
       That's why the requests in OSX is `--no-secure` by default. Easiest way
-      to overcome this problem is to [update OpenSSL on your system](https://apple.stackexchange.com/a/126832). Then manually trigger `--secure` flag everytime.</small>
+      to overcome this problem is to [update OpenSSL on your system](https://apple.stackexchange.com/a/126832). Then manually trigger `--secure` flag everytime.
 
 ### Examples
 

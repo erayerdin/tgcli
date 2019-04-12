@@ -1,5 +1,7 @@
 # Bot
 
+## Introduction
+
 Bots automate messaging in Telegram. They immitate an account / real person.
 However, their username always finishes with `bot` suffix. In `tgcli`, bot
 actions are executed under `tgcli bot` command. To get offline help, use:
@@ -10,16 +12,20 @@ actions are executed under `tgcli bot` command. To get offline help, use:
 
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
--t | --token | Required<sup>1</sup> | Token of bot.
+-t | --token | Required[^1] | Token of bot.
 
-<small>**1:** You can also pass `TELEGRAM_BOT_TOKEN` environment variable to
-current session of your terminal in order to protect your token from being
-exposed regularly.</small>
+[^1]: It is not required if you have `TELEGRAM_BOT_TOKEN` set in your current
+      shell session.
 
-    tgcli bot -t "YourBotToken" send -r "somebody" "message"
-    # or better
-    export TELEGRAM_BOT_TOKEN="YourBotToken"
-    tgcli bot send -r "somebody" "message"
+!!! tip
+    You can also pass `TELEGRAM_BOT_TOKEN` environment variable to current
+    session of your terminal in order to protect your token from being exposed
+    regularly.
+
+        tgcli bot -t "YourBotToken" send -r "somebody" "message"
+        # or better
+        export TELEGRAM_BOT_TOKEN="YourBotToken"
+        tgcli bot send -r "somebody" "message"
 
 ## send
 
@@ -29,25 +35,25 @@ A subcommand of `bot` to send regular messages to any person, to get help:
 
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
--t | --token | Required<sup>1</sup> | Token of bot.
+-t | --token | Required[^2] | Token of bot.
 -r | --receiver | Required | The receiver's ID. An integer.
  | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
--f | --file<sup>1</sup> | Optional | File to send.
+-f | --file[^2] | Optional | File to send.
  | --as | Optional | Type of the file that is sent. Choices are `document`, `video`, `audio` and `photo`. Default is `document`.
  | message | Required | The message.
 
-<small>**1:** File storage in Telegram server is a bit complex topic,
-which is discussed in [file storage and media types section](bot.md#file-storage-and-media-types)
-of the documentation.</small>
+[^2]: File storage in Telegram server is a bit complex topic, which is
+      discussed in [file storage and media types section](bot.md#file-storage-and-media-types)
+      of the documentation.
 
- > #### Tip
- > ID of a user  *is not* username or human-readable name. It is an integer
- > representing the account. To get your ID, send
- > [@userinfobot](https://t.me/userinfobot) *any* message.
+!!! tip
+    ID of a user  *is not* username or human-readable name. It is an integer
+    representing the account. To get your ID, send
+    [@userinfobot](https://t.me/userinfobot) *any* message.
 
-### File Storage and Media Types
+## File Storage and Media Types
 
-#### Notes on Limits of File Storage
+### Notes on Limits of File Storage
 
 The file storage limit for a bot up to 10 megabytes for photos and 50 megabytes
 for other files
@@ -63,7 +69,7 @@ wiping operations*. That's why it is a good practice to forward the files sent
 by bots to *Saved Messages*, even better to backup them to a storage that you
 own if these files have higher importance to you.
 
-#### Notes on Media Types
+### Notes on Media Types
 
 `document` is the default option for `--as` flag and it can be used for *all
 types of files*. However, when you set `--as` to a different type, Telegram
@@ -82,7 +88,7 @@ send for performance reasons. So, you might come across weird quirks if you
 send a file with a different types, such as an image having a play button, an
 audio that can be displayed full-screen etc.
 
-### Examples
+## Examples
 
     # assuming you have TELEGRAM_BOT_TOKEN environment variable
 
