@@ -1,8 +1,37 @@
 site_name: tgcli
+site_author: Eray Erdin
+site_url: https://github.com/erayerdin/tgcli
+repo_name: erayerdin/tgcli
 repo_url: https://github.com/erayerdin/tgcli
+
+theme:
+  name: material
+  palette:
+    primary: cyan
+    accent: cyan
+
+extra:
+  social:
+    - type: github
+      link: https://github.com/erayerdin
+    - type: twitter
+      link: https://twitter.com/_erayerdin
+    - type: linkedin
+      link: https://linkedin.com/in/erayerdin
+    - type: telegram
+      link: https://t.me/erayerdin
+  disqus: erayerdin
+
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
+  - footnotes
+
 nav:
     - Home: index.md
-    - Getting Started: introduction.md
+    - Getting Started: getting-started.md
     - Root: root.md
     - Bot: bot.md
-theme: readthedocs

@@ -1,16 +1,18 @@
-# Installation
+# Getting Started
+
+## Installation
 
 The easiest way to install `tgcli` is to use `pip`:
 
     pip install tgcli
 
-# A Basic Usage
+## A Basic Usage
 
 In this tutorial, our goal is to send ourselves a message using a bot.
 
-## Preparation
+### Preparation
 
-### Creating A Bot
+#### Creating A Bot
 
 In order to create a bot, you will need to contact
 [@BotFather](https://t.me/BotFather). Steps are:
@@ -25,17 +27,17 @@ somewhere.
 Now, search your bot with the username you've just set. Send the bot an initial
 message.
 
- > #### The Reason
- > Bots cannot initiate conversation in Telegram. So you cannot send a message
- > to somebody if they didn't send you one.
+!!! Reason
+    Bots cannot initiate conversation in Telegram. So you cannot send a message
+    to somebody if they didn't send you one.
 
-### Getting User ID from Telegram
+#### Getting User ID from Telegram
 
 We need to know our own user ID for bot to send us a message.
 
- > #### Info
- > ID is different from your human-readable name or your username (the one that
- > starts with (at) sign). It is an integer.
+!!! Info
+    ID is *different from your human-readable name* or your username (the one
+    that starts with (at) sign). It is an integer.
 
 In order to get it, you need to send [@userinfobot](https://t.me/userinfobot)
 any message and the bot will reply you with your information:
@@ -64,7 +66,7 @@ You can also set `TELEGRAM_BOT_TOKEN` environment variable to protect your
 bot token in the current terminal session. For more information about how to
 use bot, refer to [Bot](bot.md) section.
 
-# Getting Offline Information
+## Getting Offline Information
 
 You can use below to get usage information without referring to this
 documentation everytime:

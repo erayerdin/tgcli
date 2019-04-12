@@ -11,13 +11,12 @@ Root contains some global options that you might be interested.
 
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
- | --secure/--no-secure | Optional | Whether to verify HTTPS certificate or not. Default is `True` except OSX<sup>1</sup>.
+ | --secure/--no-secure | Optional | Whether to verify HTTPS certificate or not. Default is `True` except OSX[^1].
 
- <small>**1:** OSX might be bundled with an older version of OpenSSL, which
- requires to point at certificate manually and causes `tgcli` to fail. That's
- why the requests in OSX is `--no-secure` by default. Easiest way to overcome
- this problem is to [update OpenSSL on your system](https://apple.stackexchange.com/a/126832).
- Then manually trigger `--secure` flag everytime.</small>
+[^1]: OSX might be bundled with an older version of OpenSSL, which
+      requires to point at certificate manually and causes `tgcli` to fail.
+      That's why the requests in OSX is `--no-secure` by default. Easiest way
+      to overcome this problem is to [update OpenSSL on your system](https://apple.stackexchange.com/a/126832). Then manually trigger `--secure` flag everytime.
 
 ### Examples
 
