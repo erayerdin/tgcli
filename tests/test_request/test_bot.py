@@ -1,5 +1,4 @@
 import requests_mock
-
 import tgcli.request.bot
 
 
@@ -60,7 +59,7 @@ class TestAuthenticationRequest:
             )
 
         response = self.session.send(self.request)
-        assert response.json().get("ok") == True
+        assert response.json().get("ok")
 
     def test_found_result(self):
         with open(
@@ -72,7 +71,7 @@ class TestAuthenticationRequest:
 
         response = self.session.send(self.request)
         assert response.json().get("result").get("id") == 1
-        assert response.json().get("result").get("is_bot") == True
+        assert response.json().get("result").get("is_bot")
         assert response.json().get("result").get("first_name") == "FooBot"
         assert response.json().get("result").get("username") == "foobot"
 
@@ -96,7 +95,7 @@ class TestAuthenticationRequest:
             )
 
         response = self.session.send(self.request)
-        assert response.json().get("ok") == False
+        assert not response.json().get("ok")
 
     def test_notfound_error_code(self):
         with open(
