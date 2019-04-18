@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.1.2] - 2019-04-19
+### Added
+ - Downloads counter to README
+
+### Changed
+ - Changes status from beta to stable
+
+### Removed
+ - Status badge from README
+
 ## [v0.1.1] - 2019-04-13
 ### Changed
  - Changed documentation theme to material.
