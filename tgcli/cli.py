@@ -1,14 +1,13 @@
 import io
 import platform
-
 import sys
-import colorful
+
 import click
+import colorful
 import yaspin
 import yaspin.spinners
 
 import tgcli.request.bot
-
 
 IS_DARWIN = platform.system().lower() == "darwin"
 
