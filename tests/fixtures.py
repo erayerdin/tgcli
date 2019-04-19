@@ -90,6 +90,27 @@ def bot_send_message_request(
 
 
 @pytest.fixture
+def bot_send_poll_request(bot_session) -> tgcli.request.bot.SendPollRequest:
+    """
+    Returns a bot send poll request.
+
+    Fixtures
+    --------
+    bot_session
+
+    Attributes
+    ----------
+    session = bot_session
+    chat_id = 1
+    question = "Foo?"
+    options = ("Bar", "Baz")
+    """
+    return tgcli.request.bot.SendPollRequest(
+        bot_session, 1, "Foo?", ("Bar", "Baz")
+    )
+
+
+@pytest.fixture
 def bot_send_document_request_factory(bot_session) -> callable:
     """
     Returns a bot send document request factory.
