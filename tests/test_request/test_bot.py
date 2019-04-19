@@ -214,3 +214,33 @@ class TestSendDocumentRequest:
 
     def test_request_body_document(self, bot_send_document_request):
         assert b'filename="file.png"' in bot_send_document_request.body
+
+
+class TestSendPollRequest:
+    def test_url(self, bot_send_poll_request):
+        assert bot_send_poll_request.url[-8:] == "sendPoll"
+
+    def test_request_body_chat_id(
+        self, bot_send_poll_request, request_body_factory
+    ):
+        request_body = request_body_factory(bot_send_poll_request)
+        assert request_body.get("chat_id") == 1
+
+    def test_request_body_question(
+        self, bot_send_poll_request, request_body_factory
+    ):
+        request_body = request_body_factory(bot_send_poll_request)
+        assert request_body.get("question") == "Foo?"
+
+    def test_request_body_options(
+        self, bot_send_poll_request, request_body_factory
+    ):
+        request_body = request_body_factory(bot_send_poll_request)
+        assert request_body.get("options")[0] == "Bar"
+        assert request_body.get("options")[1] == "Baz"
+
+    def test_request_body_disable_notification(
+        self, bot_send_poll_request, request_body_factory
+    ):
+        request_body = request_body_factory(bot_send_poll_request)
+        assert not request_body.get("disable_notification")
