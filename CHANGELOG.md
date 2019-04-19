@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
- - Refactored all tests to use fixtures instead of xunit style testing
+ - `send` is now a group type of command which has `message`, `file` and `poll`
+ subcommands.
+ - Moved file sending functionality from `send` to `send file`
+ - Moved message sending functionality from `send` to `send message`
+ - `send` now only takes receiver chat id, other subcommands take related
+ options and parameters
 
 ## [v0.1.2] - 2019-04-19
 ### Added
