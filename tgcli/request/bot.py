@@ -104,6 +104,34 @@ class SendPollRequest(BotRequest):
         )
 
 
+class SendLocationRequest(BotRequest):
+    def __init__(
+        self,
+        session: BotSession,
+        chat_id: typing.Union[str, int],
+        latitude: float,
+        longitude: float,
+        disable_notification: bool = False,
+    ):
+        try:
+            chat_id = int(chat_id)
+        except ValueError:  # pragma: no cover
+            pass  # pragma: no cover
+
+        super().__init__(session, "sendLocation")
+        self.prepare_method("post")
+        self.prepare_body(
+            data=None,
+            files=None,
+            json={
+                "chat_id": chat_id,
+                "latitude": float(latitude),
+                "longitude": float(longitude),
+                "disable_notification": bool(disable_notification),
+            },
+        )
+
+
 @enum.unique
 class MediaType(enum.Enum):
     DOCUMENT = "document"
