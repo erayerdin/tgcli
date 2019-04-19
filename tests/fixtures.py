@@ -1,10 +1,11 @@
 import io
 import json
+import typing
+
+import tgcli.request.bot
 
 import pytest
 import requests_mock
-
-import tgcli.request.bot
 
 
 @pytest.fixture
@@ -107,6 +108,38 @@ def bot_send_poll_request(bot_session) -> tgcli.request.bot.SendPollRequest:
     """
     return tgcli.request.bot.SendPollRequest(
         bot_session, 1, "Foo?", ("Bar", "Baz")
+    )
+
+
+@pytest.fixture
+def location() -> typing.Tuple[float]:
+    """
+    Returns an example latitude and longtitude.
+    """
+    return (38.4219611, 27.0941414)
+
+
+@pytest.fixture
+def bot_send_location_request(
+    bot_session, location
+) -> tgcli.request.bot.SendLocationRequest:
+    """
+    Returns a bot send location request.
+
+    Fixtures
+    --------
+    bot_session
+    location
+
+    Attributes
+    ----------
+    session = bot_session
+    chat_id = 1
+    latitude = location[0]
+    longtitude = location[1]
+    """
+    return tgcli.request.bot.SendLocationRequest(
+        bot_session, 1, location[0], location[1]
     )
 
 

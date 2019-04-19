@@ -244,3 +244,26 @@ class TestSendPollRequest:
     ):
         request_body = request_body_factory(bot_send_poll_request)
         assert not request_body.get("disable_notification")
+
+
+class TestSendLocationRequest:
+    def test_url(self, bot_send_location_request):
+        assert bot_send_location_request.url[-12:] == "sendLocation"
+
+    def test_request_body_chat_id(
+        self, bot_send_location_request, request_body_factory
+    ):
+        request_body = request_body_factory(bot_send_location_request)
+        assert request_body.get("chat_id") == 1
+
+    def test_request_body_latitude(
+        self, bot_send_location_request, request_body_factory, location
+    ):
+        request_body = request_body_factory(bot_send_location_request)
+        assert request_body.get("latitude") == location[0]
+
+    def test_request_body_longtitude(
+        self, bot_send_location_request, request_body_factory, location
+    ):
+        request_body = request_body_factory(bot_send_location_request)
+        assert request_body.get("longtitude") == location[1]
