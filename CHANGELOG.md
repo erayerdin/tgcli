@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.2.0] - 2019-04-19
+### Added
+ - `poll` section to *Bot* documentation
+
+### Changed
+ - `send` is now a group type of command which has `message`, `file` and `poll`
+ subcommands.
+ - Moved file sending functionality from `send` to `send file`
+ - Moved message sending functionality from `send` to `send message`
+ - `send` now only takes receiver chat id, other subcommands take related
+ options and parameters
+ - Updated *Bot* section of documentation
+
 ## [v0.1.2] - 2019-04-19
 ### Added
  - Downloads counter to README

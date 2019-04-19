@@ -1,6 +1,7 @@
 import enum
 import io
 import typing
+
 import requests
 
 
@@ -70,6 +71,34 @@ class SendMessageRequest(BotRequest):
                 "text": str(text),
                 "parse_mode": str(parse_mode),
                 "disable_web_page_preview": bool(disable_web_page_preview),
+                "disable_notification": bool(disable_notification),
+            },
+        )
+
+
+class SendPollRequest(BotRequest):
+    def __init__(
+        self,
+        session: BotSession,
+        chat_id: typing.Union[str, int],
+        question: str,
+        options: typing.Iterable[str],
+        disable_notification: bool = False,
+    ):
+        try:
+            chat_id = int(chat_id)
+        except ValueError:  # pragma: no cover
+            pass  # pragma: no cover
+
+        super().__init__(session, "sendPoll")
+        self.prepare_method("post")
+        self.prepare_body(
+            data=None,
+            files=None,
+            json={
+                "chat_id": chat_id,
+                "question": str(question),
+                "options": tuple(options),
                 "disable_notification": bool(disable_notification),
             },
         )
