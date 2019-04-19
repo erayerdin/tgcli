@@ -151,3 +151,28 @@ And it is even *safer to assume that bots' files will be higher priority in
 wiping operations*. That's why it is a good practice to forward the files sent
 by bots to *Saved Messages*, even better to backup them to a storage that you
 own if these files have higher importance to you.
+
+### poll
+
+`poll` is a subcommand of `send` and is used to publish polls. To get help:
+
+    tgcli bot send -r $RECEIVER_ID poll --help
+
+`poll` has the options and parameters below:
+
+Short Flag | Full Flag | Required/Optional | Description
+--- | --- | --- | ---
+-o | --option | Required[^2] | A single option for poll. You can define multiple options.
+ | question | Required | The question for poll.
+
+!!! warning
+    You cannot send polls to private chats but only to groups and channels.
+
+To publish a poll:
+
+    tgcli bot send -r $RECEIVER_ID poll "Am I a ghost?" -o "Yes" -o "No"
+
+!!! note
+    Also keep in mind the the order of `-o`/`--option` is preserved for polls.
+
+[^2]: You need to define at least two options for a valid poll.
