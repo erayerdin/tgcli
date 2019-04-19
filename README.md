@@ -39,7 +39,7 @@ pip install tgcli
 For now, the use case is pretty simple. To send a message:
 
 ```python
-tgcli bot --token "BotToken" send --receiver "UserID" "Your message"
+tgcli bot --token "BotToken" send --receiver "UserID" message "Your message"
 ```
 
 You don't need to expose your token as flag. If you set
@@ -63,4 +63,8 @@ and `TELEGRAM_RECEIVER` environment variables were set.
 This application serves a really small purpose for now. It might face
 breaking changes in the future.
 
-For more information, refer to the [documentation](https://tgcli.readthedocs.io/en/latest/).
+## Documentation
+
+Documentation has an intensive amount of  information about how to
+use `tgcli`. Refer to the
+[documentation](https://tgcli.readthedocs.io/en/latest/).

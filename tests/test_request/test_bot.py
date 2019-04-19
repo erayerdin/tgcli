@@ -1,6 +1,6 @@
-import requests_mock
-
 import tgcli.request.bot
+
+import requests_mock
 
 
 class TestBotSession:
