@@ -114,7 +114,7 @@ def bot_send_poll_request(bot_session) -> tgcli.request.bot.SendPollRequest:
 @pytest.fixture
 def location() -> typing.Tuple[float]:
     """
-    Returns an example latitude and longtitude.
+    Returns an example latitude and longitude.
     """
     return (38.4219611, 27.0941414)
 
@@ -136,7 +136,7 @@ def bot_send_location_request(
     session = bot_session
     chat_id = 1
     latitude = location[0]
-    longtitude = location[1]
+    longitude = location[1]
     """
     return tgcli.request.bot.SendLocationRequest(
         bot_session, 1, location[0], location[1]

@@ -181,3 +181,31 @@ def poll(ctx, options: typing.Tuple[str], question: str):
     )
 
     send_message(session, request)
+
+
+@send.command()
+@click.option(
+    "-x",
+    "--latitude",
+    type=click.FLOAT,
+    required=True,
+    help="Latitude of location.",
+)
+@click.option(
+    "-y",
+    "--longitude",
+    type=click.FLOAT,
+    required=True,
+    help="Longitude of location.",
+)
+@click.pass_context
+def location(ctx, latitude: float, longitude: float):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
+    receiver = ctx.obj["receiver"]
+
+    request = tgcli.request.bot.SendLocationRequest(
+        session, receiver, latitude, longitude
+    )
+
+    send_message(session, request)
