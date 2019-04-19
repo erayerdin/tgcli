@@ -262,8 +262,8 @@ class TestSendLocationRequest:
         request_body = request_body_factory(bot_send_location_request)
         assert request_body.get("latitude") == location[0]
 
-    def test_request_body_longtitude(
+    def test_request_body_longitude(
         self, bot_send_location_request, request_body_factory, location
     ):
         request_body = request_body_factory(bot_send_location_request)
-        assert request_body.get("longtitude") == location[1]
+        assert request_body.get("longitude") == location[1]

@@ -110,7 +110,7 @@ class SendLocationRequest(BotRequest):
         session: BotSession,
         chat_id: typing.Union[str, int],
         latitude: float,
-        longtitude: float,
+        longitude: float,
         disable_notification: bool = False,
     ):
         try:
@@ -126,7 +126,7 @@ class SendLocationRequest(BotRequest):
             json={
                 "chat_id": chat_id,
                 "latitude": float(latitude),
-                "longtitude": float(longtitude),
+                "longitude": float(longitude),
                 "disable_notification": bool(disable_notification),
             },
         )
