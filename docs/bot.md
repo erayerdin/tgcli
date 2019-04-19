@@ -176,3 +176,17 @@ To publish a poll:
     Also keep in mind the the order of `-o`/`--option` is preserved for polls.
 
 [^2]: You need to define at least two options for a valid poll.
+
+### location
+
+`location` is a subcommand of `send` and is used to send a location. To get
+help:
+
+    tgcli bot send -r $RECEIVER_ID location --help
+
+`location` has the options and parameters below:
+
+Short Flag | Full Flag | Required/Optional | Description
+--- | --- | --- | ---
+-x | --latitude | Required | Latitude on the world map. A float.
+-y | --longitude | Required | Longtitude on the world map. A float.
