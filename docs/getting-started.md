@@ -57,9 +57,9 @@ Now, we have (i) token of our bot and (ii) our user ID. You are pretty much
 ready to go with these. Open up a terminal and...
 
 ```
-tgcli bot send --token "BotToken" --receiver "1234567890" "Message"
+tgcli bot --token "BotToken" send --receiver "1234567890" message "Message"
 # or better
-tgcli bot send -t "BotToken" -r "1234567890" "Message"
+tgcli bot -t "BotToken" send -r "1234567890" message "Message"
 ```
 
 You can also set `TELEGRAM_BOT_TOKEN` environment variable to protect your
