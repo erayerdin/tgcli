@@ -243,4 +243,3 @@ pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/VisualStudioCode,python,pycharm+all,git,virtualenv
 .atomignore
-.atomignore

@@ -4,4 +4,4 @@ coveralls==1.5.1
 requests-mock==1.5.2
 mkdocs==1.0.4
 mkdocs-material==4.1.1
-appdirs==1.4.3
+appdirs>=1.4.3
