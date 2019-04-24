@@ -1,6 +1,6 @@
-import tgcli.request.bot
-
 import requests_mock
+
+import tgcli.request.bot
 
 
 class TestBotSession:
@@ -168,35 +168,8 @@ class TestSendMessageRequest:
 
 
 class TestSendDocumentRequest:
-    def test_default_url(self, bot_send_document_request):
+    def test_url(self, bot_send_document_request):
         assert bot_send_document_request.url[-12:] == "sendDocument"
-
-    def test_photo_url(self, bot_send_document_request_factory, file_factory):
-        request = bot_send_document_request_factory(
-            1,
-            file_factory("tests/resources/file.png"),
-            "lorem ipsum",
-            tgcli.request.bot.MediaType.PHOTO,
-        )
-        assert request.url[-9:] == "sendPhoto"
-
-    def test_audio_url(self, bot_send_document_request_factory, file_factory):
-        request = bot_send_document_request_factory(
-            1,
-            file_factory("tests/resources/file.png"),
-            "lorem ipsum",
-            tgcli.request.bot.MediaType.AUDIO,
-        )
-        assert request.url[-9:] == "sendAudio"
-
-    def test_video_url(self, bot_send_document_request_factory, file_factory):
-        request = bot_send_document_request_factory(
-            1,
-            file_factory("tests/resources/file.png"),
-            "lorem ipsum",
-            tgcli.request.bot.MediaType.VIDEO,
-        )
-        assert request.url[-9:] == "sendVideo"
 
     def test_request_body_chat_id(self, bot_send_document_request):
         assert b"chat_id" in bot_send_document_request.body
@@ -214,6 +187,39 @@ class TestSendDocumentRequest:
 
     def test_request_body_document(self, bot_send_document_request):
         assert b'filename="file.png"' in bot_send_document_request.body
+
+
+class TestSendPhotoRequest(TestSendDocumentRequest):
+    def test_url(self, bot_send_document_request_factory, file_factory):
+        request = bot_send_document_request_factory(
+            1,
+            file_factory("tests/resources/file.png"),
+            "lorem ipsum",
+            tgcli.request.bot.MediaType.PHOTO,
+        )
+        assert request.url[-9:] == "sendPhoto"
+
+
+class TestSendAudioRequest(TestSendDocumentRequest):
+    def test_url(self, bot_send_document_request_factory, file_factory):
+        request = bot_send_document_request_factory(
+            1,
+            file_factory("tests/resources/file.png"),
+            "lorem ipsum",
+            tgcli.request.bot.MediaType.AUDIO,
+        )
+        assert request.url[-9:] == "sendAudio"
+
+
+class TestSendVideoRequest(TestSendDocumentRequest):
+    def test_url(self, bot_send_document_request_factory, file_factory):
+        request = bot_send_document_request_factory(
+            1,
+            file_factory("tests/resources/file.png"),
+            "lorem ipsum",
+            tgcli.request.bot.MediaType.VIDEO,
+        )
+        assert request.url[-9:] == "sendVideo"
 
 
 class TestSendPollRequest:
