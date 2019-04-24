@@ -63,17 +63,14 @@ class SendMessageRequest(BotRequest):
 
         super().__init__(session, "sendMessage")
         self.prepare_method("post")
-        self.prepare_body(
-            data=None,
-            files=None,
-            json={
-                "chat_id": chat_id,
-                "text": str(text),
-                "parse_mode": str(parse_mode),
-                "disable_web_page_preview": bool(disable_web_page_preview),
-                "disable_notification": bool(disable_notification),
-            },
-        )
+        payload = {
+            "chat_id": chat_id,
+            "text": str(text),
+            "parse_mode": str(parse_mode),
+            "disable_web_page_preview": bool(disable_web_page_preview),
+            "disable_notification": bool(disable_notification),
+        }
+        self.prepare_body(data=None, files=None, json=payload)
 
 
 class SendPollRequest(BotRequest):
@@ -92,16 +89,13 @@ class SendPollRequest(BotRequest):
 
         super().__init__(session, "sendPoll")
         self.prepare_method("post")
-        self.prepare_body(
-            data=None,
-            files=None,
-            json={
-                "chat_id": chat_id,
-                "question": str(question),
-                "options": tuple(options),
-                "disable_notification": bool(disable_notification),
-            },
-        )
+        payload = {
+            "chat_id": chat_id,
+            "question": str(question),
+            "options": tuple(options),
+            "disable_notification": bool(disable_notification),
+        }
+        self.prepare_body(data=None, files=None, json=payload)
 
 
 class SendLocationRequest(BotRequest):
@@ -120,16 +114,13 @@ class SendLocationRequest(BotRequest):
 
         super().__init__(session, "sendLocation")
         self.prepare_method("post")
-        self.prepare_body(
-            data=None,
-            files=None,
-            json={
-                "chat_id": chat_id,
-                "latitude": float(latitude),
-                "longitude": float(longitude),
-                "disable_notification": bool(disable_notification),
-            },
-        )
+        payload = {
+            "chat_id": chat_id,
+            "latitude": float(latitude),
+            "longitude": float(longitude),
+            "disable_notification": bool(disable_notification),
+        }
+        self.prepare_body(data=None, files=None, json=payload)
 
 
 @enum.unique
@@ -159,15 +150,14 @@ class SendFileRequest(BotRequest):
         super().__init__(
             session, "send{}".format(str(media_type.value.title()))
         )
+        payload = {
+            "chat_id": chat_id,
+            "caption": str(caption),
+            "parse_mode": str(parse_mode),
+            "disable_notification": bool(disable_notification),
+        }
         self.prepare_method("post")
         self.prepare_body(
-            data={
-                "chat_id": chat_id,
-                "caption": str(caption),
-                "parse_mode": str(parse_mode),
-                "disable_notification": bool(disable_notification),
-            },
-            files={str(media_type.value): file},
-            json=None,
+            data=payload, files={str(media_type.value): file}, json=None
         )
         self.file = file
