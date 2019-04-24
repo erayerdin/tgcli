@@ -2,4 +2,3 @@ requests
 Click
 yaspin
 colorful
-appdirs
