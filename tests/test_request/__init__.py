@@ -1,5 +1,5 @@
 class BaseSendFileTest:
-    fixture_name: str = None
+    fixture_name = None
 
     def get_fixture(self, request):
         return request.getfixturevalue(self.fixture_name)
