@@ -291,35 +291,3 @@ class SendVideoRequest(BaseFileRequest):
             super().__init__(**payload, **extra_files)
         else:
             super().__init__(**payload)
-
-
-class SendFileRequest(BotRequest):
-    def __init__(
-        self,
-        session: BotSession,
-        chat_id: typing.Union[str, int],
-        file: io.BytesIO,
-        caption: str,
-        media_type: MediaType = MediaType.DOCUMENT,
-        parse_mode: str = "Markdown",
-        disable_notification: bool = False,
-    ):
-        try:
-            chat_id = int(chat_id)
-        except ValueError:  # pragma: no cover
-            pass  # pragma: no cover
-
-        super().__init__(
-            session, "send{}".format(str(media_type.value.get("method_name")))
-        )
-        payload = {
-            "chat_id": chat_id,
-            "caption": str(caption),
-            "parse_mode": str(parse_mode),
-            "disable_notification": bool(disable_notification),
-        }
-        self.prepare_method("post")
-        self.prepare_body(
-            data=payload, files={str(media_type.value): file}, json=None
-        )
-        self.file = file

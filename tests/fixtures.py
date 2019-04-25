@@ -146,7 +146,7 @@ def bot_send_location_request(
 @pytest.fixture
 def bot_send_document_request(
     bot_session, file_factory
-) -> tgcli.request.bot.SendFileRequest:
+) -> tgcli.request.bot.SendDocumentRequest:
     """
     Returns a bot send document request.
 
