@@ -178,6 +178,7 @@ class SendDocumentRequest(BaseFileRequest):
         document: io.BytesIO,
         thumbnail: io.BytesIO = None,
         caption: str = "",
+        parse_mode: str = "Markdown",
         disable_notification: bool = False,
     ):
         extra_files = {"thumbnail": thumbnail}
@@ -186,6 +187,7 @@ class SendDocumentRequest(BaseFileRequest):
             "chat_id": chat_id,
             "file": document,
             "caption": caption,
+            "parse_mode": parse_mode,
             "disable_notification": disable_notification,
             "media_type": MediaType.DOCUMENT,
         }
@@ -202,6 +204,7 @@ class SendPhotoRequest(BaseFileRequest):
         chat_id: typing.Union[str, int],
         photo: io.BytesIO,
         caption: str = "",
+        parse_mode: str = "Markdown",
         disable_notification: bool = False,
     ):
         payload = {
@@ -209,6 +212,7 @@ class SendPhotoRequest(BaseFileRequest):
             "chat_id": chat_id,
             "file": photo,
             "caption": caption,
+            "parse_mode": parse_mode,
             "disable_notification": disable_notification,
             "media_type": MediaType.PHOTO,
         }
@@ -226,6 +230,7 @@ class SendAudioRequest(BaseFileRequest):
         duration: int = None,
         performer: str = "",
         title: str = "",
+        parse_mode: str = "Markdown",
         disable_notification: bool = False,
     ):
         extra_files = {"thumbnail": thumbnail}
@@ -234,6 +239,7 @@ class SendAudioRequest(BaseFileRequest):
             "chat_id": chat_id,
             "file": audio,
             "caption": caption,
+            "parse_mode": parse_mode,
             "disable_notification": disable_notification,
             "performer": str(performer),
             "title": str(title),
@@ -259,6 +265,7 @@ class SendVideoRequest(BaseFileRequest):
         duration: int = None,
         width: int = None,
         height: int = None,
+        parse_mode: str = "Markdown",
         disable_notification: bool = False,
     ):
         extra_files = {"thumbnail": thumbnail}
@@ -267,6 +274,7 @@ class SendVideoRequest(BaseFileRequest):
             "chat_id": chat_id,
             "file": video,
             "caption": caption,
+            "parse_mode": parse_mode,
             "disable_notification": disable_notification,
             "media_type": MediaType.VIDEO,
         }
