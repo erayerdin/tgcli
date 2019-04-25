@@ -125,10 +125,10 @@ class SendLocationRequest(BotRequest):
 
 @enum.unique
 class MediaType(enum.Enum):
-    DOCUMENT = "document"
-    PHOTO = "photo"
-    VIDEO = "video"
-    AUDIO = "audio"
+    DOCUMENT = {"url": "sendDocument"}
+    PHOTO = {"url": "sendPhoto"}
+    VIDEO = {"url": "sendVideo"}
+    AUDIO = {"url": "sendAudio"}
 
 
 class SendFileRequest(BotRequest):
@@ -148,7 +148,7 @@ class SendFileRequest(BotRequest):
             pass  # pragma: no cover
 
         super().__init__(
-            session, "send{}".format(str(media_type.value.title()))
+            session, "send{}".format(str(media_type.value.get("url")))
         )
         payload = {
             "chat_id": chat_id,
