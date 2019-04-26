@@ -228,8 +228,8 @@ class SendAudioRequest(BaseFileRequest):
         thumbnail: io.BytesIO = None,
         caption: str = "",
         duration: int = None,
-        performer: str = "",
-        title: str = "",
+        performer: str = None,
+        title: str = None,
         parse_mode: str = "Markdown",
         disable_notification: bool = False,
     ):
@@ -241,12 +241,16 @@ class SendAudioRequest(BaseFileRequest):
             "caption": caption,
             "parse_mode": parse_mode,
             "disable_notification": disable_notification,
-            "performer": str(performer),
-            "title": str(title),
             "media_type": MediaType.AUDIO,
         }
         if duration is not None:
             payload["duration"] = int(duration)
+
+        if performer is not None:
+            payload["performer"] = str(performer)
+
+        if title is not None:
+            payload["title"] = str(title)
 
         if thumbnail:
             super().__init__(**payload, **extra_files)

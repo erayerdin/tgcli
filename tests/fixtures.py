@@ -164,8 +164,8 @@ def bot_send_document_request(
     thumbnail = file object to "tests/resources/file.png" or request.param
     caption = "lorem ipsum"
     """
-    thumbnail = getattr(
-        request, "param", file_factory("tests/resources/file.png")
+    thumbnail = getattr(request, "param", dict()).get(
+        "thumbnail", file_factory("tests/resources/file.png")
     )
     return tgcli.request.bot.SendDocumentRequest(
         bot_session,
@@ -220,14 +220,16 @@ def bot_send_audio_request(
     audio = file object to "tests/resources/file.png"
     caption = "lorem ipsum"
     duration = None or request.param
-    performer = "Slipknot"
-    title = "People=Shit"
+    performer = "Slipknot" or request.param
+    title = "People=Shit" or request.param
     thumbnail = file object to "tests/resources/file.png"
     """
-    thumbnail = getattr(
-        request, "param", (file_factory("tests/resources/file.png"), None)
-    )[0]
-    duration = getattr(request, "param", (None, None))[1]
+    thumbnail = getattr(request, "param", dict()).get(
+        "thumbnail", file_factory("tests/resources/file.png")
+    )
+    duration = getattr(request, "param", dict()).get("duration", None)
+    performer = getattr(request, "param", dict()).get("performer", "Slipknot")
+    title = getattr(request, "param", dict()).get("title", "People=Shit")
     return tgcli.request.bot.SendAudioRequest(
         bot_session,
         1,
@@ -235,8 +237,8 @@ def bot_send_audio_request(
         thumbnail,
         "lorem ipsum",
         duration,
-        performer="Slipknot",
-        title="People=Shit",
+        performer=performer,
+        title=title,
     )
 
 
@@ -261,13 +263,15 @@ def bot_send_video_request(
     thumbnail = file object to "tests/resources/file.png"
     caption = "lorem ipsum"
     duration = None or request.param
-    width = 640
-    height = 480
+    width = 640 or request.param
+    height = 480 or request.param
     """
-    thumbnail = getattr(
-        request, "param", (file_factory("tests/resources/file.png"), None)
-    )[0]
-    duration = getattr(request, "param", (None, None))[1]
+    thumbnail = getattr(request, "param", dict()).get(
+        "thumbnail", file_factory("tests/resources/file.png")
+    )
+    duration = getattr(request, "param", dict()).get("duration", None)
+    width = getattr(request, "param", dict()).get("width", 640)
+    height = getattr(request, "param", dict()).get("height", 480)
     return tgcli.request.bot.SendVideoRequest(
         bot_session,
         1,
@@ -275,8 +279,8 @@ def bot_send_video_request(
         thumbnail,
         "lorem ipsum",
         duration,
-        width=640,
-        height=480,
+        width=width,
+        height=height,
     )
 
 
