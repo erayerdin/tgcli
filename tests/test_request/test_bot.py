@@ -176,13 +176,13 @@ class TestSendDocumentRequest(BaseSendFileTest):
         assert bot_send_document_request.url[-12:] == "sendDocument"
 
     def test_request_body_thumbnail(self, bot_send_document_request):
-        assert b'name="thumbnail"' in bot_send_document_request.body
+        assert b'name="thumb"' in bot_send_document_request.body
 
     @pytest.mark.parametrize(
         "bot_send_document_request", ({"thumbnail": None},), indirect=True
     )
     def test_request_body_without_thumbnail(self, bot_send_document_request):
-        assert b'name="thumbnail"' not in bot_send_document_request.body
+        assert b'name="thumb"' not in bot_send_document_request.body
 
 
 class TestSendPhotoRequest(BaseSendFileTest):
@@ -199,13 +199,13 @@ class TestSendAudioRequest(BaseSendFileTest):
         assert bot_send_audio_request.url[-9:] == "sendAudio"
 
     def test_request_body_thumbnail(self, bot_send_audio_request):
-        assert b'name="thumbnail"' in bot_send_audio_request.body
+        assert b'name="thumb"' in bot_send_audio_request.body
 
     @pytest.mark.parametrize(
         "bot_send_audio_request", ({"thumbnail": None},), indirect=True
     )
     def test_request_body_without_thumbnail(self, bot_send_audio_request):
-        assert b'name="thumbnail"' not in bot_send_audio_request.body
+        assert b'name="thumb"' not in bot_send_audio_request.body
 
     @pytest.mark.parametrize(
         "bot_send_audio_request", ({"duration": 1},), indirect=True
@@ -269,13 +269,13 @@ class TestSendVideoRequest(BaseSendFileTest):
         assert b'name="duration"' not in bot_send_video_request.body
 
     def test_request_body_thumbnail(self, bot_send_video_request):
-        assert b'name="thumbnail"' in bot_send_video_request.body
+        assert b'name="thumb"' in bot_send_video_request.body
 
     @pytest.mark.parametrize(
         "bot_send_video_request", ({"thumbnail": None},), indirect=True
     )
     def test_request_body_without_thumbnail(self, bot_send_video_request):
-        assert b'name="thumbnail"' not in bot_send_video_request.body
+        assert b'name="thumb"' not in bot_send_video_request.body
 
 
 class TestSendPollRequest:

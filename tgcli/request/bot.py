@@ -181,7 +181,7 @@ class SendDocumentRequest(BaseFileRequest):
         parse_mode: str = "Markdown",
         disable_notification: bool = False,
     ):
-        extra_files = {"thumbnail": thumbnail}
+        extra_files = {"thumb": thumbnail}
         payload = {
             "session": session,
             "chat_id": chat_id,
@@ -233,7 +233,7 @@ class SendAudioRequest(BaseFileRequest):
         parse_mode: str = "Markdown",
         disable_notification: bool = False,
     ):
-        extra_files = {"thumbnail": thumbnail}
+        extra_files = {"thumb": thumbnail}
         payload = {
             "session": session,
             "chat_id": chat_id,
@@ -272,7 +272,7 @@ class SendVideoRequest(BaseFileRequest):
         parse_mode: str = "Markdown",
         disable_notification: bool = False,
     ):
-        extra_files = {"thumbnail": thumbnail}
+        extra_files = {"thumb": thumbnail}
         payload = {
             "session": session,
             "chat_id": chat_id,
