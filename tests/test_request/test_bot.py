@@ -2,6 +2,7 @@ import tgcli.request.bot
 from tests.test_request import BaseSendFileTest
 
 import requests_mock
+import pytest
 
 
 class TestBotSession:
@@ -177,6 +178,12 @@ class TestSendDocumentRequest(BaseSendFileTest):
     def test_request_body_thumbnail(self, bot_send_document_request):
         assert b'name="thumbnail"' in bot_send_document_request.body
 
+    @pytest.mark.parametrize(
+        "bot_send_document_request", (None,), indirect=True
+    )
+    def test_request_body_without_thumbnail(self, bot_send_document_request):
+        assert b'name="thumbnail"' not in bot_send_document_request.body
+
 
 class TestSendPhotoRequest(BaseSendFileTest):
     fixture_name = "bot_send_photo_request"
@@ -194,8 +201,20 @@ class TestSendAudioRequest(BaseSendFileTest):
     def test_request_body_thumbnail(self, bot_send_audio_request):
         assert b'name="thumbnail"' in bot_send_audio_request.body
 
+    @pytest.mark.parametrize(
+        "bot_send_audio_request", ((None, 1),), indirect=True
+    )
+    def test_request_body_without_thumbnail(self, bot_send_audio_request):
+        assert b'name="thumbnail"' not in bot_send_audio_request.body
+
+    @pytest.mark.parametrize(
+        "bot_send_audio_request", ((None, 1),), indirect=True
+    )
     def test_request_body_duration(self, bot_send_audio_request):
-        assert b"duration" not in bot_send_audio_request.body
+        assert b'name="duration"' in bot_send_audio_request.body
+
+    def test_request_body_without_duration(self, bot_send_audio_request):
+        assert b'name="duration"' not in bot_send_audio_request.body
 
     def test_request_body_performer(self, bot_send_audio_request):
         assert b'name="performer"' in bot_send_audio_request.body
@@ -216,11 +235,23 @@ class TestSendVideoRequest(BaseSendFileTest):
     def test_request_body_height(self, bot_send_video_request):
         assert b'name="height"' in bot_send_video_request.body
 
-    def test_request_body_duration(self, bot_send_audio_request):
-        assert b"duration" not in bot_send_audio_request.body
+    @pytest.mark.parametrize(
+        "bot_send_video_request", ((None, 1),), indirect=True
+    )
+    def test_request_body_duration(self, bot_send_video_request):
+        assert b"duration" in bot_send_video_request.body
 
-    def test_request_body_thumbnail(self, bot_send_audio_request):
-        assert b'name="thumbnail"' in bot_send_audio_request.body
+    def test_request_body_without_duration(self, bot_send_video_request):
+        assert b"duration" not in bot_send_video_request.body
+
+    def test_request_body_thumbnail(self, bot_send_video_request):
+        assert b'name="thumbnail"' in bot_send_video_request.body
+
+    @pytest.mark.parametrize(
+        "bot_send_video_request", ((None, None),), indirect=True
+    )
+    def test_request_body_without_thumbnail(self, bot_send_video_request):
+        assert b'name="thumbnail"' not in bot_send_video_request.body
 
 
 class TestSendPollRequest:

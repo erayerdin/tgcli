@@ -145,13 +145,14 @@ def bot_send_location_request(
 
 @pytest.fixture
 def bot_send_document_request(
-    bot_session, file_factory
+    request, bot_session, file_factory
 ) -> tgcli.request.bot.SendDocumentRequest:
     """
     Returns a bot send document request.
 
     Fixtures
     --------
+    request
     bot_session
     file_factory
 
@@ -160,14 +161,17 @@ def bot_send_document_request(
     session = bot_session
     chat_id = 1
     file = file object to "tests/resources/file.png"
-    thumbnail = file object to "tests/resources/file.png"
+    thumbnail = file object to "tests/resources/file.png" or request.param
     caption = "lorem ipsum"
     """
+    thumbnail = getattr(
+        request, "param", file_factory("tests/resources/file.png")
+    )
     return tgcli.request.bot.SendDocumentRequest(
         bot_session,
         1,
         file_factory("tests/resources/file.png"),
-        file_factory("tests/resources/file.png"),
+        thumbnail,
         "lorem ipsum",
     )
 
@@ -198,13 +202,14 @@ def bot_send_photo_request(
 
 @pytest.fixture
 def bot_send_audio_request(
-    bot_session, file_factory
+    request, bot_session, file_factory
 ) -> tgcli.request.bot.SendAudioRequest:
     """
     Returns a bot send audio request.
 
     Fixtures
     --------
+    request
     bot_session
     file_factory
 
@@ -214,17 +219,22 @@ def bot_send_audio_request(
     chat_id = 1
     audio = file object to "tests/resources/file.png"
     caption = "lorem ipsum"
-    duration = None
+    duration = None or request.param
     performer = "Slipknot"
     title = "People=Shit"
     thumbnail = file object to "tests/resources/file.png"
     """
+    thumbnail = getattr(
+        request, "param", (file_factory("tests/resources/file.png"), None)
+    )[0]
+    duration = getattr(request, "param", (None, None))[1]
     return tgcli.request.bot.SendAudioRequest(
         bot_session,
         1,
         file_factory("tests/resources/file.png"),
-        file_factory("tests/resources/file.png"),
+        thumbnail,
         "lorem ipsum",
+        duration,
         performer="Slipknot",
         title="People=Shit",
     )
@@ -232,13 +242,14 @@ def bot_send_audio_request(
 
 @pytest.fixture
 def bot_send_video_request(
-    bot_session, file_factory
+    request, bot_session, file_factory
 ) -> tgcli.request.bot.SendVideoRequest:
     """
     Returns a bot send video request.
 
     Fixtures
     --------
+    request
     bot_session
     file_factory
 
@@ -249,16 +260,21 @@ def bot_send_video_request(
     video = file object to "tests/resources/file.png"
     thumbnail = file object to "tests/resources/file.png"
     caption = "lorem ipsum"
-    duration = None
+    duration = None or request.param
     width = 640
     height = 480
     """
+    thumbnail = getattr(
+        request, "param", (file_factory("tests/resources/file.png"), None)
+    )[0]
+    duration = getattr(request, "param", (None, None))[1]
     return tgcli.request.bot.SendVideoRequest(
         bot_session,
         1,
         file_factory("tests/resources/file.png"),
-        file_factory("tests/resources/file.png"),
+        thumbnail,
         "lorem ipsum",
+        duration,
         width=640,
         height=480,
     )
