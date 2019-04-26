@@ -119,32 +119,6 @@ def message(ctx, format: str, message: str):
     send_message(session, request)
 
 
-THUMBNAIL_OPTION = click.option("--thumbnail", type=click.File("rb"))
-
-
-@send.command()
-@click.option(
-    "-m", "--message", default="", help="The message to inline with file."
-)
-@THUMBNAIL_OPTION
-@FORMAT_OPTION
-@click.argument("file", type=click.File("rb"), required=True)
-@click.pass_context
-def document(
-    ctx, message: str, thumbnail: io.BytesIO, format: str, file: io.BytesIO
-):
-    session = tgcli.request.bot.BotSession(ctx.obj["token"])
-    session.verify = ctx.obj["secure"]
-    receiver = ctx.obj["receiver"]
-
-    request = tgcli.request.bot.SendDocumentRequest(
-        session, receiver, file, thumbnail, message, MESSAGE_FORMATS[format]
-    )
-    file.close()
-
-    send_message(session, request)
-
-
 @send.command()
 @click.option(
     "-o",
@@ -201,5 +175,31 @@ def location(ctx, latitude: float, longitude: float):
     request = tgcli.request.bot.SendLocationRequest(
         session, receiver, latitude, longitude
     )
+
+    send_message(session, request)
+
+
+THUMBNAIL_OPTION = click.option("--thumbnail", type=click.File("rb"))
+
+
+@send.command()
+@click.option(
+    "-m", "--message", default="", help="The message to inline with file."
+)
+@THUMBNAIL_OPTION
+@FORMAT_OPTION
+@click.argument("file", type=click.File("rb"), required=True)
+@click.pass_context
+def document(
+    ctx, message: str, thumbnail: io.BytesIO, format: str, file: io.BytesIO
+):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
+    receiver = ctx.obj["receiver"]
+
+    request = tgcli.request.bot.SendDocumentRequest(
+        session, receiver, file, thumbnail, message, MESSAGE_FORMATS[format]
+    )
+    file.close()
 
     send_message(session, request)
