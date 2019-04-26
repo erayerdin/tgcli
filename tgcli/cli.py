@@ -223,3 +223,49 @@ def photo(ctx, message: str, format: str, file: io.BytesIO):
     file.close()
 
     send_message(session, request)
+
+
+DURATION_OPTION = click.option(
+    "--duration", type=click.INT, help="The duration by seconds."
+)
+
+
+@send.command()
+@click.option(
+    "-m", "--message", default="", help="The message to inline with file."
+)
+@FORMAT_OPTION
+@DURATION_OPTION
+@THUMBNAIL_OPTION
+@click.option("-w", "--width", type=click.INT, help="The width of video.")
+@click.option("-h", "--height", type=click.INT, help="The height of video.")
+@click.argument("file", type=click.File("rb"), required=True)
+@click.pass_context
+def video(
+    ctx,
+    message: str,
+    format: str,
+    duration: int,
+    width: int,
+    height: int,
+    thumbnail: io.BytesIO,
+    file: io.BytesIO,
+):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
+    receiver = ctx.obj["receiver"]
+
+    request = tgcli.request.bot.SendVideoRequest(
+        session,
+        receiver,
+        file,
+        thumbnail,
+        message,
+        duration,
+        width,
+        height,
+        MESSAGE_FORMATS[format],
+    )
+    file.close()
+
+    send_message(session, request)
