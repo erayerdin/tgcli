@@ -144,51 +144,139 @@ def bot_send_location_request(
 
 
 @pytest.fixture
-def bot_send_document_request_factory(bot_session) -> callable:
-    """
-    Returns a bot send document request factory.
-
-    Fixtures
-    --------
-    bot_session
-    """
-
-    def factory(
-        chat_id: int,
-        file: io.FileIO,
-        caption: str,
-        media_type: tgcli.request.bot.MediaType,
-    ) -> tgcli.request.bot.SendFileRequest:
-        return tgcli.request.bot.SendFileRequest(
-            bot_session, chat_id, file, caption, media_type
-        )
-
-    return factory
-
-
-@pytest.fixture
 def bot_send_document_request(
-    bot_send_document_request_factory, file_factory
-) -> tgcli.request.bot.SendFileRequest:
+    request, bot_session, file_factory
+) -> tgcli.request.bot.SendDocumentRequest:
     """
     Returns a bot send document request.
 
     Fixtures
     --------
-    bot_send_document_request_factory
+    request
+    bot_session
+    file_factory
 
     Attributes
     ----------
     session = bot_session
     chat_id = 1
     file = file object to "tests/resources/file.png"
+    thumbnail = file object to "tests/resources/file.png" or request.param
     caption = "lorem ipsum"
     """
-    return bot_send_document_request_factory(
+    thumbnail = getattr(
+        request, "param", file_factory("tests/resources/file.png")
+    )
+    return tgcli.request.bot.SendDocumentRequest(
+        bot_session,
         1,
         file_factory("tests/resources/file.png"),
+        thumbnail,
         "lorem ipsum",
-        tgcli.request.bot.MediaType.DOCUMENT,
+    )
+
+
+@pytest.fixture
+def bot_send_photo_request(
+    bot_session, file_factory
+) -> tgcli.request.bot.SendPhotoRequest:
+    """
+    Returns a bot send photo request.
+
+    Fixtures
+    --------
+    bot_session
+    file_factory
+
+    Attributes
+    ----------
+    session = bot_session
+    chat_id = 1
+    photo = file object to "tests/resources/file.png"
+    caption = "lorem ipsum"
+    """
+    return tgcli.request.bot.SendPhotoRequest(
+        bot_session, 1, file_factory("tests/resources/file.png"), "lorem ipsum"
+    )
+
+
+@pytest.fixture
+def bot_send_audio_request(
+    request, bot_session, file_factory
+) -> tgcli.request.bot.SendAudioRequest:
+    """
+    Returns a bot send audio request.
+
+    Fixtures
+    --------
+    request
+    bot_session
+    file_factory
+
+    Attributes
+    ----------
+    session = bot_session
+    chat_id = 1
+    audio = file object to "tests/resources/file.png"
+    caption = "lorem ipsum"
+    duration = None or request.param
+    performer = "Slipknot"
+    title = "People=Shit"
+    thumbnail = file object to "tests/resources/file.png"
+    """
+    thumbnail = getattr(
+        request, "param", (file_factory("tests/resources/file.png"), None)
+    )[0]
+    duration = getattr(request, "param", (None, None))[1]
+    return tgcli.request.bot.SendAudioRequest(
+        bot_session,
+        1,
+        file_factory("tests/resources/file.png"),
+        thumbnail,
+        "lorem ipsum",
+        duration,
+        performer="Slipknot",
+        title="People=Shit",
+    )
+
+
+@pytest.fixture
+def bot_send_video_request(
+    request, bot_session, file_factory
+) -> tgcli.request.bot.SendVideoRequest:
+    """
+    Returns a bot send video request.
+
+    Fixtures
+    --------
+    request
+    bot_session
+    file_factory
+
+    Attributes
+    ----------
+    session = bot_session
+    chat_id = 1
+    video = file object to "tests/resources/file.png"
+    thumbnail = file object to "tests/resources/file.png"
+    caption = "lorem ipsum"
+    duration = None or request.param
+    width = 640
+    height = 480
+    """
+    thumbnail = getattr(
+        request, "param", (file_factory("tests/resources/file.png"), None)
+    )[0]
+    duration = getattr(request, "param", (None, None))[1]
+    return tgcli.request.bot.SendVideoRequest(
+        bot_session,
+        1,
+        file_factory("tests/resources/file.png"),
+        thumbnail,
+        "lorem ipsum",
+        duration,
+        width=640,
+        height=480,
     )
 
 

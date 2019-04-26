@@ -125,39 +125,169 @@ class SendLocationRequest(BotRequest):
 
 @enum.unique
 class MediaType(enum.Enum):
-    DOCUMENT = "document"
-    PHOTO = "photo"
-    VIDEO = "video"
-    AUDIO = "audio"
+    DOCUMENT = {"method_name": "sendDocument", "parameter_name": "document"}
+    PHOTO = {"method_name": "sendPhoto", "parameter_name": "photo"}
+    VIDEO = {"method_name": "sendVideo", "parameter_name": "video"}
+    AUDIO = {"method_name": "sendAudio", "parameter_name": "audio"}
 
 
-class SendFileRequest(BotRequest):
+class BaseFileRequest(BotRequest):
     def __init__(
         self,
         session: BotSession,
         chat_id: typing.Union[str, int],
         file: io.BytesIO,
         caption: str,
-        media_type: MediaType = MediaType.DOCUMENT,
+        media_type: MediaType,
         parse_mode: str = "Markdown",
         disable_notification: bool = False,
+        **kwargs
     ):
         try:
             chat_id = int(chat_id)
         except ValueError:  # pragma: no cover
             pass  # pragma: no cover
 
-        super().__init__(
-            session, "send{}".format(str(media_type.value.title()))
-        )
+        super().__init__(session, media_type.value.get("method_name"))
+        extra_files = kwargs.pop("extra_files", dict())
+
         payload = {
             "chat_id": chat_id,
             "caption": str(caption),
             "parse_mode": str(parse_mode),
             "disable_notification": bool(disable_notification),
         }
+        payload = dict(**payload, **kwargs)
         self.prepare_method("post")
         self.prepare_body(
-            data=payload, files={str(media_type.value): file}, json=None
+            data=payload,
+            files={
+                str(media_type.value.get("parameter_name")): file,
+                **extra_files,
+            },
+            json=None,
         )
         self.file = file
+
+
+class SendDocumentRequest(BaseFileRequest):
+    def __init__(
+        self,
+        session: BotSession,
+        chat_id: typing.Union[str, int],
+        document: io.BytesIO,
+        thumbnail: io.BytesIO = None,
+        caption: str = "",
+        parse_mode: str = "Markdown",
+        disable_notification: bool = False,
+    ):
+        extra_files = {"thumbnail": thumbnail}
+        payload = {
+            "session": session,
+            "chat_id": chat_id,
+            "file": document,
+            "caption": caption,
+            "parse_mode": parse_mode,
+            "disable_notification": disable_notification,
+            "media_type": MediaType.DOCUMENT,
+        }
+        if thumbnail:
+            super().__init__(**payload, **extra_files)
+        else:
+            super().__init__(**payload)
+
+
+class SendPhotoRequest(BaseFileRequest):
+    def __init__(
+        self,
+        session: BotSession,
+        chat_id: typing.Union[str, int],
+        photo: io.BytesIO,
+        caption: str = "",
+        parse_mode: str = "Markdown",
+        disable_notification: bool = False,
+    ):
+        payload = {
+            "session": session,
+            "chat_id": chat_id,
+            "file": photo,
+            "caption": caption,
+            "parse_mode": parse_mode,
+            "disable_notification": disable_notification,
+            "media_type": MediaType.PHOTO,
+        }
+        super().__init__(**payload)
+
+
+class SendAudioRequest(BaseFileRequest):
+    def __init__(
+        self,
+        session: BotSession,
+        chat_id: typing.Union[str, int],
+        audio: io.BytesIO,
+        thumbnail: io.BytesIO = None,
+        caption: str = "",
+        duration: int = None,
+        performer: str = "",
+        title: str = "",
+        parse_mode: str = "Markdown",
+        disable_notification: bool = False,
+    ):
+        extra_files = {"thumbnail": thumbnail}
+        payload = {
+            "session": session,
+            "chat_id": chat_id,
+            "file": audio,
+            "caption": caption,
+            "parse_mode": parse_mode,
+            "disable_notification": disable_notification,
+            "performer": str(performer),
+            "title": str(title),
+            "media_type": MediaType.AUDIO,
+        }
+        if duration is not None:
+            payload["duration"] = int(duration)
+
+        if thumbnail:
+            super().__init__(**payload, **extra_files)
+        else:
+            super().__init__(**payload)
+
+
+class SendVideoRequest(BaseFileRequest):
+    def __init__(
+        self,
+        session: BotSession,
+        chat_id: typing.Union[str, int],
+        video: io.BytesIO,
+        thumbnail: io.BytesIO = None,
+        caption: str = "",
+        duration: int = None,
+        width: int = None,
+        height: int = None,
+        parse_mode: str = "Markdown",
+        disable_notification: bool = False,
+    ):
+        extra_files = {"thumbnail": thumbnail}
+        payload = {
+            "session": session,
+            "chat_id": chat_id,
+            "file": video,
+            "caption": caption,
+            "parse_mode": parse_mode,
+            "disable_notification": disable_notification,
+            "media_type": MediaType.VIDEO,
+        }
+        if duration is not None:
+            payload["duration"] = int(duration)
+
+        if width is not None:
+            payload["width"] = int(width)
+
+        if height is not None:
+            payload["height"] = int(height)
+
+        if thumbnail:
+            super().__init__(**payload, **extra_files)
+        else:
+            super().__init__(**payload)
