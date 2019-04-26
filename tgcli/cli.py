@@ -203,3 +203,23 @@ def document(
     file.close()
 
     send_message(session, request)
+
+
+@send.command()
+@click.option(
+    "-m", "--message", default="", help="The message to inline with file."
+)
+@FORMAT_OPTION
+@click.argument("file", type=click.File("rb"), required=True)
+@click.pass_context
+def photo(ctx, message: str, format: str, file: io.BytesIO):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
+    receiver = ctx.obj["receiver"]
+
+    request = tgcli.request.bot.SendPhotoRequest(
+        session, receiver, file, message, MESSAGE_FORMATS[format]
+    )
+    file.close()
+
+    send_message(session, request)
