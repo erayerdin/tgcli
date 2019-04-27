@@ -39,6 +39,7 @@ operations. To get help:
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
 -r | --receiver | Required | The receiver's ID, an integer.
+ | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
 
 After you define the receiver's ID, then you can use any subcommand of `send`.
 To give an example:
@@ -68,7 +69,6 @@ messages. To get help:
 
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
- | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
  | message | Required | The message.
 
 In order to send a message, do:
@@ -91,54 +91,38 @@ In order to send a message, do:
 [telegram_bot_api_markdown]: https://core.telegram.org/bots/api#markdown-style
 [telegram_bot_api_html]: https://core.telegram.org/bots/api#html-style
 
-### file
+### document
 
-`file` is a subcommand of `send` and is used to send files through `tgcli`. To
+`document` is a subcommand of `send` and is used to send files through `tgcli`. To
 get help:
 
-tgcli bot send -r $RECEIVER_ID file --help
+    tgcli bot send -r $RECEIVER_ID file --help
 
-`file` has the options and parameters below:
+!!! Warning
+    A file sent by `document` subcommand is *only
+    downloadable*, which means it will not have traits of several
+    media types in Telegram such as play button, full-screen view
+    or keyboard navigation etc.
+
+`document` has the options and parameters below:
 
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
 -m | --message | Optional | The message.
- | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
- | --as | Optional | Type of the file that is sent. Choices are `document`, `video`, `audio` and `photo`. Default is `document`.
+ | --thumbnail | Optional | An image file to set thumbnail.
  | file | Required | Path to file.
 
 In order to send a file, do:
 
     tgcli bot send -r $RECEIVER_ID file path/to/file
 
-#### File Types
-
-`document` is the default option for `--as` flag and it can be used for *all
-types of files*. However, when you set `--as` to a different type, Telegram
-constructs a custom message based on this type. While `document` type only has
-a *download* button, `video` and `audio` have a *play* button and `video` and
-`photo` can be displayed *full-screen*. That is why you might want to set `--as`
-flag if you want further features on the client side. See the example:
-
-    tgcli bot send -r $RECEIVER_ID file path/to/file.png --as photo
-
-Also, you should keep in mind that Telegram might *compress* the files, the
-types of which are all except `document`. So, if you don't want the loss of
-quality in your files, send them as `document` (which will lack additional
-features like play button or showing full-screen).
-
-Lastly, neither Telegram nor `tgcli` checks mimetypes of the files you send for
-performance reasons. So, you might come across weird quirks if you send a file
-with a different types, such as an image having a play button, an audio that can
-be displayed full-screen etc.
-
 #### File Storage Limits
 
-The file storage limit for a bot up to 10 megabytes for photos and 50 megabytes
+The file storage limit for `document` is 50 megabytes
 for other files
 [as stated in the documentation](https://core.telegram.org/bots/api#sending-files)
 Also, when you send a file, the message is limited to have up to 1024
-characters for all media types.
+characters.
 
 While we don't know how long the files are kept in the server, it is safe to
 assume that Telegram server will wipe files depending on:
@@ -151,6 +135,81 @@ And it is even *safer to assume that bots' files will be higher priority in
 wiping operations*. That's why it is a good practice to forward the files sent
 by bots to *Saved Messages*, even better to backup them to a storage that you
 own if these files have higher importance to you.
+
+### photo
+
+`photo` is a subcommand of `send` and is used to send photos
+through `tgcli`. To get help:
+
+    tgcli bot send -r $RECEIVER_ID photo --help
+
+!!! info
+    A file sent by `photo` subcommand (i) can be viewed
+    **full-screen** *with one click/touch* and (ii) is
+    **can be navigated** *with arrow keys on the keyboard or
+    swiping*.
+
+`photo` has the options and parameters below:
+
+Short Flag | Full Flag | Required/Optional | Description
+--- | --- | --- | ---
+-m | --message | Optional | The message.
+ | file | Required | Path to file.
+
+The usage is similar to the usage of [document](bot.md#document).
+
+### video
+
+`video` is a subcommand of `send` and is used to send videos
+through `tgcli`. To get help:
+
+    tgcli bot send -r $RECEIVER_ID video --help
+
+!!! info
+    A file sent by `video` subcommand can be viewed
+    **full-screen** *with a button*.
+
+`video` has the options and parameters below:
+
+Short Flag | Full Flag | Required/Optional | Description
+--- | --- | --- | ---
+-m | --message | Optional | The message.
+-h | --horizontal | Optional | The horizontal aspect ratio of video.
+-v | --vertical | Optional | The vertical aspect ratio of video.
+ | file | Required | Path to file.
+
+The usage is similar to the usage of [document](bot.md#document).
+
+!!! warning
+    Telegram server assumes the aspect ratio of video as 1:1
+    for thumbnail due to performance reasons. See
+    [this issue][issue_27] for an example. That's why it is good
+    to know the aspect ratio of the video beforehand. Standards
+    are `16:9` for new videos and `4:3` for old videos.
+
+[issue_27]: https://github.com/erayerdin/tgcli/issues/27
+
+### audio
+
+`audio` is a subcommand of `send` and is used to send audios
+through `tgcli`. To get help:
+
+    tgcli bot send -r $RECEIVER_ID audio --help
+
+!!! info
+    A file sent by `audio` subcommand **can be played** *with a
+    play button*.
+
+`audio` has the options and parameters below:
+
+Short Flag | Full Flag | Required/Optional | Description
+--- | --- | --- | ---
+-m | --message | Optional | The message.
+ | --performer | Optional | The performer of audio.
+ | --title | Optional | The title of audio.
+ | file | Required | Path to file.
+
+The usage is similar to the usage of [document](bot.md#document).
 
 ### poll
 

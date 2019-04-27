@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.3.0] - 2019-04-28
+### Added
+ - `bot send photo` subcommand
+ - `bot send video` subcommand
+ - `bot send audio` subcommand
+
+### Changed
+ - `bot send file` subcommand to `bot send document`
+ - `bot send document` only sends *any* type of data
+ - Moved `--format` option from all subcommands to `send`
+
+### Removed
+ - `bot send file` subcommand
+ - `--format` option on `message`
+ - `--format` option on `poll`
+ - `--format` option on `location`
+ - `--format` option on `document`
+ - `--format` option on `photo`
+ - `--format` option on `video`
+ - `--format` option on `audio`
+
 ## [v0.2.1] - 2019-04-20
 ### Added
  - `location` to `send` in cli

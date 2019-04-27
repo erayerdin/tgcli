@@ -5,9 +5,10 @@ import typing
 
 import click
 import colorful
-import tgcli.request.bot
 import yaspin
 import yaspin.spinners
+
+import tgcli.request.bot
 
 IS_DARWIN = platform.system().lower() == "darwin"
 
@@ -89,64 +90,30 @@ def bot(ctx, token):
 @click.option(
     "-r", "--receiver", required=True, help="Receiver of the message."
 )
-@click.pass_context
-def send(ctx, receiver: str):
-    ctx.obj["receiver"] = receiver
-
-
-# send types
-FORMAT_OPTION = click.option(
+@click.option(
     "--format",
     default="markdown",
     type=click.Choice(MESSAGE_FORMATS.keys()),
     help='Format of the message. Default is "markdown".',
 )
+@click.pass_context
+def send(ctx, receiver: str, format: str):
+    ctx.obj["receiver"] = receiver
+    ctx.obj["format"] = format
 
 
 @send.command()
-@FORMAT_OPTION
 @click.argument("message", required=True)
 @click.pass_context
-def message(ctx, format: str, message: str):
+def message(ctx, message: str):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
 
     request = tgcli.request.bot.SendMessageRequest(
         session, receiver, message, MESSAGE_FORMATS[format]
     )
-
-    send_message(session, request)
-
-
-@send.command()
-@click.option(
-    "-m", "--message", default="", help="The message to inline with file."
-)
-@FORMAT_OPTION
-@click.option(
-    "--as",
-    "as_",
-    default="document",
-    type=click.Choice(MEDIA_TYPES),
-    help='Send the file as as type. Default is "document".',
-)
-@click.argument("file", type=click.File("rb"), required=True)
-@click.pass_context
-def file(ctx, message: str, format: str, as_: str, file: str):
-    session = tgcli.request.bot.BotSession(ctx.obj["token"])
-    session.verify = ctx.obj["secure"]
-    receiver = ctx.obj["receiver"]
-
-    request = tgcli.request.bot.SendFileRequest(
-        session,
-        receiver,
-        file,
-        message,
-        tgcli.request.bot.MediaType(as_),
-        MESSAGE_FORMATS[format],
-    )
-    file.close()
 
     send_message(session, request)
 
@@ -207,5 +174,120 @@ def location(ctx, latitude: float, longitude: float):
     request = tgcli.request.bot.SendLocationRequest(
         session, receiver, latitude, longitude
     )
+
+    send_message(session, request)
+
+
+THUMBNAIL_OPTION = click.option("--thumbnail", type=click.File("rb"))
+FILE_ARGUMENT = click.argument("file", type=click.File("rb"), required=True)
+
+
+@send.command()
+@click.option(
+    "-m", "--message", default="", help="The message to inline with file."
+)
+@THUMBNAIL_OPTION
+@FILE_ARGUMENT
+@click.pass_context
+def document(ctx, message: str, thumbnail: io.BytesIO, file: io.BytesIO):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
+    receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
+
+    request = tgcli.request.bot.SendDocumentRequest(
+        session, receiver, file, thumbnail, message, MESSAGE_FORMATS[format]
+    )
+    file.close()
+
+    send_message(session, request)
+
+
+@send.command()
+@click.option(
+    "-m", "--message", default="", help="The message to inline with file."
+)
+@FILE_ARGUMENT
+@click.pass_context
+def photo(ctx, message: str, file: io.BytesIO):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
+    receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
+
+    request = tgcli.request.bot.SendPhotoRequest(
+        session, receiver, file, message, MESSAGE_FORMATS[format]
+    )
+    file.close()
+
+    send_message(session, request)
+
+
+@send.command()
+@click.option(
+    "-m", "--message", default="", help="The message to inline with file."
+)
+@click.option(
+    "-h",
+    "--horizontal",
+    type=click.INT,
+    help="The horizontal aspect ratio of video.",
+)
+@click.option(
+    "-v",
+    "--vertical",
+    type=click.INT,
+    help="The vertical aspect ratio of video.",
+)
+@FILE_ARGUMENT
+@click.pass_context
+def video(ctx, message: str, horizontal: int, vertical: int, file: io.BytesIO):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
+    receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
+
+    request = tgcli.request.bot.SendVideoRequest(
+        session,
+        receiver,
+        file,
+        None,
+        message,
+        None,
+        horizontal,
+        vertical,
+        MESSAGE_FORMATS[format],
+    )
+    file.close()
+
+    send_message(session, request)
+
+
+@send.command()
+@click.option(
+    "-m", "--message", default="", help="The message to inline with file."
+)
+@click.option("--performer", help="The performer of audio.")
+@click.option("--title", help="The title of audio.")
+@FILE_ARGUMENT
+@click.pass_context
+def audio(ctx, message: str, performer: str, title: str, file: io.BytesIO):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
+    receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
+
+    request = tgcli.request.bot.SendAudioRequest(
+        session,
+        receiver,
+        file,
+        None,
+        message,
+        None,
+        performer,
+        title,
+        MESSAGE_FORMATS[format],
+    )
+    file.close()
 
     send_message(session, request)
