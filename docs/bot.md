@@ -96,7 +96,13 @@ In order to send a message, do:
 `document` is a subcommand of `send` and is used to send files through `tgcli`. To
 get help:
 
-tgcli bot send -r $RECEIVER_ID file --help
+    tgcli bot send -r $RECEIVER_ID file --help
+
+!!! Warning
+    A file sent by `document` subcommand is *only
+    downloadable*, which means it will not have traits of several
+    media types in Telegram such as play button, full-screen view
+    or keyboard navigation etc.
 
 `document` has the options and parameters below:
 
@@ -130,6 +136,84 @@ And it is even *safer to assume that bots' files will be higher priority in
 wiping operations*. That's why it is a good practice to forward the files sent
 by bots to *Saved Messages*, even better to backup them to a storage that you
 own if these files have higher importance to you.
+
+### photo
+
+`photo` is a subcommand of `send` and is used to send photos
+through `tgcli`. To get help:
+
+    tgcli bot send -r $RECEIVER_ID photo --help
+
+!!! info
+    A file sent by `photo` subcommand (i) can be viewed
+    **full-screen** *with one click/touch* and (ii) is
+    **can be navigated** *with arrow keys on the keyboard or
+    swiping*.
+
+`photo` has the options and parameters below:
+
+Short Flag | Full Flag | Required/Optional | Description
+--- | --- | --- | ---
+-m | --message | Optional | The message.
+ | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
+ | file | Required | Path to file.
+
+The usage is similar to the usage of [document](bot.md#document).
+
+### video
+
+`video` is a subcommand of `send` and is used to send videos
+through `tgcli`. To get help:
+
+    tgcli bot send -r $RECEIVER_ID video --help
+
+!!! info
+    A file sent by `video` subcommand can be viewed
+    **full-screen** *with a button*.
+
+`video` has the options and parameters below:
+
+Short Flag | Full Flag | Required/Optional | Description
+--- | --- | --- | ---
+-m | --message | Optional | The message.
+ | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
+-h | --horizontal | Optional | The horizontal aspect ratio of video.
+-v | --vertical | Optional | The vertical aspect ratio of video.
+ | file | Required | Path to file.
+
+The usage is similar to the usage of [document](bot.md#document).
+
+!!! warning
+    Telegram server assumes the aspect ratio of video as 1:1
+    for thumbnail due to performance reasons. See
+    [this issue][issue_27] for an example. That's why it is good
+    to know the aspect ratio of the video beforehand. Standards
+    are `16:9` for new videos and `4:3` for old videos.
+
+[issue_27]: https://github.com/erayerdin/tgcli/issues/27
+
+### audio
+
+`audio` is a subcommand of `send` and is used to send audios
+through `tgcli`. To get help:
+
+    tgcli bot send -r $RECEIVER_ID audio --help
+
+!!! info
+    A file sent by `audio` subcommand **can be played** *with a
+    play button*.
+
+`audio` has the options and parameters below:
+
+Short Flag | Full Flag | Required/Optional | Description
+--- | --- | --- | ---
+-m | --message | Optional | The message.
+ | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
+ | --performer | Optional | The performer of audio.
+ | --title | Optional | The title of audio.
+ | file | Required | Path to file.
+
+The usage is similar to the usage of [document](bot.md#document).
 
 ### poll
 
