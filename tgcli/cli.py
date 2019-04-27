@@ -5,9 +5,10 @@ import typing
 
 import click
 import colorful
-import tgcli.request.bot
 import yaspin
 import yaspin.spinners
+
+import tgcli.request.bot
 
 IS_DARWIN = platform.system().lower() == "darwin"
 
@@ -180,6 +181,7 @@ def location(ctx, latitude: float, longitude: float):
 
 
 THUMBNAIL_OPTION = click.option("--thumbnail", type=click.File("rb"))
+FILE_ARGUMENT = click.argument("file", type=click.File("rb"), required=True)
 
 
 @send.command()
@@ -188,7 +190,7 @@ THUMBNAIL_OPTION = click.option("--thumbnail", type=click.File("rb"))
 )
 @THUMBNAIL_OPTION
 @FORMAT_OPTION
-@click.argument("file", type=click.File("rb"), required=True)
+@FILE_ARGUMENT
 @click.pass_context
 def document(
     ctx, message: str, thumbnail: io.BytesIO, format: str, file: io.BytesIO
@@ -210,7 +212,7 @@ def document(
     "-m", "--message", default="", help="The message to inline with file."
 )
 @FORMAT_OPTION
-@click.argument("file", type=click.File("rb"), required=True)
+@FILE_ARGUMENT
 @click.pass_context
 def photo(ctx, message: str, format: str, file: io.BytesIO):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
@@ -225,30 +227,31 @@ def photo(ctx, message: str, format: str, file: io.BytesIO):
     send_message(session, request)
 
 
-DURATION_OPTION = click.option(
-    "--duration", type=click.INT, help="The duration by seconds."
-)
-
-
 @send.command()
 @click.option(
     "-m", "--message", default="", help="The message to inline with file."
 )
 @FORMAT_OPTION
-@DURATION_OPTION
-@THUMBNAIL_OPTION
-@click.option("-w", "--width", type=click.INT, help="The width of video.")
-@click.option("-h", "--height", type=click.INT, help="The height of video.")
-@click.argument("file", type=click.File("rb"), required=True)
+@click.option(
+    "-h",
+    "--horizontal",
+    type=click.INT,
+    help="The horizontal aspect ratio of video.",
+)
+@click.option(
+    "-v",
+    "--vertical",
+    type=click.INT,
+    help="The vertical aspect ratio of video.",
+)
+@FILE_ARGUMENT
 @click.pass_context
 def video(
     ctx,
     message: str,
     format: str,
-    duration: int,
-    width: int,
-    height: int,
-    thumbnail: io.BytesIO,
+    horizontal: int,
+    vertical: int,
     file: io.BytesIO,
 ):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
@@ -259,11 +262,11 @@ def video(
         session,
         receiver,
         file,
-        thumbnail,
+        None,
         message,
-        duration,
-        width,
-        height,
+        None,
+        horizontal,
+        vertical,
         MESSAGE_FORMATS[format],
     )
     file.close()
