@@ -17,13 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
  - `bot send file` subcommand
- - Removed `--format` option on `message`
- - Removed `--format` option on `poll`
- - Removed `--format` option on `location`
- - Removed `--format` option on `document`
- - Removed `--format` option on `photo`
- - Removed `--format` option on `video`
- - Removed `--format` option on `audio`
+ - `--format` option on `message`
+ - `--format` option on `poll`
+ - `--format` option on `location`
+ - `--format` option on `document`
+ - `--format` option on `photo`
+ - `--format` option on `video`
+ - `--format` option on `audio`
 
 ## [v0.2.1] - 2019-04-20
 ### Added
