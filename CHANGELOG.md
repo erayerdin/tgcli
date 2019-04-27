@@ -5,9 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+ - `bot send photo` subcommand
+ - `bot send video` subcommand
+ - `bot send audio` subcommand
+
 ### Changed
  - `bot send file` subcommand to `bot send document`
  - `bot send document` only sends *any* type of data
+
+### Removed
+ - `bot send file` subcommand
 
 ## [v0.2.1] - 2019-04-20
 ### Added
