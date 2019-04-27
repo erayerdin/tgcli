@@ -13,9 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
  - `bot send file` subcommand to `bot send document`
  - `bot send document` only sends *any* type of data
+ - Moved `--format` option from all subcommands to `send`
 
 ### Removed
  - `bot send file` subcommand
+ - Removed `--format` option on `message`
+ - Removed `--format` option on `poll`
+ - Removed `--format` option on `location`
+ - Removed `--format` option on `document`
+ - Removed `--format` option on `photo`
+ - Removed `--format` option on `video`
+ - Removed `--format` option on `audio`
 
 ## [v0.2.1] - 2019-04-20
 ### Added

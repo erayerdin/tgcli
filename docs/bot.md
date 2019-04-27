@@ -39,6 +39,7 @@ operations. To get help:
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
 -r | --receiver | Required | The receiver's ID, an integer.
+ | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
 
 After you define the receiver's ID, then you can use any subcommand of `send`.
 To give an example:
@@ -68,7 +69,6 @@ messages. To get help:
 
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
- | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
  | message | Required | The message.
 
 In order to send a message, do:
@@ -109,7 +109,6 @@ get help:
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
 -m | --message | Optional | The message.
- | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
  | --thumbnail | Optional | An image file to set thumbnail.
  | file | Required | Path to file.
 
@@ -155,7 +154,6 @@ through `tgcli`. To get help:
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
 -m | --message | Optional | The message.
- | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
  | file | Required | Path to file.
 
 The usage is similar to the usage of [document](bot.md#document).
@@ -176,7 +174,6 @@ through `tgcli`. To get help:
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
 -m | --message | Optional | The message.
- | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
 -h | --horizontal | Optional | The horizontal aspect ratio of video.
 -v | --vertical | Optional | The vertical aspect ratio of video.
  | file | Required | Path to file.
@@ -208,7 +205,6 @@ through `tgcli`. To get help:
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
 -m | --message | Optional | The message.
- | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
  | --performer | Optional | The performer of audio.
  | --title | Optional | The title of audio.
  | file | Required | Path to file.
