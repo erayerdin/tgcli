@@ -90,28 +90,26 @@ def bot(ctx, token):
 @click.option(
     "-r", "--receiver", required=True, help="Receiver of the message."
 )
-@click.pass_context
-def send(ctx, receiver: str):
-    ctx.obj["receiver"] = receiver
-
-
-# send types
-FORMAT_OPTION = click.option(
+@click.option(
     "--format",
     default="markdown",
     type=click.Choice(MESSAGE_FORMATS.keys()),
     help='Format of the message. Default is "markdown".',
 )
+@click.pass_context
+def send(ctx, receiver: str, format: str):
+    ctx.obj["receiver"] = receiver
+    ctx.obj["format"] = format
 
 
 @send.command()
-@FORMAT_OPTION
 @click.argument("message", required=True)
 @click.pass_context
-def message(ctx, format: str, message: str):
+def message(ctx, message: str):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
 
     request = tgcli.request.bot.SendMessageRequest(
         session, receiver, message, MESSAGE_FORMATS[format]
@@ -189,15 +187,13 @@ FILE_ARGUMENT = click.argument("file", type=click.File("rb"), required=True)
     "-m", "--message", default="", help="The message to inline with file."
 )
 @THUMBNAIL_OPTION
-@FORMAT_OPTION
 @FILE_ARGUMENT
 @click.pass_context
-def document(
-    ctx, message: str, thumbnail: io.BytesIO, format: str, file: io.BytesIO
-):
+def document(ctx, message: str, thumbnail: io.BytesIO, file: io.BytesIO):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
 
     request = tgcli.request.bot.SendDocumentRequest(
         session, receiver, file, thumbnail, message, MESSAGE_FORMATS[format]
@@ -211,13 +207,13 @@ def document(
 @click.option(
     "-m", "--message", default="", help="The message to inline with file."
 )
-@FORMAT_OPTION
 @FILE_ARGUMENT
 @click.pass_context
-def photo(ctx, message: str, format: str, file: io.BytesIO):
+def photo(ctx, message: str, file: io.BytesIO):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
 
     request = tgcli.request.bot.SendPhotoRequest(
         session, receiver, file, message, MESSAGE_FORMATS[format]
@@ -231,7 +227,6 @@ def photo(ctx, message: str, format: str, file: io.BytesIO):
 @click.option(
     "-m", "--message", default="", help="The message to inline with file."
 )
-@FORMAT_OPTION
 @click.option(
     "-h",
     "--horizontal",
@@ -246,17 +241,11 @@ def photo(ctx, message: str, format: str, file: io.BytesIO):
 )
 @FILE_ARGUMENT
 @click.pass_context
-def video(
-    ctx,
-    message: str,
-    format: str,
-    horizontal: int,
-    vertical: int,
-    file: io.BytesIO,
-):
+def video(ctx, message: str, horizontal: int, vertical: int, file: io.BytesIO):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
 
     request = tgcli.request.bot.SendVideoRequest(
         session,
@@ -278,22 +267,15 @@ def video(
 @click.option(
     "-m", "--message", default="", help="The message to inline with file."
 )
-@FORMAT_OPTION
 @click.option("--performer", help="The performer of audio.")
 @click.option("--title", help="The title of audio.")
 @FILE_ARGUMENT
 @click.pass_context
-def audio(
-    ctx,
-    message: str,
-    format: str,
-    performer: str,
-    title: str,
-    file: io.BytesIO,
-):
+def audio(ctx, message: str, performer: str, title: str, file: io.BytesIO):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
+    format = ctx.obj["format"]
 
     request = tgcli.request.bot.SendAudioRequest(
         session,
