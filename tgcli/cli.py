@@ -272,3 +272,40 @@ def video(
     file.close()
 
     send_message(session, request)
+
+
+@send.command()
+@click.option(
+    "-m", "--message", default="", help="The message to inline with file."
+)
+@FORMAT_OPTION
+@click.option("--performer", help="The performer of audio.")
+@click.option("--title", help="The title of audio.")
+@FILE_ARGUMENT
+@click.pass_context
+def audio(
+    ctx,
+    message: str,
+    format: str,
+    performer: str,
+    title: str,
+    file: io.BytesIO,
+):
+    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session.verify = ctx.obj["secure"]
+    receiver = ctx.obj["receiver"]
+
+    request = tgcli.request.bot.SendAudioRequest(
+        session,
+        receiver,
+        file,
+        None,
+        message,
+        None,
+        performer,
+        title,
+        MESSAGE_FORMATS[format],
+    )
+    file.close()
+
+    send_message(session, request)

@@ -192,6 +192,29 @@ The usage is similar to the usage of [document](bot.md#document).
 
 [issue_27]: https://github.com/erayerdin/tgcli/issues/27
 
+### audio
+
+`audio` is a subcommand of `send` and is used to send audios
+through `tgcli`. To get help:
+
+    tgcli bot send -r $RECEIVER_ID audio --help
+
+!!! info
+    A file sent by `audio` subcommand **can be played** *with a
+    play button*.
+
+`audio` has the options and parameters below:
+
+Short Flag | Full Flag | Required/Optional | Description
+--- | --- | --- | ---
+-m | --message | Optional | The message.
+ | --format | Optional | The format of message. Choices are `markdown` and `html`. Default is `markdown`.
+ | --performer | Optional | The performer of audio.
+ | --title | Optional | The title of audio.
+ | file | Required | Path to file.
+
+The usage is similar to the usage of [document](bot.md#document).
+
 ### poll
 
 `poll` is a subcommand of `send` and is used to publish polls. To get help:
