@@ -87,8 +87,8 @@ clicking or scanning below.
 
 | | Predefined (*Almost* $1) | How Much You Wish |
 |-|--------------------------|-------------------|
-| MiliBitcoin (mBTC) | ![[mBTC predefined][mbtc_d1]][mbtc_d1_qr] | ![[mBTC custom][mbtc_custom]][mbtc_custom_qr] |
-| Monero (XMR)       | ![[XMR predefined][xmr_d1]][xmr_d1_qr] | ![[XMR custom][xmr_custom]][xmr_custom_qr]
+| MiliBitcoin (mBTC) | [![mBTC predefined][mbtc_d1_qr]][mbtc_d1] | [![mBTC custom][mbtc_custom_qr]][mbtc_custom] |
+| Monero (XMR)       | [![XMR predefined][xmr_d1_qr]][xmr_d1] | [![XMR custom][xmr_custom_qr]][xmr_custom]
 
 [mbtc_d1]: bitcoin:bc1qpjqftgzvr2cstrn7lkfl7q84h0uq6k806cv9md?amount=0.00009732&message=For%20%22tgcli%22%20as%20my%20gratitude.&time=1568582579
 [mbtc_d1_qr]: docs/img/mbtc_d1_qr.png
