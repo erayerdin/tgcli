@@ -1,6 +1,6 @@
 [run]
 omit =
-    tgcli/cli.py
+    tgcli/cli/*
     tests/*
 
 [report]
