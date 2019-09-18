@@ -10,7 +10,9 @@
         "**/.DS_Store": true,
         "**/__pycache__": true,
         ".venv": true,
-        ".vscode": true
+        ".vscode": true,
+        "*.egg-info": true,
+        ".pytest_cache": true
     },
     "explorerExclude.backup": null
 }
