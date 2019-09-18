@@ -21,7 +21,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/erayerdin/tgcli",
     download_url=GITHUB_RELEASE_URL.format(tgcli.__version__),
-    packages=("tgcli", "tgcli.request"),
+    packages=("tgcli", "tgcli.request", "tgcli.cli"),
     entry_points="""
         [console_scripts]
         tgcli=tgcli.cli:cli
