@@ -14,5 +14,6 @@
         "*.egg-info": true,
         ".pytest_cache": true
     },
-    "explorerExclude.backup": null
+    "explorerExclude.backup": null,
+    "python.pythonPath": ".venv/bin/python3.7"
 }

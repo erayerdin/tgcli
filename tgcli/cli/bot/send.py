@@ -1,4 +1,5 @@
 import io
+import sys
 import typing
 
 import click
@@ -188,13 +189,15 @@ def photo(ctx, message: str, file: io.BytesIO):
     "-h",
     "--horizontal",
     type=click.INT,
-    help="The horizontal aspect ratio of video.",
+    default=1,
+    help="The horizontal aspect ratio of video. Used in thumbnail. Defauls to 1.",
 )
 @click.option(
     "-v",
     "--vertical",
     type=click.INT,
-    help="The vertical aspect ratio of video.",
+    default=1,
+    help="The vertical aspect ratio of video. Used in thumbnail. Defauls to 1.",
 )
 @FILE_ARGUMENT
 @click.pass_context
