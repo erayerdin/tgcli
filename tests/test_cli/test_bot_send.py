@@ -230,7 +230,9 @@ class TestVideo:
             "video",
             "tests/resources/placeholder.mkv",
             "-m",
-            invoke_message_factory(self.__class__, self.test_message),
+            invoke_message_factory(
+                self.__class__, self.test_message_aspect_ratio
+            ),
             "-h",
             "16",
             "-v",
