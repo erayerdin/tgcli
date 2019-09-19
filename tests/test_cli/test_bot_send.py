@@ -308,3 +308,23 @@ class TestAudio:
         )
         result = cli_runner.invoke(cli, args)
         assert result.exit_code == 0
+
+# todo polls cannot be tested because it cannot be sent to private messages
+
+
+class TestLocation:
+    @SKIPIF_HAS_NOT_CONNECTED
+    @SKIPIF_BOT_TOKEN_NOT_EXISTS
+    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
+    def test_vanilla(self, cli_runner: CliRunner, cli, receiver_id: str):
+        args = (
+            "bot",
+            "send",
+            "-r",
+            receiver_id,
+            "location",
+            "-x", "38.41273",
+            "-y", "27.13838",
+        )
+        result = cli_runner.invoke(cli, args)
+        assert result.exit_code == 0
