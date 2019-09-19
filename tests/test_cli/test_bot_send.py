@@ -152,3 +152,89 @@ class TestPhoto:
         )
         result = cli_runner.invoke(cli, args)
         assert result.exit_code == 0
+
+
+class TestVideo:
+    @SKIPIF_HAS_NOT_CONNECTED
+    @SKIPIF_BOT_TOKEN_NOT_EXISTS
+    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
+    def test_vanilla(self, cli_runner: CliRunner, cli, receiver_id: str):
+        args = (
+            "bot",
+            "send",
+            "-r",
+            receiver_id,
+            "video",
+            "tests/resources/placeholder.mkv",
+        )
+        result = cli_runner.invoke(cli, args)
+        assert result.exit_code == 0
+
+    @SKIPIF_HAS_NOT_CONNECTED
+    @SKIPIF_BOT_TOKEN_NOT_EXISTS
+    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
+    def test_aspect_ratio(self, cli_runner: CliRunner, cli, receiver_id: str):
+        args = (
+            "bot",
+            "send",
+            "-r",
+            receiver_id,
+            "video",
+            "tests/resources/placeholder.mkv",
+            "-h",
+            "16",
+            "-v",
+            "9",
+        )
+        result = cli_runner.invoke(cli, args)
+        assert result.exit_code == 0
+
+    @SKIPIF_HAS_NOT_CONNECTED
+    @SKIPIF_BOT_TOKEN_NOT_EXISTS
+    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
+    def test_message(
+        self,
+        cli_runner: CliRunner,
+        cli,
+        receiver_id: str,
+        invoke_message_factory,
+    ):
+        args = (
+            "bot",
+            "send",
+            "-r",
+            receiver_id,
+            "video",
+            "tests/resources/placeholder.mkv",
+            "-m",
+            invoke_message_factory(self.__class__, self.test_message),
+        )
+        result = cli_runner.invoke(cli, args)
+        assert result.exit_code == 0
+
+    @SKIPIF_HAS_NOT_CONNECTED
+    @SKIPIF_BOT_TOKEN_NOT_EXISTS
+    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
+    def test_message_aspect_ratio(
+        self,
+        cli_runner: CliRunner,
+        cli,
+        receiver_id: str,
+        invoke_message_factory,
+    ):
+        args = (
+            "bot",
+            "send",
+            "-r",
+            receiver_id,
+            "video",
+            "tests/resources/placeholder.mkv",
+            "-m",
+            invoke_message_factory(self.__class__, self.test_message),
+            "-h",
+            "16",
+            "-v",
+            "9",
+        )
+        result = cli_runner.invoke(cli, args)
+        assert result.exit_code == 0
