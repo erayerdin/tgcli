@@ -10,7 +10,7 @@ jobs:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
     - pip install black
-    - pip install "tgcli==0.1.0a4" --upgrade
+    - pip install "tgcli==0.3.0" --upgrade
     script:
     - tgcli bot send -r $TELEGRAM_RECEIVER "👗 Checking style of \`tgcli\`..."
     - black setup.py tests/ tgcli/ -l 79
@@ -23,7 +23,7 @@ jobs:
     install:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
-    - pip install "tgcli==0.1.0a4" --upgrade
+    - pip install "tgcli==0.3.0" --upgrade
     script:
     - tgcli bot send -r $TELEGRAM_RECEIVER "📝 Testing \`tgcli\` with Python 3.5..."
     - pytest
@@ -36,7 +36,7 @@ jobs:
     install:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
-    - pip install "tgcli==0.1.0a4" --upgrade
+    - pip install "tgcli==0.3.0" --upgrade
     script:
     - tgcli bot send -r $TELEGRAM_RECEIVER "📝 Testing \`tgcli\` with Python 3.6..."
     - pytest
@@ -49,7 +49,7 @@ jobs:
     install:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
-    - pip install "tgcli==0.1.0a4" --upgrade
+    - pip install "tgcli==0.3.0" --upgrade
     script:
     - tgcli bot send -r $TELEGRAM_RECEIVER "📝 Testing \`tgcli\` with Python 3.7..."
     - pytest
@@ -62,7 +62,7 @@ jobs:
     install:
     - pip install -r requirements.txt
     - pip install -r dev.requirements.txt
-    - pip install "tgcli==0.1.0a4" --upgrade
+    - pip install "tgcli==0.3.0" --upgrade
     script:
     - tgcli bot send -r $TELEGRAM_RECEIVER "📏 Covering \`tgcli\`..."
     - pytest --cov-config .coveragerc --cov tgcli tests/
