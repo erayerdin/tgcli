@@ -1,5 +1,4 @@
 import io
-import platform
 import sys
 import typing
 
@@ -10,18 +9,11 @@ import yaspin.spinners
 
 import tgcli.request.bot
 
-IS_DARWIN = platform.system().lower() == "darwin"
-
-
 MESSAGE_FORMATS = {"html": "HTML", "markdown": "Markdown"}
-MEDIA_TYPES = [str(v.value) for v in list(tgcli.request.bot.MediaType)]
 
-###########
-# Commons #
-###########
+
 def send_message(
-    session: tgcli.request.bot.BotSession,
-    request: tgcli.request.bot.BotRequest,
+    session: tgcli.request.bot.BotSession, request: tgcli.request.bot.BotRequest
 ):
     """
     Sends message using Yaspin.
@@ -51,55 +43,21 @@ def send_message(
             spinner.fail("❌")
             sys.exit(1)
 
-
-##########
-## Root ##
-##########
 @click.group()
-@click.option(
-    "--secure/--no-secure",
-    default=(not IS_DARWIN),
-    help='Whether to validate HTTPS requests. Default is "secure" except OSX. '
-    'You have to update built-in OpenSSL and manually pass "secure" each '
-    "time in OSX.",
-)
-@click.pass_context
-def cli(ctx, secure: bool):
-    ctx.obj = dict()
-    ctx.obj["secure"] = secure
-
-
-#######
-# Bot #
-#######
-@cli.group()
-@click.option(
-    "-t",
-    "--token",
-    envvar="TELEGRAM_BOT_TOKEN",
-    required=True,
-    help="Token of bot. Can be provided via TELEGRAM_BOT_TOKEN environment variable.",
-)
-@click.pass_context
-def bot(ctx, token):
-    ctx.obj["token"] = token
-
-
-# send #
-@bot.group()
 @click.option(
     "-r", "--receiver", required=True, help="Receiver of the message."
 )
 @click.option(
     "--format",
+    "format_",
     default="markdown",
     type=click.Choice(MESSAGE_FORMATS.keys()),
     help='Format of the message. Default is "markdown".',
 )
 @click.pass_context
-def send(ctx, receiver: str, format: str):
+def send(ctx, receiver: str, format_: str):
     ctx.obj["receiver"] = receiver
-    ctx.obj["format"] = format
+    ctx.obj["format"] = format_
 
 
 @send.command()
@@ -231,13 +189,15 @@ def photo(ctx, message: str, file: io.BytesIO):
     "-h",
     "--horizontal",
     type=click.INT,
-    help="The horizontal aspect ratio of video.",
+    default=1,
+    help="The horizontal aspect ratio of video. Used in thumbnail. Defauls to 1.",
 )
 @click.option(
     "-v",
     "--vertical",
     type=click.INT,
-    help="The vertical aspect ratio of video.",
+    default=1,
+    help="The vertical aspect ratio of video. Used in thumbnail. Defauls to 1.",
 )
 @FILE_ARGUMENT
 @click.pass_context
