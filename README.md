@@ -67,7 +67,16 @@ breaking changes in the future.
 
 Documentation has an intensive amount of  information about how to
 use `tgcli`. Refer to the
-[documentation](https://tgcli.readthedocs.io/en/latest/).
+[documentation](https://www.coogger.com/tgcli/@erayerdin/).
+
+[![coogger logo](resources/coogger.jpg)][coogger_url]
+
+Documentation is provided by [Coogger][coogger_url]. Coogger is
+an [open-source](https://github.com/coogger/) service that
+provides technical documentations. While it has its own domain,
+you can also use it as a self-hosted solution.
+
+[coogger_url]: https://coogger.com
 
 ## Donations
 
