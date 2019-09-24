@@ -4,7 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/dm/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
 [![PyPI](https://img.shields.io/pypi/pyversions/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
 [![PyPI](https://img.shields.io/pypi/l/tgcli.svg?style=flat-square)][pypi_url]
-[![](https://img.shields.io/readthedocs/tgcli.svg?style=flat-square)](https://tgcli.readthedocs.io/en/latest/)
+[![](https://img.shields.io/badge/docs-coogger-1c472b?style=flat-square)](https://www.coogger.com/tgcli/@erayerdin/)
 [![Telegram](https://img.shields.io/badge/telegram-%40erayerdin-%2332afed.svg?style=flat-square&logo=telegram&logoColor=white)](https://t.me/erayerdin)
 [![Code Style](https://img.shields.io/badge/style-black-000000.svg?style=flat-square)](https://github.com/ambv/black)
 
@@ -67,7 +67,16 @@ breaking changes in the future.
 
 Documentation has an intensive amount of  information about how to
 use `tgcli`. Refer to the
-[documentation](https://tgcli.readthedocs.io/en/latest/).
+[documentation](https://www.coogger.com/tgcli/@erayerdin/).
+
+[![coogger logo](resources/coogger.jpg)][coogger_url]
+
+Documentation is provided by [Coogger][coogger_url]. Coogger is
+an [open-source](https://github.com/coogger/) service that
+provides technical documentations. While it has its own domain,
+you can also use it as a self-hosted solution.
+
+[coogger_url]: https://coogger.com
 
 ## Donations
 
