@@ -4,7 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/dm/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
 [![PyPI](https://img.shields.io/pypi/pyversions/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
 [![PyPI](https://img.shields.io/pypi/l/tgcli.svg?style=flat-square)][pypi_url]
-[![](https://img.shields.io/badge/docs-coogger-1c472b)](https://www.coogger.com/tgcli/@erayerdin/)
+[![](https://img.shields.io/badge/docs-coogger-1c472b?style=flat-square)](https://www.coogger.com/tgcli/@erayerdin/)
 [![Telegram](https://img.shields.io/badge/telegram-%40erayerdin-%2332afed.svg?style=flat-square&logo=telegram&logoColor=white)](https://t.me/erayerdin)
 [![Code Style](https://img.shields.io/badge/style-black-000000.svg?style=flat-square)](https://github.com/ambv/black)
 
