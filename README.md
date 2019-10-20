@@ -24,11 +24,14 @@
 
 ## Installing
 
+### pip (No auto-update)
+
 Install via `pip`:
 
 ```bash
 pip install tgcli
 ```
+### tgcli (Auto-update, Arch-based)
 
 Also available as a package in [AUR](https://aur.archlinux.org/packages/tgcli/).
 
