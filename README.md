@@ -30,6 +30,13 @@ Install via `pip`:
 pip install tgcli
 ```
 
+Also available as a package in [AUR](https://aur.archlinux.org/packages/tgcli/).
+
+```bash
+# assuming you use yay
+yay -S tgcli
+```
+
 ## Rationale
 
 [A similar project](https://github.com/vysheng/tg), built on Python, was created by [@vysheng](https://github.com/vysheng), but it has not been updated since 2016 and considered abandoned. This tool *is not a fork* of the mentioned project, it is built from ground up.
