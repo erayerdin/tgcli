@@ -1,6 +1,4 @@
-import io
 import platform
-import typing
 
 import click
 

@@ -8,36 +8,38 @@ jobs:
     python: '3.7'
     install:
     - pip install -r requirements.txt
-    - pip install -r dev.requirements.txt
-    - pip install black
+    # ref: https://stackoverflow.com/a/54053100/2926992
+    - cat dev.requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install || true
     script:
-    - black setup.py tests/ tgcli/ -l 79
+    - black setup.py tests/ tgcli/
+    - flake8 setup.py tests/ tgcli/
+    - isort -c
   - stage: Testing
     python: '3.5'
     install:
     - pip install -r requirements.txt
-    - pip install -r dev.requirements.txt
+    - cat dev.requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install || true
     script:
     - pytest
   - stage: Testing
     python: '3.6'
     install:
     - pip install -r requirements.txt
-    - pip install -r dev.requirements.txt
+    - cat dev.requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install || true
     script:
     - pytest
   - stage: Testing
     python: '3.7'
     install:
     - pip install -r requirements.txt
-    - pip install -r dev.requirements.txt
+    - cat dev.requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install || true
     script:
     - pytest
   - stage: Covering / Deploy
     python: '3.7'
     install:
     - pip install -r requirements.txt
-    - pip install -r dev.requirements.txt
+    - cat dev.requirements.txt | sed -e '/^\s*#.*$/d' -e '/^\s*$/d' | xargs -n 1 pip install || true
     script:
     - pytest --cov-config .coveragerc --cov tgcli tests/
     - coveralls

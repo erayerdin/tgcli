@@ -4,7 +4,6 @@ import os
 import typing
 
 import pytest
-import requests
 import requests_mock
 
 import tgcli.request.bot
@@ -61,9 +60,7 @@ def bot_request_factory(bot_session) -> callable:
 
 
 @pytest.fixture
-def bot_authentication_request(
-    bot_session
-) -> tgcli.request.bot.AuthenticationRequest:
+def bot_authentication_request(bot_session) -> tgcli.request.bot.AuthenticationRequest:
     """
     Returns a bot authentication request.
 
@@ -79,9 +76,7 @@ def bot_authentication_request(
 
 
 @pytest.fixture
-def bot_send_message_request(
-    bot_session
-) -> tgcli.request.bot.SendMessageRequest:
+def bot_send_message_request(bot_session) -> tgcli.request.bot.SendMessageRequest:
     """
     Returns a bot send message request.
 
@@ -114,9 +109,7 @@ def bot_send_poll_request(bot_session) -> tgcli.request.bot.SendPollRequest:
     question = "Foo?"
     options = ("Bar", "Baz")
     """
-    return tgcli.request.bot.SendPollRequest(
-        bot_session, 1, "Foo?", ("Bar", "Baz")
-    )
+    return tgcli.request.bot.SendPollRequest(bot_session, 1, "Foo?", ("Bar", "Baz"))
 
 
 @pytest.fixture
@@ -345,8 +338,6 @@ def invoke_message_factory():
     """
 
     def factory(klass: typing.ClassVar, method: typing.Callable):
-        return "A message invoked by `{}::{}`.".format(
-            klass.__name__, method.__name__
-        )
+        return "A message invoked by `{}::{}`.".format(klass.__name__, method.__name__)
 
     return factory
