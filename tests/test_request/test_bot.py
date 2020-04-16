@@ -1,8 +1,7 @@
+import pytest
+
 import tgcli.request.bot
 from tests.test_request import BaseSendFileTest
-
-import requests_mock
-import pytest
 
 
 class TestBotSession:
@@ -30,49 +29,34 @@ class TestAuthenticationRequest:
     def test_url(self, bot_authentication_request):
         assert bot_authentication_request.url[-5:] == "getMe"
 
-    def test_found_status(
-        self, mock_adapter, bot_session, bot_authentication_request
-    ):
+    def test_found_status(self, mock_adapter, bot_session, bot_authentication_request):
         with open(
             "tests/resources/responses/bot.TestAuthenticationRequest.1.json"
         ) as f:
             mock_adapter.register_uri(
-                "POST",
-                bot_authentication_request.url,
-                text=f.read(),
-                status_code=200,
+                "POST", bot_authentication_request.url, text=f.read(), status_code=200,
             )
 
         response = bot_session.send(bot_authentication_request)
         assert response.status_code == 200
 
-    def test_found_ok(
-        self, mock_adapter, bot_session, bot_authentication_request
-    ):
+    def test_found_ok(self, mock_adapter, bot_session, bot_authentication_request):
         with open(
             "tests/resources/responses/bot.TestAuthenticationRequest.1.json"
         ) as f:
             mock_adapter.register_uri(
-                "POST",
-                bot_authentication_request.url,
-                text=f.read(),
-                status_code=200,
+                "POST", bot_authentication_request.url, text=f.read(), status_code=200,
             )
 
         response = bot_session.send(bot_authentication_request)
         assert response.json().get("ok")
 
-    def test_found_result(
-        self, mock_adapter, bot_session, bot_authentication_request
-    ):
+    def test_found_result(self, mock_adapter, bot_session, bot_authentication_request):
         with open(
             "tests/resources/responses/bot.TestAuthenticationRequest.1.json"
         ) as f:
             mock_adapter.register_uri(
-                "POST",
-                bot_authentication_request.url,
-                text=f.read(),
-                status_code=200,
+                "POST", bot_authentication_request.url, text=f.read(), status_code=200,
             )
 
         response = bot_session.send(bot_authentication_request)
@@ -88,26 +72,18 @@ class TestAuthenticationRequest:
             "tests/resources/responses/bot.TestAuthenticationRequest.2.json"
         ) as f:
             mock_adapter.register_uri(
-                "POST",
-                bot_authentication_request.url,
-                text=f.read(),
-                status_code=404,
+                "POST", bot_authentication_request.url, text=f.read(), status_code=404,
             )
 
         response = bot_session.send(bot_authentication_request)
         assert response.status_code == 404
 
-    def test_notfound_ok(
-        self, mock_adapter, bot_session, bot_authentication_request
-    ):
+    def test_notfound_ok(self, mock_adapter, bot_session, bot_authentication_request):
         with open(
             "tests/resources/responses/bot.TestAuthenticationRequest.2.json"
         ) as f:
             mock_adapter.register_uri(
-                "POST",
-                bot_authentication_request.url,
-                text=f.read(),
-                status_code=404,
+                "POST", bot_authentication_request.url, text=f.read(), status_code=404,
             )
 
         response = bot_session.send(bot_authentication_request)
@@ -120,10 +96,7 @@ class TestAuthenticationRequest:
             "tests/resources/responses/bot.TestAuthenticationRequest.2.json"
         ) as f:
             mock_adapter.register_uri(
-                "POST",
-                bot_authentication_request.url,
-                text=f.read(),
-                status_code=404,
+                "POST", bot_authentication_request.url, text=f.read(), status_code=404,
             )
 
         response = bot_session.send(bot_authentication_request)
@@ -136,10 +109,7 @@ class TestAuthenticationRequest:
             "tests/resources/responses/bot.TestAuthenticationRequest.2.json"
         ) as f:
             mock_adapter.register_uri(
-                "POST",
-                bot_authentication_request.url,
-                text=f.read(),
-                status_code=404,
+                "POST", bot_authentication_request.url, text=f.read(), status_code=404,
             )
 
         response = bot_session.send(bot_authentication_request)
@@ -150,15 +120,11 @@ class TestSendMessageRequest:
     def test_url(self, bot_send_message_request):
         assert bot_send_message_request.url[-11:] == "sendMessage"
 
-    def test_request_body_chat_id(
-        self, bot_send_message_request, request_body_factory
-    ):
+    def test_request_body_chat_id(self, bot_send_message_request, request_body_factory):
         request_body = request_body_factory(bot_send_message_request)
         assert request_body.get("chat_id") == 1
 
-    def test_request_body_text(
-        self, bot_send_message_request, request_body_factory
-    ):
+    def test_request_body_text(self, bot_send_message_request, request_body_factory):
         request_body = request_body_factory(bot_send_message_request)
         assert request_body.get("text") == "foo"
 
@@ -282,21 +248,15 @@ class TestSendPollRequest:
     def test_url(self, bot_send_poll_request):
         assert bot_send_poll_request.url[-8:] == "sendPoll"
 
-    def test_request_body_chat_id(
-        self, bot_send_poll_request, request_body_factory
-    ):
+    def test_request_body_chat_id(self, bot_send_poll_request, request_body_factory):
         request_body = request_body_factory(bot_send_poll_request)
         assert request_body.get("chat_id") == 1
 
-    def test_request_body_question(
-        self, bot_send_poll_request, request_body_factory
-    ):
+    def test_request_body_question(self, bot_send_poll_request, request_body_factory):
         request_body = request_body_factory(bot_send_poll_request)
         assert request_body.get("question") == "Foo?"
 
-    def test_request_body_options(
-        self, bot_send_poll_request, request_body_factory
-    ):
+    def test_request_body_options(self, bot_send_poll_request, request_body_factory):
         request_body = request_body_factory(bot_send_poll_request)
         assert request_body.get("options")[0] == "Bar"
         assert request_body.get("options")[1] == "Baz"

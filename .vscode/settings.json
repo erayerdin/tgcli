@@ -1,7 +1,7 @@
 {
     "python.linting.enabled": true,
-    "python.linting.pep8Enabled": false,
-    "python.linting.pylintEnabled": true,
+    "python.linting.pycodestyleEnabled": false,
+    "python.linting.pylintEnabled": false,
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -15,5 +15,6 @@
         ".pytest_cache": true
     },
     "explorerExclude.backup": null,
-    "python.pythonPath": ".venv/bin/python3.7"
+    "python.pythonPath": ".venv/bin/python",
+    "python.linting.flake8Enabled": true
 }

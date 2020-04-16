@@ -33,8 +33,7 @@ class BotRequest(requests.PreparedRequest):
     def prepare_url(self, url, params):
         super(BotRequest, self).prepare_url(
             "{base_url}{method_name}".format(
-                base_url=self.__session.base_url,
-                method_name=self.__method_name,
+                base_url=self.__session.base_url, method_name=self.__method_name,
             ),
             params,
         )
@@ -161,10 +160,7 @@ class BaseFileRequest(BotRequest):
         self.prepare_method("post")
         self.prepare_body(
             data=payload,
-            files={
-                str(media_type.value.get("parameter_name")): file,
-                **extra_files,
-            },
+            files={str(media_type.value.get("parameter_name")): file, **extra_files,},
             json=None,
         )
         self.file = file
