@@ -238,15 +238,12 @@ class SendAudioRequest(BaseFileRequest):
             "parse_mode": parse_mode,
             "disable_notification": disable_notification,
             "media_type": MediaType.AUDIO,
+            **(
+                {"duration": int(duration)} if duration is not None else {}
+            ),  # ref https://stackoverflow.com/a/14263905/2926992
+            **({"performer": str(performer)} if performer is not None else {}),
+            **({"title": str(title)} if title is not None else {}),
         }
-        if duration is not None:
-            payload["duration"] = int(duration)
-
-        if performer is not None:
-            payload["performer"] = str(performer)
-
-        if title is not None:
-            payload["title"] = str(title)
 
         if thumbnail:
             super().__init__(**payload, **extra_files)
@@ -277,15 +274,10 @@ class SendVideoRequest(BaseFileRequest):
             "parse_mode": parse_mode,
             "disable_notification": disable_notification,
             "media_type": MediaType.VIDEO,
+            **({"duration": int(duration)} if duration is not None else {}),
+            **({"width": int(width)} if width is not None else {}),
+            **({"height": int(height)} if height is not None else {}),
         }
-        if duration is not None:
-            payload["duration"] = int(duration)
-
-        if width is not None:
-            payload["width"] = int(width)
-
-        if height is not None:
-            payload["height"] = int(height)
 
         if thumbnail:
             super().__init__(**payload, **extra_files)
