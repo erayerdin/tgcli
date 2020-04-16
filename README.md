@@ -1,26 +1,39 @@
 # tgcli
 
-[![PyPI](https://img.shields.io/pypi/v/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
-[![PyPI](https://img.shields.io/pypi/dm/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
-[![PyPI](https://img.shields.io/pypi/pyversions/tgcli.svg?style=flat-square&logo=python&logoColor=white)][pypi_url]
-[![PyPI](https://img.shields.io/pypi/l/tgcli.svg?style=flat-square)][pypi_url]
-[![](https://img.shields.io/badge/docs-coogger-1c472b?style=flat-square)](https://www.coogger.com/tgcli/@erayerdin/)
-[![Telegram](https://img.shields.io/badge/telegram-%40erayerdin-%2332afed.svg?style=flat-square&logo=telegram&logoColor=white)](https://t.me/erayerdin)
-[![Code Style](https://img.shields.io/badge/style-black-000000.svg?style=flat-square)](https://github.com/ambv/black)
+[![PyPI - Version][badge_version]][pypi_url]
+[![PyPI - Downloads Last Month][badge_downloads]][pypi_url]
+[![PyPI - Python Versions][badge_pyversions]][pypi_url]
+[![PyPI - License][badge_license]][pypi_url]
+[![Docs Status][badge_docs]][docs_url]
+[![Code Style][badge_style]](https://github.com/ambv/black)
 
 ![](resources/recording.gif)
 
 `tgcli` is a Python cli app for Telegram.
 
 [pypi_url]: https://pypi.org/project/tgcli/
+[docs_url]: https://tgcli.readthedocs.io
+
+[badge_version]: https://img.shields.io/pypi/v/tgcli.svg?style=flat-square&logo=python&logoColor=white
+[badge_downloads]: https://img.shields.io/pypi/dm/tgcli.svg?style=flat-square&logo=python&logoColor=white
+[badge_pyversions]: https://img.shields.io/pypi/pyversions/tgcli.svg?style=flat-square&logo=python&logoColor=white
+[badge_license]: https://img.shields.io/pypi/l/tgcli.svg?style=flat-square
+[badge_docs]: https://img.shields.io/readthedocs/tgcli?style=flat-square
+[badge_style]: https://img.shields.io/badge/style-black-000000.svg?style=flat-square
+
 
 |              | Build | Coverage |
 |--------------|-------|----------|
-| **Master**   | [![Travis (.com) master](https://img.shields.io/travis/com/erayerdin/tgcli/master.svg?style=flat-square&logo=travis&logoColor=white)][travis_url] | [![](https://img.shields.io/coveralls/github/erayerdin/tgcli/master.svg?logo=star&logoColor=white&style=flat-square)][coveralls_url] |
-| **Development** | [![Travis (.com) development](https://img.shields.io/travis/com/erayerdin/tgcli/development.svg?style=flat-square&logo=travis&logoColor=white)][travis_url] | [![](https://img.shields.io/coveralls/github/erayerdin/tgcli/development.svg?logo=star&logoColor=white&style=flat-square)][coveralls_url] |
+| **Master**   | [![Master Build][badge_build_master]][build_url] | [![Master Coverage][badge_coverage_master]][coverage_url] |
+| **Development** | [![Development Build][badge_build_development]][build_url] | [![Development Coverage][badge_coverage_development]][coverage_url] |
 
-[travis_url]: https://travis-ci.com/erayerdin/tgcli
-[coveralls_url]: https://coveralls.io/github/erayerdin/tgcli
+[build_url]: https://travis-ci.com/erayerdin/tgcli
+[coverage_url]: https://coveralls.io/github/erayerdin/tgcli
+
+[badge_build_master]: https://img.shields.io/travis/com/erayerdin/tgcli/master.svg?style=flat-square&logo=travis&logoColor=white
+[badge_build_development]: https://img.shields.io/travis/com/erayerdin/tgcli/development.svg?style=flat-square&logo=travis&logoColor=white
+[badge_coverage_master]: https://img.shields.io/coveralls/github/erayerdin/tgcli/master.svg?logo=star&logoColor=white&style=flat-square
+[badge_coverage_development]: https://img.shields.io/coveralls/github/erayerdin/tgcli/development.svg?logo=star&logoColor=white&style=flat-square
 
 ## Installing
 
@@ -48,7 +61,7 @@ yay -S tgcli
 
 For now, the use case is pretty simple. To send a message:
 
-```python
+```bash
 tgcli bot --token "BotToken" send --receiver "UserID" message "Your message"
 ```
 
@@ -77,4 +90,4 @@ breaking changes in the future.
 
 Documentation has an intensive amount of  information about how to
 use `tgcli`. Refer to the
-[documentation](https://tgcli.readthedocs.io).
+[documentation][docs_url].
