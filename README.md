@@ -77,19 +77,4 @@ breaking changes in the future.
 
 Documentation has an intensive amount of  information about how to
 use `tgcli`. Refer to the
-[documentation](https://www.coogger.com/tgcli/@erayerdin/).
-
-[![coogger logo](resources/coogger.jpg)][coogger_url]
-
-Documentation is provided by [Coogger][coogger_url]. Coogger is
-an [open-source](https://github.com/coogger/) service that
-provides technical documentations. While it has its own domain,
-you can also use it as a self-hosted solution.
-
-[coogger_url]: https://coogger.com
-
-## Donations
-
-`tgcli` is a free (as in beer and speech) software that I have 
-built in my leisure time and been maintaining it. If you like to
-use it, please consider a small donation.
+[documentation](https://tgcli.readthedocs.io).
