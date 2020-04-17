@@ -34,19 +34,16 @@ def send_message(
                 "{c.bold_red}Error Code:{c.reset} {}".format(code, c=colorful)
             )
             spinner.write(
-                "{c.bold_red}Error Details:{c.reset} {}".format(
-                    description, c=colorful
-                )
+                "{c.bold_red}Error Details:{c.reset} {}".format(description, c=colorful)
             )
 
             spinner.text = "Failed sending message."
             spinner.fail("❌")
             sys.exit(1)
 
+
 @click.group()
-@click.option(
-    "-r", "--receiver", required=True, help="Receiver of the message."
-)
+@click.option("-r", "--receiver", required=True, help="Receiver of the message.")
 @click.option(
     "--format",
     "format_",
@@ -101,27 +98,17 @@ def poll(ctx, options: typing.Tuple[str], question: str):
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
 
-    request = tgcli.request.bot.SendPollRequest(
-        session, receiver, question, options
-    )
+    request = tgcli.request.bot.SendPollRequest(session, receiver, question, options)
 
     send_message(session, request)
 
 
 @send.command()
 @click.option(
-    "-x",
-    "--latitude",
-    type=click.FLOAT,
-    required=True,
-    help="Latitude of location.",
+    "-x", "--latitude", type=click.FLOAT, required=True, help="Latitude of location.",
 )
 @click.option(
-    "-y",
-    "--longitude",
-    type=click.FLOAT,
-    required=True,
-    help="Longitude of location.",
+    "-y", "--longitude", type=click.FLOAT, required=True, help="Longitude of location.",
 )
 @click.pass_context
 def location(ctx, latitude: float, longitude: float):
@@ -141,9 +128,7 @@ FILE_ARGUMENT = click.argument("file", type=click.File("rb"), required=True)
 
 
 @send.command()
-@click.option(
-    "-m", "--message", default="", help="The message to inline with file."
-)
+@click.option("-m", "--message", default="", help="The message to inline with file.")
 @THUMBNAIL_OPTION
 @FILE_ARGUMENT
 @click.pass_context
@@ -162,9 +147,7 @@ def document(ctx, message: str, thumbnail: io.BytesIO, file: io.BytesIO):
 
 
 @send.command()
-@click.option(
-    "-m", "--message", default="", help="The message to inline with file."
-)
+@click.option("-m", "--message", default="", help="The message to inline with file.")
 @FILE_ARGUMENT
 @click.pass_context
 def photo(ctx, message: str, file: io.BytesIO):
@@ -182,26 +165,26 @@ def photo(ctx, message: str, file: io.BytesIO):
 
 
 @send.command()
+@click.option("-m", "--message", default="", help="The message to inline with file.")
 @click.option(
-    "-m", "--message", default="", help="The message to inline with file."
+    "-w",
+    "--width",
+    type=click.INT,
+    default=1920,
+    help="The width of the video. It does not affect the video itself, "
+    "just affects the shape of video container in the application. Defaults to 1920.",
 )
 @click.option(
     "-h",
-    "--horizontal",
+    "--height",
     type=click.INT,
-    default=1,
-    help="The horizontal aspect ratio of video. Used in thumbnail. Defauls to 1.",
-)
-@click.option(
-    "-v",
-    "--vertical",
-    type=click.INT,
-    default=1,
-    help="The vertical aspect ratio of video. Used in thumbnail. Defauls to 1.",
+    default=1080,
+    help="The height of the video. It does not affect the video itself, "
+    "just affects the shape of video container in the application. Defaults to 1080.",
 )
 @FILE_ARGUMENT
 @click.pass_context
-def video(ctx, message: str, horizontal: int, vertical: int, file: io.BytesIO):
+def video(ctx, message: str, width: int, height: int, file: io.BytesIO):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
@@ -214,8 +197,8 @@ def video(ctx, message: str, horizontal: int, vertical: int, file: io.BytesIO):
         None,
         message,
         None,
-        horizontal,
-        vertical,
+        width,
+        height,
         MESSAGE_FORMATS[format],
     )
     file.close()
@@ -224,9 +207,7 @@ def video(ctx, message: str, horizontal: int, vertical: int, file: io.BytesIO):
 
 
 @send.command()
-@click.option(
-    "-m", "--message", default="", help="The message to inline with file."
-)
+@click.option("-m", "--message", default="", help="The message to inline with file.")
 @click.option("--performer", help="The performer of audio.")
 @click.option("--title", help="The title of audio.")
 @FILE_ARGUMENT

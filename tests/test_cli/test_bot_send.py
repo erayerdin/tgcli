@@ -5,7 +5,6 @@ from tests.test_cli import (
     SKIPIF_BOT_TOKEN_NOT_EXISTS,
     SKIPIF_HAS_NOT_CONNECTED,
 )
-from tgcli.cli.bot.send import MESSAGE_FORMATS
 
 
 class TestMessage:
@@ -13,11 +12,7 @@ class TestMessage:
     @SKIPIF_BOT_TOKEN_NOT_EXISTS
     @SKIPIF_BOT_RECEIVER_NOT_EXISTS
     def test_html(
-        self,
-        cli_runner: CliRunner,
-        cli,
-        receiver_id: str,
-        invoke_message_factory,
+        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
     ):
         args = (
             "bot",
@@ -36,11 +31,7 @@ class TestMessage:
     @SKIPIF_BOT_TOKEN_NOT_EXISTS
     @SKIPIF_BOT_RECEIVER_NOT_EXISTS
     def test_markdown(
-        self,
-        cli_runner: CliRunner,
-        cli,
-        receiver_id: str,
-        invoke_message_factory,
+        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
     ):
         args = (
             "bot",
@@ -94,11 +85,7 @@ class TestDocument:
     @SKIPIF_BOT_TOKEN_NOT_EXISTS
     @SKIPIF_BOT_RECEIVER_NOT_EXISTS
     def test_message(
-        self,
-        cli_runner: CliRunner,
-        cli,
-        receiver_id: str,
-        invoke_message_factory,
+        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
     ):
         args = (
             "bot",
@@ -134,11 +121,7 @@ class TestPhoto:
     @SKIPIF_BOT_TOKEN_NOT_EXISTS
     @SKIPIF_BOT_RECEIVER_NOT_EXISTS
     def test_message(
-        self,
-        cli_runner: CliRunner,
-        cli,
-        receiver_id: str,
-        invoke_message_factory,
+        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
     ):
         args = (
             "bot",
@@ -181,9 +164,9 @@ class TestVideo:
             receiver_id,
             "video",
             "tests/resources/placeholder.mkv",
-            "-h",
+            "-w",
             "16",
-            "-v",
+            "-h",
             "9",
         )
         result = cli_runner.invoke(cli, args)
@@ -193,11 +176,7 @@ class TestVideo:
     @SKIPIF_BOT_TOKEN_NOT_EXISTS
     @SKIPIF_BOT_RECEIVER_NOT_EXISTS
     def test_message(
-        self,
-        cli_runner: CliRunner,
-        cli,
-        receiver_id: str,
-        invoke_message_factory,
+        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
     ):
         args = (
             "bot",
@@ -216,11 +195,7 @@ class TestVideo:
     @SKIPIF_BOT_TOKEN_NOT_EXISTS
     @SKIPIF_BOT_RECEIVER_NOT_EXISTS
     def test_message_aspect_ratio(
-        self,
-        cli_runner: CliRunner,
-        cli,
-        receiver_id: str,
-        invoke_message_factory,
+        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
     ):
         args = (
             "bot",
@@ -230,12 +205,10 @@ class TestVideo:
             "video",
             "tests/resources/placeholder.mkv",
             "-m",
-            invoke_message_factory(
-                self.__class__, self.test_message_aspect_ratio
-            ),
-            "-h",
+            invoke_message_factory(self.__class__, self.test_message_aspect_ratio),
+            "-w",
             "16",
-            "-v",
+            "-h",
             "9",
         )
         result = cli_runner.invoke(cli, args)
@@ -274,7 +247,7 @@ class TestAudio:
         )
         result = cli_runner.invoke(cli, args)
         assert result.exit_code == 0
-    
+
     @SKIPIF_HAS_NOT_CONNECTED
     @SKIPIF_BOT_TOKEN_NOT_EXISTS
     @SKIPIF_BOT_RECEIVER_NOT_EXISTS
@@ -287,7 +260,7 @@ class TestAudio:
             "audio",
             "tests/resources/placeholder.wav",
             "--title",
-            "White Noise"
+            "White Noise",
         )
         result = cli_runner.invoke(cli, args)
         assert result.exit_code == 0
@@ -295,7 +268,9 @@ class TestAudio:
     @SKIPIF_HAS_NOT_CONNECTED
     @SKIPIF_BOT_TOKEN_NOT_EXISTS
     @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_message(self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory):
+    def test_message(
+        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory
+    ):
         args = (
             "bot",
             "send",
@@ -304,10 +279,11 @@ class TestAudio:
             "audio",
             "tests/resources/placeholder.wav",
             "-m",
-            invoke_message_factory(self.__class__, self.test_message)
+            invoke_message_factory(self.__class__, self.test_message),
         )
         result = cli_runner.invoke(cli, args)
         assert result.exit_code == 0
+
 
 # todo polls cannot be tested because it cannot be sent to private messages
 
@@ -323,8 +299,10 @@ class TestLocation:
             "-r",
             receiver_id,
             "location",
-            "-x", "38.41273",
-            "-y", "27.13838",
+            "-x",
+            "38.41273",
+            "-y",
+            "27.13838",
         )
         result = cli_runner.invoke(cli, args)
         assert result.exit_code == 0

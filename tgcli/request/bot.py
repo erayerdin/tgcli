@@ -33,8 +33,7 @@ class BotRequest(requests.PreparedRequest):
     def prepare_url(self, url, params):
         super(BotRequest, self).prepare_url(
             "{base_url}{method_name}".format(
-                base_url=self.__session.base_url,
-                method_name=self.__method_name,
+                base_url=self.__session.base_url, method_name=self.__method_name,
             ),
             params,
         )
@@ -161,10 +160,7 @@ class BaseFileRequest(BotRequest):
         self.prepare_method("post")
         self.prepare_body(
             data=payload,
-            files={
-                str(media_type.value.get("parameter_name")): file,
-                **extra_files,
-            },
+            files={str(media_type.value.get("parameter_name")): file, **extra_files,},
             json=None,
         )
         self.file = file
@@ -242,15 +238,12 @@ class SendAudioRequest(BaseFileRequest):
             "parse_mode": parse_mode,
             "disable_notification": disable_notification,
             "media_type": MediaType.AUDIO,
+            **(
+                {"duration": int(duration)} if duration is not None else {}
+            ),  # ref https://stackoverflow.com/a/14263905/2926992
+            **({"performer": str(performer)} if performer is not None else {}),
+            **({"title": str(title)} if title is not None else {}),
         }
-        if duration is not None:
-            payload["duration"] = int(duration)
-
-        if performer is not None:
-            payload["performer"] = str(performer)
-
-        if title is not None:
-            payload["title"] = str(title)
 
         if thumbnail:
             super().__init__(**payload, **extra_files)
@@ -281,15 +274,10 @@ class SendVideoRequest(BaseFileRequest):
             "parse_mode": parse_mode,
             "disable_notification": disable_notification,
             "media_type": MediaType.VIDEO,
+            **({"duration": int(duration)} if duration is not None else {}),
+            **({"width": int(width)} if width is not None else {}),
+            **({"height": int(height)} if height is not None else {}),
         }
-        if duration is not None:
-            payload["duration"] = int(duration)
-
-        if width is not None:
-            payload["width"] = int(width)
-
-        if height is not None:
-            payload["height"] = int(height)
 
         if thumbnail:
             super().__init__(**payload, **extra_files)
