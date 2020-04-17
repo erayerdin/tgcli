@@ -167,22 +167,24 @@ def photo(ctx, message: str, file: io.BytesIO):
 @send.command()
 @click.option("-m", "--message", default="", help="The message to inline with file.")
 @click.option(
-    "-h",
-    "--horizontal",
+    "-w",
+    "--width",
     type=click.INT,
-    default=1,
-    help="The horizontal aspect ratio of video. Used in thumbnail. Defauls to 1.",
+    default=1920,
+    help="The width of the video. It does not affect the video itself, "
+    "just affects the shape of video container in the application. Defaults to 1920.",
 )
 @click.option(
-    "-v",
-    "--vertical",
+    "-h",
+    "--height",
     type=click.INT,
-    default=1,
-    help="The vertical aspect ratio of video. Used in thumbnail. Defauls to 1.",
+    default=1080,
+    help="The height of the video. It does not affect the video itself, "
+    "just affects the shape of video container in the application. Defaults to 1080.",
 )
 @FILE_ARGUMENT
 @click.pass_context
-def video(ctx, message: str, horizontal: int, vertical: int, file: io.BytesIO):
+def video(ctx, message: str, width: int, height: int, file: io.BytesIO):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
@@ -195,8 +197,8 @@ def video(ctx, message: str, horizontal: int, vertical: int, file: io.BytesIO):
         None,
         message,
         None,
-        horizontal,
-        vertical,
+        width,
+        height,
         MESSAGE_FORMATS[format],
     )
     file.close()

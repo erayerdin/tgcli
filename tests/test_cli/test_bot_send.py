@@ -164,9 +164,9 @@ class TestVideo:
             receiver_id,
             "video",
             "tests/resources/placeholder.mkv",
-            "-h",
+            "-w",
             "16",
-            "-v",
+            "-h",
             "9",
         )
         result = cli_runner.invoke(cli, args)
@@ -206,9 +206,9 @@ class TestVideo:
             "tests/resources/placeholder.mkv",
             "-m",
             invoke_message_factory(self.__class__, self.test_message_aspect_ratio),
-            "-h",
+            "-w",
             "16",
-            "-v",
+            "-h",
             "9",
         )
         result = cli_runner.invoke(cli, args)
