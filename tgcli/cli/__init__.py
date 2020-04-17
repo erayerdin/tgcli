@@ -2,12 +2,12 @@ import platform
 
 import click
 
-import tgcli.request.bot
+import tgcli.request.bot.send
 from tgcli.cli.bot import bot
 
 IS_DARWIN = platform.system().lower() == "darwin"
 
-MEDIA_TYPES = [str(v.value) for v in list(tgcli.request.bot.MediaType)]
+MEDIA_TYPES = [str(v.value) for v in list(tgcli.request.bot.send.MediaType)]
 
 
 ########

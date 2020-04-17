@@ -7,13 +7,13 @@ import colorful
 import yaspin
 import yaspin.spinners
 
-import tgcli.request.bot
+import tgcli.request.bot.send
 
 MESSAGE_FORMATS = {"html": "HTML", "markdown": "Markdown"}
 
 
 def send_message(
-    session: tgcli.request.bot.BotSession, request: tgcli.request.bot.BotRequest
+    session: tgcli.request.bot.send.BotSession, request: tgcli.request.bot.send.BotRequest
 ):
     """
     Sends message using Yaspin.
@@ -61,12 +61,12 @@ def send(ctx, receiver: str, format_: str):
 @click.argument("message", required=True)
 @click.pass_context
 def message(ctx, message: str):
-    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session = tgcli.request.bot.send.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
     format = ctx.obj["format"]
 
-    request = tgcli.request.bot.SendMessageRequest(
+    request = tgcli.request.bot.send.SendMessageRequest(
         session, receiver, message, MESSAGE_FORMATS[format]
     )
 
@@ -94,11 +94,11 @@ def poll(ctx, options: typing.Tuple[str], question: str):
 
         raise click.BadParameter(" ".join(error_messages))
 
-    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session = tgcli.request.bot.send.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
 
-    request = tgcli.request.bot.SendPollRequest(session, receiver, question, options)
+    request = tgcli.request.bot.send.SendPollRequest(session, receiver, question, options)
 
     send_message(session, request)
 
@@ -112,11 +112,11 @@ def poll(ctx, options: typing.Tuple[str], question: str):
 )
 @click.pass_context
 def location(ctx, latitude: float, longitude: float):
-    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session = tgcli.request.bot.send.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
 
-    request = tgcli.request.bot.SendLocationRequest(
+    request = tgcli.request.bot.send.SendLocationRequest(
         session, receiver, latitude, longitude
     )
 
@@ -133,12 +133,12 @@ FILE_ARGUMENT = click.argument("file", type=click.File("rb"), required=True)
 @FILE_ARGUMENT
 @click.pass_context
 def document(ctx, message: str, thumbnail: io.BytesIO, file: io.BytesIO):
-    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session = tgcli.request.bot.send.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
     format = ctx.obj["format"]
 
-    request = tgcli.request.bot.SendDocumentRequest(
+    request = tgcli.request.bot.send.SendDocumentRequest(
         session, receiver, file, thumbnail, message, MESSAGE_FORMATS[format]
     )
     file.close()
@@ -151,12 +151,12 @@ def document(ctx, message: str, thumbnail: io.BytesIO, file: io.BytesIO):
 @FILE_ARGUMENT
 @click.pass_context
 def photo(ctx, message: str, file: io.BytesIO):
-    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session = tgcli.request.bot.send.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
     format = ctx.obj["format"]
 
-    request = tgcli.request.bot.SendPhotoRequest(
+    request = tgcli.request.bot.send.SendPhotoRequest(
         session, receiver, file, message, MESSAGE_FORMATS[format]
     )
     file.close()
@@ -185,12 +185,12 @@ def photo(ctx, message: str, file: io.BytesIO):
 @FILE_ARGUMENT
 @click.pass_context
 def video(ctx, message: str, width: int, height: int, file: io.BytesIO):
-    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session = tgcli.request.bot.send.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
     format = ctx.obj["format"]
 
-    request = tgcli.request.bot.SendVideoRequest(
+    request = tgcli.request.bot.send.SendVideoRequest(
         session,
         receiver,
         file,
@@ -213,12 +213,12 @@ def video(ctx, message: str, width: int, height: int, file: io.BytesIO):
 @FILE_ARGUMENT
 @click.pass_context
 def audio(ctx, message: str, performer: str, title: str, file: io.BytesIO):
-    session = tgcli.request.bot.BotSession(ctx.obj["token"])
+    session = tgcli.request.bot.send.BotSession(ctx.obj["token"])
     session.verify = ctx.obj["secure"]
     receiver = ctx.obj["receiver"]
     format = ctx.obj["format"]
 
-    request = tgcli.request.bot.SendAudioRequest(
+    request = tgcli.request.bot.send.SendAudioRequest(
         session,
         receiver,
         file,
