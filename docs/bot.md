@@ -174,20 +174,21 @@ through `tgcli`. To get help:
 Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
 -m | --message | Optional | The message.
--h | --horizontal | Optional | The horizontal aspect ratio of video.
--v | --vertical | Optional | The vertical aspect ratio of video.
+-w | --width | Optional | The width of the video.
+-v | --vertical | Optional | The height of the video.
  | file | Required | Path to file.
 
 The usage is similar to the usage of [document](bot.md#document).
 
 !!! warning
-    Telegram server assumes the aspect ratio of video as 1:1
-    for thumbnail due to performance reasons. See
-    [this issue][issue_27] for an example. That's why it is good
-    to know the aspect ratio of the video beforehand. Standards
-    are `16:9` for new videos and `4:3` for old videos.
+    Defining width and height with their related flags do not
+    actually change your video content. It only shapes the
+    video container with the aspect ratio of the width and
+    height in the application. For more information, see
+    [#27][issue_27] and [#40][issue_40].
 
 [issue_27]: https://github.com/erayerdin/tgcli/issues/27
+[issue_40]: https://github.com/erayerdin/tgcli/issues/40
 
 ### audio
 
