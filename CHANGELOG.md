@@ -4,10 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.0pre3]
 ### Changed
  - `--horizontal/-h` and `--vertical/-v` flags for `bot send video` has been
  changed to `--width/-w` ad `--height/-h`.
+ - Default values for `--width/-w` and `--height/-h` flags on `bot send video`
+ has been set to `1920` and `1080`.
+ - Various bug fixes.
 
 ## [v0.3.1] - 2019-09-22
 ### Changed
