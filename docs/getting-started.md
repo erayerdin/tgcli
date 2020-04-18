@@ -2,9 +2,32 @@
 
 ## Installation
 
+### Pip
+
 The easiest way to install `tgcli` is to use `pip`:
 
-    pip install tgcli
+```bash
+pip install tgcli
+```
+
+The drawback of this method is it will not get updated until you explicitly
+tell `pip` to do that. So, in case of a new update, you need to do:
+
+```bash
+pip install tgcli --upgrade
+```
+
+### Arch-like Distributions
+
+If you are using Arch-Linux or any Arch-like distribution (like Manjaro,
+Archman etc.), you can also install it from [AUR][tgcli_aur] with an AUR helper
+such as `yay` or `yaourt` as below:
+
+```bash
+yay -S tgcli
+```
+
+[tgcli_aur]: https://aur.archlinux.org/packages/tgcli
 
 ## A Basic Usage
 
@@ -29,7 +52,8 @@ message.
 
 !!! Reason
     Bots cannot initiate conversation in Telegram. So you cannot send a message
-    to somebody if they didn't send you one.
+    to somebody if they didn't send you one. That's why we first need to send
+    a message to the bot we've just created.
 
 #### Getting User ID from Telegram
 
@@ -56,7 +80,7 @@ Take note of your ID.
 Now, we have (i) token of our bot and (ii) our user ID. You are pretty much
 ready to go with these. Open up a terminal and...
 
-```
+```bash
 tgcli bot --token "BotToken" send --receiver "1234567890" message "Message"
 # or better
 tgcli bot -t "BotToken" send -r "1234567890" message "Message"
@@ -71,8 +95,12 @@ use bot, refer to [Bot](bot.md) section.
 You can use below to get usage information without referring to this
 documentation everytime:
 
-    tgcli --help
+```bash
+tgcli --help
+```
 
 Or you can use any subcommand's help, as an example of `bot` subcommand:
 
-    tgcli bot --help
+```bash
+tgcli bot --help
+```

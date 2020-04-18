@@ -13,7 +13,7 @@ in to your server.
 
 Add line below to `$HOME/.profile`:
 
-```sh
+```bash
 tgcli bot -t "BotToken" send -r "ReceiverID" message "🔑 Someone logged in as **$USER** on **$(date)**."
 ```
 
@@ -56,9 +56,14 @@ TravisCI project.
 
 ![go to settings from project page](img/travisci-example-project-page.png)
 
-Then fill in the related fields on "Environment Variables" section.
+Then fill in the related fields on "Environment Variables" sections.
 
 ![fill in the environment variables section](img/travisci-example-settings-page.png)
+
+Name | Value
+--- | ---
+`TELEGRAM_BOT_TOKEN` | The token of your bot.
+`TELEGRAM_RECEIVER` | The ID of target receiver.
 
 !!! note
     Make sure "Display Value in Build Log" is turned off so that
@@ -91,7 +96,8 @@ stage with the usage of `tgcli` looks as below:
 
 !!! tip
     You do not have to pass `TELEGRAM_BOT_TOKEN` variables explicitly since
-    it is already used by `tgcli`.
+    it is already used by `tgcli`. On the other hand, since `TELEGRAM_RECEIVER`
+    is not used by `tgcli`, you need to define it explicitly.
 
 ### Customizing the Messages
 
