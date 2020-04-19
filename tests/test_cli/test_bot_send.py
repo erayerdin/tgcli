@@ -1,6 +1,6 @@
-from pytest_httpserver import HTTPServer
-from click.testing import CliRunner
 import pytest
+from click.testing import CliRunner
+from pytest_httpserver import HTTPServer
 
 from tests.test_cli import (
     SKIPIF_BOT_RECEIVER_NOT_EXISTS,

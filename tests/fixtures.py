@@ -1,10 +1,10 @@
 import io
 import os
 import typing
-from pytest_httpserver import HTTPServer
 
 import pytest
 import requests_mock
+from pytest_httpserver import HTTPServer
 
 import tgcli.request.bot
 from tgcli.cli import cli as cli_root
