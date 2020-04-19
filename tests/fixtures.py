@@ -1,20 +1,11 @@
-import io
 import os
 import typing
 
 import pytest
-import requests_mock
+from pytest_httpserver import HTTPServer
 
 import tgcli.request.bot
 from tgcli.cli import cli as cli_root
-
-
-@pytest.fixture
-def mock_adapter() -> requests_mock.Adapter:
-    """
-    Returns a mock adapter.
-    """
-    return requests_mock.Adapter()
 
 
 @pytest.fixture
@@ -23,22 +14,12 @@ def cli():
 
 
 @pytest.fixture
-def bot_session(mock_adapter) -> tgcli.request.bot.BotSession:
+def bot_session(httpserver: HTTPServer, bot_token) -> tgcli.request.bot.BotSession:
     """
     Creates a bot session. It is mounted with a mock adapter.
-
-    Fixtures
-    --------
-    mock_adapter
-
-    Attributes
-    ----------
-    token = "0"
-    _is_mocked = True
     """
-    session = tgcli.request.bot.BotSession("0")
-    session.mount("mock", mock_adapter)
-    session._is_mocked = True
+    session = tgcli.request.bot.BotSession(bot_token)
+    setattr(session.__class__, "mock_url", httpserver.url_for("/"))
     return session
 
 
@@ -75,32 +56,6 @@ def bot_authentication_request(bot_session) -> tgcli.request.bot.AuthenticationR
 
 
 @pytest.fixture
-def location() -> typing.Tuple[float]:
-    """
-    Returns an example latitude and longitude.
-    """
-    return (38.4219611, 27.0941414)
-
-
-@pytest.fixture
-def file_factory(request):
-    """
-    Returns a factory which opens a file in rb mode and properly closes it.
-
-    Fixtures
-    --------
-    request - In order to use finalizer.
-    """
-
-    def factory(file_path: str) -> io.FileIO:
-        file = open(file_path, "rb")
-        request.addfinalizer(lambda: file.close())
-        return file
-
-    return factory
-
-
-@pytest.fixture
 def bot_token() -> typing.Union[str, None]:
     """
     Returns TELEGRAM_BOT_TOKEN environment variable.
@@ -114,15 +69,3 @@ def receiver_id() -> typing.Union[str, None]:
     Returns TELEGRAM_RECEIVER environment variable.
     """
     return os.environ.get("TELEGRAM_RECEIVER")
-
-
-@pytest.fixture
-def invoke_message_factory():
-    """
-    A factory to generate message for Telegram.
-    """
-
-    def factory(klass: typing.ClassVar, method: typing.Callable):
-        return "A message invoked by `{}::{}`.".format(klass.__name__, method.__name__)
-
-    return factory
