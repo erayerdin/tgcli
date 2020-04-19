@@ -88,11 +88,14 @@ def test_success(
     bot_session,
     httpserver: HTTPServer,
     receiver_id,
+    bot_token,
     format_,
     endpoint,
     flags,
 ):
-    httpserver.expect_request("/bot0/{}".format(endpoint)).respond_with_json({})
+    httpserver.expect_request(
+        "/bot{}/{}".format(bot_token, endpoint)
+    ).respond_with_json({})
     args = ("bot", "send", "-r", receiver_id, "--format", format_,) + flags
     result = cli_runner.invoke(cli, args)
     assert result.exit_code == 0
@@ -106,6 +109,7 @@ def test_failure(
     bot_session,
     httpserver: HTTPServer,
     receiver_id,
+    bot_token,
     format_,
     endpoint,
     flags,
@@ -113,7 +117,9 @@ def test_failure(
     error_code = 400
     description = "Mock error."
 
-    httpserver.expect_request("/bot0/{}".format(endpoint)).respond_with_json(
+    httpserver.expect_request(
+        "/bot{}/{}".format(bot_token, endpoint)
+    ).respond_with_json(
         {"ok": False, "error_code": error_code, "description": description}, 400
     )
     args = ("bot", "send", "-r", receiver_id, "--format", format_) + flags
