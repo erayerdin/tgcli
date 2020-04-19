@@ -9,18 +9,11 @@ class BotSession(requests.Session):
     def __init__(self, token: str):
         super().__init__()
         self.token = str(token)
-        self._is_mocked = False
 
     @property
     def base_url(self):
-        if self._is_mocked:
-            scheme = "mock"
-        else:
-            scheme = "https"
-
-        return "{scheme}://api.telegram.org/bot{token}/".format(
-            scheme=scheme, token=self.token
-        )
+        base = getattr(self, "mock_url", "https://api.telegram.org/")
+        return "{base}bot{token}/".format(base=base, token=self.token)
 
 
 class BotRequest(requests.PreparedRequest):
@@ -29,6 +22,12 @@ class BotRequest(requests.PreparedRequest):
         self.__session = session
         self.__method_name = method_name
         self.prepare()
+
+    @property
+    def path(self) -> str:
+        return "/bot{token}/{method_name}".format(
+            token=self.__session.token, method_name=self.__method_name
+        )
 
     def prepare_url(self, url, params):
         super(BotRequest, self).prepare_url(

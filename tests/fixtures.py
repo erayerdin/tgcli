@@ -1,6 +1,7 @@
 import io
 import os
 import typing
+from pytest_httpserver import HTTPServer
 
 import pytest
 import requests_mock
@@ -23,7 +24,7 @@ def cli():
 
 
 @pytest.fixture
-def bot_session(mock_adapter) -> tgcli.request.bot.BotSession:
+def bot_session(mock_adapter, httpserver: HTTPServer) -> tgcli.request.bot.BotSession:
     """
     Creates a bot session. It is mounted with a mock adapter.
 
@@ -39,6 +40,7 @@ def bot_session(mock_adapter) -> tgcli.request.bot.BotSession:
     session = tgcli.request.bot.BotSession("0")
     session.mount("mock", mock_adapter)
     session._is_mocked = True
+    setattr(session, "mock_url", httpserver.url_for("/"))
     return session
 
 
