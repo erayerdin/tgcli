@@ -2,12 +2,6 @@ import pytest
 from click.testing import CliRunner
 from pytest_httpserver import HTTPServer
 
-from tests.test_cli import (
-    SKIPIF_BOT_RECEIVER_NOT_EXISTS,
-    SKIPIF_BOT_TOKEN_NOT_EXISTS,
-    SKIPIF_HAS_NOT_CONNECTED,
-)
-
 _PARAMETERS = (
     # HTML flags
     ("html", "sendMessage", ("message", "<strong>foo</strong>")),
@@ -85,9 +79,6 @@ _PARAMETERS = (
 )
 
 
-@SKIPIF_HAS_NOT_CONNECTED
-@SKIPIF_BOT_TOKEN_NOT_EXISTS
-@SKIPIF_BOT_RECEIVER_NOT_EXISTS
 @pytest.mark.parametrize(
     "format_,endpoint,flags", _PARAMETERS,
 )
@@ -108,9 +99,6 @@ def test_success(
     assert "successfully" in result.stdout
 
 
-@SKIPIF_HAS_NOT_CONNECTED
-@SKIPIF_BOT_TOKEN_NOT_EXISTS
-@SKIPIF_BOT_RECEIVER_NOT_EXISTS
 @pytest.mark.parametrize("format_,endpoint,flags", _PARAMETERS)
 def test_failure(
     cli_runner: CliRunner,
