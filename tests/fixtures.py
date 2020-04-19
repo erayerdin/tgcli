@@ -40,7 +40,7 @@ def bot_session(mock_adapter, httpserver: HTTPServer) -> tgcli.request.bot.BotSe
     session = tgcli.request.bot.BotSession("0")
     session.mount("mock", mock_adapter)
     session._is_mocked = True
-    setattr(session, "mock_url", httpserver.url_for("/"))
+    setattr(session.__class__, "mock_url", httpserver.url_for("/"))
     return session
 
 

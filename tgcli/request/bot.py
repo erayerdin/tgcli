@@ -3,6 +3,7 @@ import io
 import typing
 
 import requests
+import os
 
 
 class BotSession(requests.Session):

@@ -1,4 +1,6 @@
+from pytest_httpserver import HTTPServer
 from click.testing import CliRunner
+import pytest
 
 from tests.test_cli import (
     SKIPIF_BOT_RECEIVER_NOT_EXISTS,
@@ -6,303 +8,130 @@ from tests.test_cli import (
     SKIPIF_HAS_NOT_CONNECTED,
 )
 
-
-class TestMessage:
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_html(
-        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
-    ):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "--format",
-            "html",
-            "message",
-            invoke_message_factory(self.__class__, self.test_html),
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_markdown(
-        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
-    ):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "--format",
-            "markdown",
-            "message",
-            invoke_message_factory(self.__class__, self.test_markdown),
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-
-class TestDocument:
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_vanilla(self, cli_runner: CliRunner, cli, receiver_id: str):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
+_PARAMETERS = (
+    # HTML flags
+    ("html", "sendMessage", ("message", "<strong>foo</strong>")),
+    ("html", "sendDocument", ("document", "tests/resources/file.png")),
+    (
+        "html",
+        "sendDocument",
+        ("document", "tests/resources/file.png", "-m", "<strong>foo</strong>"),
+    ),
+    (
+        "html",
+        "sendDocument",
+        (
             "document",
             "tests/resources/file.png",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_thumbnail(self, cli_runner: CliRunner, cli, receiver_id: str):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "document",
-            "setup.py",
             "--thumbnail",
             "tests/resources/file.png",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-        # todo does not send thumbnail
-
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_message(
-        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
-    ):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "document",
-            "setup.py",
-            "-m",
-            invoke_message_factory(self.__class__, self.test_message),
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-
-class TestPhoto:
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_vanilla(self, cli_runner: CliRunner, cli, receiver_id: str):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "photo",
-            "tests/resources/file.png",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_message(
-        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
-    ):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "photo",
-            "tests/resources/file.png",
-            "-m",
-            invoke_message_factory(self.__class__, self.test_vanilla),
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-
-class TestVideo:
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_vanilla(self, cli_runner: CliRunner, cli, receiver_id: str):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "video",
-            "tests/resources/placeholder.mkv",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_aspect_ratio(self, cli_runner: CliRunner, cli, receiver_id: str):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "video",
-            "tests/resources/placeholder.mkv",
-            "-w",
-            "16",
-            "-h",
-            "9",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_message(
-        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
-    ):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "video",
-            "tests/resources/placeholder.mkv",
-            "-m",
-            invoke_message_factory(self.__class__, self.test_message),
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_message_aspect_ratio(
-        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory,
-    ):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "video",
-            "tests/resources/placeholder.mkv",
-            "-m",
-            invoke_message_factory(self.__class__, self.test_message_aspect_ratio),
-            "-w",
-            "16",
-            "-h",
-            "9",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-
-class TestAudio:
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_vanilla(self, cli_runner: CliRunner, cli, receiver_id: str):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "audio",
-            "tests/resources/placeholder.wav",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_performer(self, cli_runner: CliRunner, cli, receiver_id: str):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "audio",
-            "tests/resources/placeholder.wav",
-            "--performer",
-            "Eray Erdin",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
-
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_title(self, cli_runner: CliRunner, cli, receiver_id: str):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
+        ),
+    ),
+    ("html", "sendVideo", ("video", "tests/resources/placeholder.mkv")),
+    (
+        "html",
+        "sendVideo",
+        ("video", "tests/resources/placeholder.mkv", "-m", "<strong>foo</strong>"),
+    ),
+    (
+        "html",
+        "sendVideo",
+        ("video", "tests/resources/placeholder.mkv", "-w", "1920", "-h", "1080"),
+    ),
+    (
+        "html",
+        "sendAudio",
+        ("audio", "tests/resources/placeholder.wav", "-m", "<strong>foo</strong>"),
+    ),
+    (
+        "html",
+        "sendAudio",
+        (
             "audio",
             "tests/resources/placeholder.wav",
             "--title",
-            "White Noise",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
+            "Lateralus",
+            "--performer",
+            "Tool",
+        ),
+    ),
+    ("html", "sendPhoto", ("photo", "tests/resources/file.png")),
+    (
+        "html",
+        "sendPhoto",
+        ("photo", "tests/resources/file.png", "-m", "<strong>foo</strong>"),
+    ),
+    ("html", "sendLocation", ("location", "-x", "1", "-y", "1")),
+    ("html", "sendPoll", ("poll", "Am I a ghost?", "-o", "Yes", "-o", "No")),
+    # Markdown Flags
+    ("markdown", "sendMessage", ("message", "**foo**")),
+    (
+        "markdown",
+        "sendDocument",
+        ("document", "tests/resources/file.png", "-m", "**foo**"),
+    ),
+    (
+        "markdown",
+        "sendVideo",
+        ("video", "tests/resources/placeholder.mkv", "-m", "**foo**"),
+    ),
+    (
+        "markdown",
+        "sendAudio",
+        ("audio", "tests/resources/placeholder.wav", "-m", "**foo**"),
+    ),
+    ("markdown", "sendPhoto", ("photo", "tests/resources/file.png")),
+    ("html", "sendPhoto", ("photo", "tests/resources/file.png", "-m", "**foo**"),),
+)
 
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_message(
-        self, cli_runner: CliRunner, cli, receiver_id: str, invoke_message_factory
-    ):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "audio",
-            "tests/resources/placeholder.wav",
-            "-m",
-            invoke_message_factory(self.__class__, self.test_message),
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
+
+@SKIPIF_HAS_NOT_CONNECTED
+@SKIPIF_BOT_TOKEN_NOT_EXISTS
+@SKIPIF_BOT_RECEIVER_NOT_EXISTS
+@pytest.mark.parametrize(
+    "format_,endpoint,flags", _PARAMETERS,
+)
+def test_success(
+    cli_runner: CliRunner,
+    cli,
+    bot_session,
+    httpserver: HTTPServer,
+    receiver_id,
+    format_,
+    endpoint,
+    flags,
+):
+    httpserver.expect_request("/bot0/{}".format(endpoint)).respond_with_json({})
+    args = ("bot", "send", "-r", receiver_id, "--format", format_,) + flags
+    result = cli_runner.invoke(cli, args)
+    assert result.exit_code == 0
+    assert "successfully" in result.stdout
 
 
-# todo polls cannot be tested because it cannot be sent to private messages
+@SKIPIF_HAS_NOT_CONNECTED
+@SKIPIF_BOT_TOKEN_NOT_EXISTS
+@SKIPIF_BOT_RECEIVER_NOT_EXISTS
+@pytest.mark.parametrize("format_,endpoint,flags", _PARAMETERS)
+def test_failure(
+    cli_runner: CliRunner,
+    cli,
+    bot_session,
+    httpserver: HTTPServer,
+    receiver_id,
+    format_,
+    endpoint,
+    flags,
+):
+    error_code = 400
+    description = "Mock error."
 
+    httpserver.expect_request("/bot0/{}".format(endpoint)).respond_with_json(
+        {"ok": False, "error_code": error_code, "description": description}, 400
+    )
+    args = ("bot", "send", "-r", receiver_id, "--format", format_) + flags
 
-class TestLocation:
-    @SKIPIF_HAS_NOT_CONNECTED
-    @SKIPIF_BOT_TOKEN_NOT_EXISTS
-    @SKIPIF_BOT_RECEIVER_NOT_EXISTS
-    def test_vanilla(self, cli_runner: CliRunner, cli, receiver_id: str):
-        args = (
-            "bot",
-            "send",
-            "-r",
-            receiver_id,
-            "location",
-            "-x",
-            "38.41273",
-            "-y",
-            "27.13838",
-        )
-        result = cli_runner.invoke(cli, args)
-        assert result.exit_code == 0
+    result = cli_runner.invoke(cli, args)
+    assert result.exit_code != 0
+    assert "Failed" in result.stdout
+    assert str(error_code) in result.stdout
+    assert description in result.stdout
