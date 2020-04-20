@@ -8,6 +8,7 @@ import yaspin
 import yaspin.spinners
 
 import tgcli.request.bot
+from tgcli.cli import validation
 
 MESSAGE_FORMATS = {"html": "HTML", "markdown": "Markdown"}
 
@@ -43,7 +44,14 @@ def send_message(
 
 
 @click.group()
-@click.option("-r", "--receiver", required=True, help="Receiver of the message.")
+@click.option(
+    "-r",
+    "--receiver",
+    type=click.INT,
+    callback=validation.check_positive_integer,
+    required=True,
+    help="Receiver of the message.",
+)
 @click.option(
     "--format",
     "format_",
@@ -58,7 +66,7 @@ def send(ctx, receiver: str, format_: str):
 
 
 @send.command()
-@click.argument("message", required=True)
+@click.argument("message", required=True, callback=validation.check_empty_string)
 @click.pass_context
 def message(ctx, message: str):
     session = tgcli.request.bot.BotSession(ctx.obj["token"])
@@ -125,10 +133,16 @@ def location(ctx, latitude: float, longitude: float):
 
 THUMBNAIL_OPTION = click.option("--thumbnail", type=click.File("rb"))
 FILE_ARGUMENT = click.argument("file", type=click.File("rb"), required=True)
+MESSAGE_OPTION = click.option(
+    "-m",
+    "--message",
+    callback=validation.check_empty_string,
+    help="The message to inline with file.",
+)
 
 
 @send.command()
-@click.option("-m", "--message", default="", help="The message to inline with file.")
+@MESSAGE_OPTION
 @THUMBNAIL_OPTION
 @FILE_ARGUMENT
 @click.pass_context
@@ -147,7 +161,7 @@ def document(ctx, message: str, thumbnail: io.BytesIO, file: io.BytesIO):
 
 
 @send.command()
-@click.option("-m", "--message", default="", help="The message to inline with file.")
+@MESSAGE_OPTION
 @FILE_ARGUMENT
 @click.pass_context
 def photo(ctx, message: str, file: io.BytesIO):
@@ -165,7 +179,7 @@ def photo(ctx, message: str, file: io.BytesIO):
 
 
 @send.command()
-@click.option("-m", "--message", default="", help="The message to inline with file.")
+@MESSAGE_OPTION
 @click.option(
     "-w",
     "--width",
@@ -207,7 +221,7 @@ def video(ctx, message: str, width: int, height: int, file: io.BytesIO):
 
 
 @send.command()
-@click.option("-m", "--message", default="", help="The message to inline with file.")
+@MESSAGE_OPTION
 @click.option("--performer", help="The performer of audio.")
 @click.option("--title", help="The title of audio.")
 @FILE_ARGUMENT
