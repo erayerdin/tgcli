@@ -44,7 +44,14 @@ def send_message(
 
 
 @click.group()
-@click.option("-r", "--receiver", required=True, help="Receiver of the message.")
+@click.option(
+    "-r",
+    "--receiver",
+    type=click.INT,
+    callback=validation.check_positive_integer,
+    required=True,
+    help="Receiver of the message.",
+)
 @click.option(
     "--format",
     "format_",
