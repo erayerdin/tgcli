@@ -89,12 +89,26 @@ def message(ctx, message: str):
     multiple=True,
     help="An option for poll question. You can define multiple option.",
 )
-@click.option("-m", "--multiple", is_flag=True)
-@click.option("--anonymous/--no-anonymous", default=True)
+@click.option(
+    "-m", "--multiple", is_flag=True, help="Can users choose multiple answers?"
+)
+@click.option(
+    "--anonymous/--no-anonymous", default=True, help="Will results be anonymous or not?"
+)
+@click.option(
+    "--until",
+    type=click.IntRange(5, 600),
+    help="How long will the poll be open in seconds?",
+)
 @click.argument("question", required=True)
 @click.pass_context
 def poll(
-    ctx, options: typing.Tuple[str], multiple: bool, anonymous: bool, question: str
+    ctx,
+    options: typing.Tuple[str],
+    multiple: bool,
+    anonymous: bool,
+    until: int,
+    question: str,
 ):
     if len(options) < 2:
         error_messages = (
@@ -111,7 +125,7 @@ def poll(
     receiver = ctx.obj["receiver"]
 
     request = tgcli.request.bot.SendPollRequest(
-        session, receiver, question, options, multiple, anonymous
+        session, receiver, question, options, multiple, anonymous, until
     )
 
     send_message(session, request)

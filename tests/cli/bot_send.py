@@ -77,6 +77,11 @@ _PARAMETERS = (
         "sendPoll",
         ("poll", "Foo or bar?", "-o", "foo", "-o", "bar", "--anonymous"),
     ),
+    (
+        "html",
+        "sendPoll",
+        ("poll", "Foo or bar?", "-o", "foo", "-o", "bar", "--until", "60"),
+    ),
     # Markdown Flags
     ("markdown", "sendMessage", ("message", "**foo**")),
     (

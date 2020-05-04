@@ -54,11 +54,11 @@ tgcli bot send -r 1234 message "Hello, world!"
 
 !!! note
     `-r`/`--receiver` is a *required* argument. You *have to* define it in
-    order to use any subcommand of `send`, *even if what you need is only 
+    order to use any subcommand of `send`, *even if what you need is only
     `--help`*.
 
 !!! tip
-    ID of a user  *is not* username or human-readable name. It is an unsigned 
+    ID of a user  *is not* username or human-readable name. It is an unsigned
     64-bit integer representing the account. To get your ID, send
     [@userinfobot](https://t.me/userinfobot) *any* message and it will provide
     you *your own* user id.
@@ -232,6 +232,8 @@ Short Flag | Full Flag | Required/Optional | Description
 The usage is similar to the usage of [document](bot.md#document).
 
 ### poll
+
+<!-- TODO update docs -->
 
 `poll` is a subcommand of `send` and is used to send polls. To get help:
 
