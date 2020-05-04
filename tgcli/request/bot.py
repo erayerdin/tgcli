@@ -79,6 +79,7 @@ class SendPollRequest(BotRequest):
         question: str,
         options: typing.Iterable[str],
         allows_multiple_answers: bool,
+        is_anonymous: bool,
         disable_notification: bool = False,
     ):
         try:
@@ -93,6 +94,7 @@ class SendPollRequest(BotRequest):
             "question": str(question),
             "options": tuple(options),
             "allows_multiple_answers": bool(allows_multiple_answers),
+            "is_anonymous": bool(is_anonymous),
             "disable_notification": bool(disable_notification),
         }
         self.prepare_body(data=None, files=None, json=payload)

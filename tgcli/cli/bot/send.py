@@ -90,9 +90,12 @@ def message(ctx, message: str):
     help="An option for poll question. You can define multiple option.",
 )
 @click.option("-m", "--multiple", is_flag=True)
+@click.option("--anonymous/--no-anonymous", default=True)
 @click.argument("question", required=True)
 @click.pass_context
-def poll(ctx, options: typing.Tuple[str], multiple: bool, question: str):
+def poll(
+    ctx, options: typing.Tuple[str], multiple: bool, anonymous: bool, question: str
+):
     if len(options) < 2:
         error_messages = (
             "You need to provide at least two options.",
@@ -108,7 +111,7 @@ def poll(ctx, options: typing.Tuple[str], multiple: bool, question: str):
     receiver = ctx.obj["receiver"]
 
     request = tgcli.request.bot.SendPollRequest(
-        session, receiver, question, options, multiple
+        session, receiver, question, options, multiple, anonymous
     )
 
     send_message(session, request)
