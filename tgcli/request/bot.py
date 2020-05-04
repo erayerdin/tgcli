@@ -78,6 +78,7 @@ class SendPollRequest(BotRequest):
         chat_id: typing.Union[str, int],
         question: str,
         options: typing.Iterable[str],
+        allows_multiple_answers: bool,
         disable_notification: bool = False,
     ):
         try:
@@ -91,6 +92,7 @@ class SendPollRequest(BotRequest):
             "chat_id": chat_id,
             "question": str(question),
             "options": tuple(options),
+            "allows_multiple_answers": bool(allows_multiple_answers),
             "disable_notification": bool(disable_notification),
         }
         self.prepare_body(data=None, files=None, json=payload)
