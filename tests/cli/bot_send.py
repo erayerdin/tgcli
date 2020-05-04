@@ -57,6 +57,31 @@ _PARAMETERS = (
     ),
     ("html", "sendLocation", ("location", "-x", "1", "-y", "1")),
     ("html", "sendPoll", ("poll", "Am I a ghost?", "-o", "Yes", "-o", "No")),
+    (
+        "html",
+        "sendPoll",
+        (
+            "poll",
+            "Which bands do you like?",
+            "-o",
+            "Tool",
+            "-o",
+            "Mor ve Ötesi",
+            "-o",
+            "Maximum the Hormone",
+            "-m",
+        ),
+    ),
+    (
+        "html",
+        "sendPoll",
+        ("poll", "Foo or bar?", "-o", "foo", "-o", "bar", "--anonymous"),
+    ),
+    (
+        "html",
+        "sendPoll",
+        ("poll", "Foo or bar?", "-o", "foo", "-o", "bar", "--until", "60"),
+    ),
     # Markdown Flags
     ("markdown", "sendMessage", ("message", "**foo**")),
     (

@@ -78,6 +78,9 @@ class SendPollRequest(BotRequest):
         chat_id: typing.Union[str, int],
         question: str,
         options: typing.Iterable[str],
+        allows_multiple_answers: bool,
+        is_anonymous: bool,
+        open_period: int,
         disable_notification: bool = False,
     ):
         try:
@@ -91,6 +94,9 @@ class SendPollRequest(BotRequest):
             "chat_id": chat_id,
             "question": str(question),
             "options": tuple(options),
+            "allows_multiple_answers": bool(allows_multiple_answers),
+            "is_anonymous": bool(is_anonymous),
+            **({"open_period": int(open_period) if open_period else {}}),
             "disable_notification": bool(disable_notification),
         }
         self.prepare_body(data=None, files=None, json=payload)

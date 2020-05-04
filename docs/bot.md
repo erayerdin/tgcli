@@ -54,11 +54,11 @@ tgcli bot send -r 1234 message "Hello, world!"
 
 !!! note
     `-r`/`--receiver` is a *required* argument. You *have to* define it in
-    order to use any subcommand of `send`, *even if what you need is only 
+    order to use any subcommand of `send`, *even if what you need is only
     `--help`*.
 
 !!! tip
-    ID of a user  *is not* username or human-readable name. It is an unsigned 
+    ID of a user  *is not* username or human-readable name. It is an unsigned
     64-bit integer representing the account. To get your ID, send
     [@userinfobot](https://t.me/userinfobot) *any* message and it will provide
     you *your own* user id.
@@ -245,6 +245,9 @@ Short Flag | Full Flag | Required/Optional | Description
 --- | --- | --- | ---
  | question | Required | The question for poll.
 -o | --option | Required[^2] | A single option for poll. You can define multiple options.
+-m | --multiple | Optional | Whether users can choose multiple options or not.
+ | --anonymous/--no-anonymous | Optional | Whether the results will be anonymous or not. By default, the polls will be sent as anonymous.
+ | --until | Optional | How long the poll will be available in seconds. Should be in range of 5 to 600.
 
 !!! warning
     You cannot send polls to private chats but only to groups and channels.
@@ -252,7 +255,17 @@ Short Flag | Full Flag | Required/Optional | Description
 To start a poll:
 
 ```bash
+# a plain poll
 tgcli bot send --receiver 1234 poll "Am I a ghost?" -o "Yes" -o "No"
+
+# a poll that the voters can choose multiple answers
+tgcli bot send --receiver 1234 poll "Rock bands you like?" -o "Tool" -o "Mor ve Ötesi" -o "Maximum the Hormone" -m  # or --multiple
+
+# a poll which you can see who voted for which answer
+tgcli bot send --receiver 1234 poll "Foo bar or lorem ipsum?" -o "foo bar" -o "lorem ipsum" --no-anonymous
+
+# set a due date for the poll
+tgcli bot send --receiver 1234 poll "How do you rate our services?" -o 1 -o 2 -o 3 -o 4 -o 5 --until 600  # 600 seconds = 10 minutes
 ```
 
 !!! note
