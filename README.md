@@ -52,6 +52,13 @@ Also available as a package in [AUR](https://aur.archlinux.org/packages/tgcli/).
 # assuming you use yay
 yay -S tgcli
 ```
+### Install with [Guix](https://guix.gnu.org)
+
+TgCli is [available](https://guix.gnu.org/en/packages/tgcli-0.3.1/) in official channel of Guix.
+
+```bash
+guix install tgcli
+```
 
 ## Rationale
 
