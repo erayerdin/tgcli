@@ -12,16 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod send;
-
-pub struct BotParams {
-    token: String,
+pub enum MessageFormat {
+    Markdown,
+    HTML,
 }
 
-impl BotParams {
-    pub fn new(token: &str) -> Self {
+pub struct SendParams {
+    receiver: String,
+    format: MessageFormat,
+}
+
+impl SendParams {
+    pub fn new(receiver: &str, format: MessageFormat) -> Self {
         Self {
-            token: String::from(token),
+            receiver: String::from(receiver),
+            format,
         }
     }
 }
