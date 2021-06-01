@@ -1,4 +1,6 @@
-use super::SendOperation;
+use crate::operations::{bot::BotParams, RootParams};
+
+use super::{SendOperation, SendParams};
 
 // Copyright 2021 Eray Erdin
 //
@@ -29,11 +31,11 @@ impl LocationParams {
 }
 
 pub struct SendLocationOperation {
-    params: LocationParams,
+    params: (RootParams, BotParams, SendParams, LocationParams),
 }
 
 impl SendLocationOperation {
-    pub fn new(params: LocationParams) -> Self {
+    pub fn new(params: (RootParams, BotParams, SendParams, LocationParams)) -> Self {
         Self { params }
     }
 }

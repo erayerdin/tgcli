@@ -1,6 +1,8 @@
 use std::{fmt::Display, path::PathBuf};
 
-use super::SendOperation;
+use crate::operations::{bot::BotParams, RootParams};
+
+use super::{SendOperation, SendParams};
 
 // Copyright 2021 Eray Erdin
 //
@@ -33,11 +35,11 @@ impl DocumentParams {
 }
 
 pub struct SendDocumentOperation {
-    params: DocumentParams,
+    params: (RootParams, BotParams, SendParams, DocumentParams),
 }
 
 impl SendDocumentOperation {
-    pub fn new(params: DocumentParams) -> Self {
+    pub fn new(params: (RootParams, BotParams, SendParams, DocumentParams)) -> Self {
         Self { params }
     }
 }

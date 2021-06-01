@@ -1,6 +1,8 @@
 use std::path::PathBuf;
 
-use super::SendOperation;
+use crate::operations::{bot::BotParams, RootParams};
+
+use super::{SendOperation, SendParams};
 
 // Copyright 2021 Eray Erdin
 //
@@ -40,11 +42,11 @@ impl AudioParams {
 }
 
 pub struct SendAudioOperation {
-    params: AudioParams,
+    params: (RootParams, BotParams, SendParams, AudioParams),
 }
 
 impl SendAudioOperation {
-    pub fn new(params: AudioParams) -> Self {
+    pub fn new(params: (RootParams, BotParams, SendParams, AudioParams)) -> Self {
         Self { params }
     }
 }

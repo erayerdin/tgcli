@@ -1,6 +1,8 @@
 use std::path::PathBuf;
 
-use super::SendOperation;
+use crate::operations::{bot::BotParams, RootParams};
+
+use super::{SendOperation, SendParams};
 
 // Copyright 2021 Eray Erdin
 //
@@ -40,11 +42,11 @@ impl VideoParams {
 }
 
 pub struct SendVideoOperation {
-    params: VideoParams,
+    params: (RootParams, BotParams, SendParams, VideoParams),
 }
 
 impl SendVideoOperation {
-    pub fn new(params: VideoParams) -> Self {
+    pub fn new(params: (RootParams, BotParams, SendParams, VideoParams)) -> Self {
         Self { params }
     }
 }

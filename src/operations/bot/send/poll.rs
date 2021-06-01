@@ -1,4 +1,6 @@
-use super::SendOperation;
+use crate::operations::{bot::BotParams, RootParams};
+
+use super::{SendOperation, SendParams};
 
 // Copyright 2021 Eray Erdin
 //
@@ -26,11 +28,11 @@ impl PollParams {
 }
 
 pub struct SendPollOperation {
-    params: PollParams,
+    params: (RootParams, BotParams, SendParams, PollParams),
 }
 
 impl SendPollOperation {
-    pub fn new(params: PollParams) -> Self {
+    pub fn new(params: (RootParams, BotParams, SendParams, PollParams)) -> Self {
         Self { params }
     }
 }

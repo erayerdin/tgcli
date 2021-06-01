@@ -1,6 +1,8 @@
 use std::fmt::Display;
 
-use super::SendOperation;
+use crate::operations::{bot::BotParams, RootParams};
+
+use super::{SendOperation, SendParams};
 
 // Copyright 2021 Eray Erdin
 //
@@ -29,11 +31,11 @@ impl MessageParams {
 }
 
 pub struct SendMessageOperation {
-    params: MessageParams,
+    params: (RootParams, BotParams, SendParams, MessageParams),
 }
 
 impl SendMessageOperation {
-    pub fn new(params: MessageParams) -> Self {
+    pub fn new(params: (RootParams, BotParams, SendParams, MessageParams)) -> Self {
         Self { params }
     }
 }
