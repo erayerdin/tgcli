@@ -1,3 +1,6 @@
+use tgcli::cli::{get_app, match_app};
+
 fn main() {
-    println!("Hello, world!");
+    let app = get_app();
+    match_app(app);
 }

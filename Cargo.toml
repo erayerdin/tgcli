@@ -6,3 +6,4 @@ edition = "2018"
 description = "A Telegram Terminal Application"
 
 [dependencies]
+clap = "2.33.3"
