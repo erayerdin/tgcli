@@ -12,5 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod cli;
-pub mod operations;
+pub struct RootParams {
+    secure: bool,
+}
+
+impl RootParams {
+    pub fn new(secure: bool) -> Self {
+        Self { secure }
+    }
+}
