@@ -1,4 +1,6 @@
-use crate::operations::OperationError;
+use std::path::PathBuf;
+
+use super::SendOperation;
 
 // Copyright 2021 Eray Erdin
 //
@@ -14,29 +16,29 @@ use crate::operations::OperationError;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod document;
-pub mod message;
-pub mod photo;
-
-pub enum MessageFormat {
-    Markdown,
-    HTML,
+pub struct PhotoParams {
+    file: PathBuf,
+    message: Option<String>,
 }
 
-pub struct SendParams {
-    receiver: String,
-    format: MessageFormat,
-}
-
-impl SendParams {
-    pub fn new(receiver: &str, format: MessageFormat) -> Self {
-        Self {
-            receiver: String::from(receiver),
-            format,
-        }
+impl PhotoParams {
+    pub fn new(file: PathBuf, message: Option<String>) -> Self {
+        Self { file, message }
     }
 }
 
-pub trait SendOperation {
-    fn send(self) -> Result<(), OperationError>;
+pub struct SendPhotoOperation {
+    params: PhotoParams,
+}
+
+impl SendPhotoOperation {
+    pub fn new(params: PhotoParams) -> Self {
+        Self { params }
+    }
+}
+
+impl SendOperation for SendPhotoOperation {
+    fn send(self) -> Result<(), crate::operations::OperationError> {
+        todo!() // TODO implement SendPhotoOperation
+    }
 }
