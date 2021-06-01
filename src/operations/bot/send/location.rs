@@ -1,5 +1,3 @@
-use std::fmt::Display;
-
 use super::SendOperation;
 
 // Copyright 2021 Eray Erdin
@@ -16,30 +14,32 @@ use super::SendOperation;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub struct MessageParams {
-    message: String,
+pub struct LocationParams {
+    latitude: f32,
+    longitude: f32,
 }
 
-impl MessageParams {
-    pub fn new(message: String) -> Self {
+impl LocationParams {
+    pub fn new(latitude: f32, longitude: f32) -> Self {
         Self {
-            message: message.to_string(),
+            latitude,
+            longitude,
         }
     }
 }
 
-pub struct SendMessageOperation {
-    params: MessageParams,
+pub struct SendLocationOperation {
+    params: LocationParams,
 }
 
-impl SendMessageOperation {
-    pub fn new(params: MessageParams) -> Self {
+impl SendLocationOperation {
+    pub fn new(params: LocationParams) -> Self {
         Self { params }
     }
 }
 
-impl SendOperation for SendMessageOperation {
+impl SendOperation for SendLocationOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
-        todo!() // TODO implement SendMessageOperation
+        todo!() // TODO implement SendLocationOperation
     }
 }

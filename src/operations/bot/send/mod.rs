@@ -16,6 +16,7 @@ use crate::operations::OperationError;
 
 pub mod audio;
 pub mod document;
+pub mod location;
 pub mod message;
 pub mod photo;
 pub mod poll;
