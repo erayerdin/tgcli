@@ -1,3 +1,5 @@
+use crate::operations::OperationError;
+
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +13,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+pub mod message;
 
 pub enum MessageFormat {
     Markdown,
@@ -29,4 +33,8 @@ impl SendParams {
             format,
         }
     }
+}
+
+pub trait SendOperation {
+    fn send(self) -> Result<(), OperationError>;
 }

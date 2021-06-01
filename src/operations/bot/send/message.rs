@@ -1,3 +1,7 @@
+use std::fmt::Display;
+
+use super::SendOperation;
+
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +16,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod bot;
-
-pub struct RootParams {
-    secure: bool,
+pub struct MessageParams {
+    message: String,
 }
 
-impl RootParams {
-    pub fn new(secure: bool) -> Self {
-        Self { secure }
+impl MessageParams {
+    pub fn new(message: impl Display) -> Self {
+        Self {
+            message: message.to_string(),
+        }
     }
 }
 
-pub struct OperationError; // TODO tbi
+pub struct SendMessageOperation {
+    params: MessageParams,
+}
+
+impl SendMessageOperation {
+    pub fn new(params: MessageParams) -> Self {
+        Self { params }
+    }
+}
+
+impl SendOperation for SendMessageOperation {
+    fn send(self) -> Result<(), crate::operations::OperationError> {
+        todo!() // TODO implement send message operation
+    }
+}
