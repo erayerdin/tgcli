@@ -17,6 +17,7 @@ use crate::operations::bot::send::{MessageFormat, SendParams};
 // limitations under the License.
 
 pub mod audio;
+pub mod document;
 
 impl From<&str> for MessageFormat {
     fn from(v: &str) -> Self {
