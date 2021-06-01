@@ -11,3 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+pub struct BotParams {
+    token: String,
+}
+
+impl BotParams {
+    pub fn new(token: &str) -> Self {
+        Self {
+            token: String::from(token),
+        }
+    }
+}
