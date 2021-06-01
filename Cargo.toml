@@ -7,3 +7,6 @@ description = "A Telegram Terminal Application"
 
 [dependencies]
 clap = "2.33.3"
+mime = "0.3.16"
+mime_guess = "2.0.3"
+shellexpand = "2.1.0"

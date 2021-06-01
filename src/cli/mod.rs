@@ -3,6 +3,11 @@ use clap::{
     Arg, SubCommand,
 };
 
+use crate::cli::validators::{
+    audio_validator, caption_validator, file_validator, image_validator,
+    positive_integer_validator, video_validator,
+};
+
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,22 +22,21 @@ use clap::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pub mod validators;
+
 pub fn get_app() -> App<'static, 'static> {
     #[allow(non_snake_case)]
-    let MESSAGE_ARG = Arg::with_name("message")
+    let CAPTION_ARG = Arg::with_name("message")
         .long("message")
         .short("m")
         .takes_value(true)
         .help("A message to be sent.")
-        .validator(|v| {
-            // max 1024 characters
-            todo!()
-        });
+        .validator(caption_validator);
     #[allow(non_snake_case)]
     let FILE_ARG = Arg::with_name("file")
         .required(true)
         .help("A file to be uploaded.")
-        .validator(|v| todo!());
+        .validator(file_validator);
 
     app_from_crate!()
         .global_settings(&[
@@ -88,40 +92,42 @@ pub fn get_app() -> App<'static, 'static> {
                         .about("Send a document with a bot.")
                         .args(&[
                             FILE_ARG.clone(),
-                            MESSAGE_ARG.clone(),
+                            CAPTION_ARG.clone(),
                             Arg::with_name("thumbnail")
                                 .long("thumbnail")
                                 .help("A thumbnail for the document.")
-                                .required(true)
                                 .takes_value(true)
-                                .validator(|v| todo!()),
+                                .validator(image_validator),
                         ]),
                     SubCommand::with_name("photo")
                         .about("Send a photo with a bot.")
-                        .args(&[FILE_ARG.clone(), MESSAGE_ARG.clone()]),
+                        .args(&[
+                            FILE_ARG.clone().validator(image_validator),
+                            CAPTION_ARG.clone(),
+                        ]),
                     SubCommand::with_name("video")
                         .about("Send a video with a bot.")
                         .args(&[
-                            FILE_ARG.clone(),
-                            MESSAGE_ARG.clone(),
+                            FILE_ARG.clone().validator(video_validator),
+                            CAPTION_ARG.clone(),
                             Arg::with_name("horizontal")
                                 .help("Horizontal aspect ratio of the video.")
                                 .takes_value(true)
                                 .short("h")
                                 .default_value("1")
-                                .validator(|v| todo!()),
+                                .validator(positive_integer_validator),
                             Arg::with_name("vertical")
                                 .help("Vertical aspect ratio of the video.")
                                 .takes_value(true)
                                 .short("v")
                                 .default_value("1")
-                                .validator(|v| todo!()),
+                                .validator(positive_integer_validator),
                         ]),
                     SubCommand::with_name("audio")
                         .about("Send an audio with a bot.")
                         .args(&[
-                            FILE_ARG.clone(),
-                            MESSAGE_ARG.clone(),
+                            FILE_ARG.clone().validator(audio_validator),
+                            CAPTION_ARG.clone(),
                             Arg::with_name("performer")
                                 .long("performer")
                                 .help("The performer of the audio.")
