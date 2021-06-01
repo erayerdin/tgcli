@@ -18,6 +18,7 @@ use super::{SendOperation, SendParams};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#[derive(Debug)]
 pub struct PhotoParams {
     file: PathBuf,
     message: Option<String>,
@@ -29,6 +30,7 @@ impl PhotoParams {
     }
 }
 
+#[derive(Debug)]
 pub struct SendPhotoOperation {
     params: (RootParams, BotParams, SendParams, PhotoParams),
 }

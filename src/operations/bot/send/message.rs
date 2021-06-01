@@ -1,5 +1,3 @@
-use std::fmt::Display;
-
 use crate::operations::{bot::BotParams, RootParams};
 
 use super::{SendOperation, SendParams};
@@ -18,6 +16,7 @@ use super::{SendOperation, SendParams};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#[derive(Debug)]
 pub struct MessageParams {
     message: String,
 }
@@ -30,6 +29,7 @@ impl MessageParams {
     }
 }
 
+#[derive(Debug)]
 pub struct SendMessageOperation {
     params: (RootParams, BotParams, SendParams, MessageParams),
 }

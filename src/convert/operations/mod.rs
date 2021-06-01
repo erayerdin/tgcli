@@ -1,3 +1,7 @@
+use clap::ArgMatches;
+
+use crate::operations::RootParams;
+
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,3 +17,17 @@
 // limitations under the License.
 
 pub mod bot;
+
+impl From<ArgMatches<'static>> for RootParams {
+    fn from(m: ArgMatches) -> Self {
+        log::debug!("Converting ArgMatches to RootParams...");
+        log::debug!("arg matches: {:?}", m);
+        let params = RootParams::new(if m.is_present("no-secure") {
+            false
+        } else {
+            true
+        });
+        log::debug!("root params: {:?}", params);
+        params
+    }
+}

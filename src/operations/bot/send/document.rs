@@ -1,4 +1,4 @@
-use std::{fmt::Display, path::PathBuf};
+use std::path::PathBuf;
 
 use crate::operations::{bot::BotParams, RootParams};
 
@@ -18,6 +18,7 @@ use super::{SendOperation, SendParams};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#[derive(Debug)]
 pub struct DocumentParams {
     file: PathBuf,
     thumbnail: Option<PathBuf>,
@@ -34,6 +35,7 @@ impl DocumentParams {
     }
 }
 
+#[derive(Debug)]
 pub struct SendDocumentOperation {
     params: (RootParams, BotParams, SendParams, DocumentParams),
 }

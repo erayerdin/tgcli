@@ -14,6 +14,7 @@
 
 pub mod bot;
 
+#[derive(Debug)]
 pub struct RootParams {
     secure: bool,
 }

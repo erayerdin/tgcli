@@ -16,6 +16,7 @@ use super::{SendOperation, SendParams};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#[derive(Debug)]
 pub struct LocationParams {
     latitude: f32,
     longitude: f32,
@@ -30,6 +31,7 @@ impl LocationParams {
     }
 }
 
+#[derive(Debug)]
 pub struct SendLocationOperation {
     params: (RootParams, BotParams, SendParams, LocationParams),
 }

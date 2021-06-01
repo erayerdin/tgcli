@@ -14,6 +14,7 @@
 
 pub mod send;
 
+#[derive(Debug)]
 pub struct BotParams {
     token: String,
 }

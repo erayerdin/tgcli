@@ -16,6 +16,7 @@ use super::{SendOperation, SendParams};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#[derive(Debug)]
 pub struct PollParams {
     question: String,
     options: Vec<String>,
@@ -27,6 +28,7 @@ impl PollParams {
     }
 }
 
+#[derive(Debug)]
 pub struct SendPollOperation {
     params: (RootParams, BotParams, SendParams, PollParams),
 }

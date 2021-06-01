@@ -22,11 +22,13 @@ pub mod photo;
 pub mod poll;
 pub mod video;
 
+#[derive(Debug)]
 pub enum MessageFormat {
     Markdown,
     HTML,
 }
 
+#[derive(Debug)]
 pub struct SendParams {
     receiver: String,
     format: MessageFormat,

@@ -18,6 +18,7 @@ use super::{SendOperation, SendParams};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#[derive(Debug)]
 pub struct AudioParams {
     file: PathBuf,
     message: Option<String>,
@@ -41,6 +42,7 @@ impl AudioParams {
     }
 }
 
+#[derive(Debug)]
 pub struct SendAudioOperation {
     params: (RootParams, BotParams, SendParams, AudioParams),
 }
