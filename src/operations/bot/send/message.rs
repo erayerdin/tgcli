@@ -21,7 +21,7 @@ pub struct MessageParams {
 }
 
 impl MessageParams {
-    pub fn new(message: impl Display) -> Self {
+    pub fn new(message: String) -> Self {
         Self {
             message: message.to_string(),
         }

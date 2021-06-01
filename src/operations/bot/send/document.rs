@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{fmt::Display, path::PathBuf};
 
 use super::SendOperation;
 
@@ -19,11 +19,11 @@ use super::SendOperation;
 pub struct DocumentParams {
     file: PathBuf,
     thumbnail: Option<PathBuf>,
-    message: Option<PathBuf>,
+    message: Option<String>,
 }
 
 impl DocumentParams {
-    pub fn new(file: PathBuf, thumbnail: Option<PathBuf>, message: Option<PathBuf>) -> Self {
+    pub fn new(file: PathBuf, thumbnail: Option<PathBuf>, message: Option<String>) -> Self {
         Self {
             file,
             thumbnail,
