@@ -19,6 +19,7 @@ use crate::operations::bot::send::{MessageFormat, SendParams};
 pub mod audio;
 pub mod document;
 pub mod location;
+pub mod message;
 
 impl From<&str> for MessageFormat {
     fn from(v: &str) -> Self {
