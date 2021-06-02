@@ -1,6 +1,15 @@
 use clap::ArgMatches;
 
-use crate::operations::bot::send::location::{LocationParams, SendLocationOperation};
+use crate::operations::{
+    bot::{
+        send::{
+            location::{LocationParams, SendLocationOperation},
+            SendParams,
+        },
+        BotParams,
+    },
+    RootParams,
+};
 
 // Copyright 2021 Eray Erdin
 //
@@ -20,8 +29,11 @@ impl From<ArgMatches<'static>> for LocationParams {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to LocationParams...");
         log::debug!("arg matches: {:?}", m);
-        let params = LocationParams::new(m.value_of("latitude").unwrap(), m.value_of("longitude").unwrap());
-        log::debug!("location params: {:?}", params)
+        let params = LocationParams::new(
+            m.value_of("latitude").unwrap().parse().unwrap(),
+            m.value_of("longitude").unwrap().parse().unwrap(),
+        );
+        log::debug!("location params: {:?}", params);
         params
     }
 }
@@ -29,8 +41,13 @@ impl From<ArgMatches<'static>> for LocationParams {
 impl From<ArgMatches<'static>> for SendLocationOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendLocationOperation...");
-        log::debug!("arg matches: {:?}");
+        log::debug!("arg matches: {:?}", m);
 
-        SendLocationOperation::new(LocationParams::from(m))
+        SendLocationOperation::new((
+            RootParams::from(m),
+            BotParams::from(m),
+            SendParams::from(m),
+            LocationParams::from(m),
+        ))
     }
 }
