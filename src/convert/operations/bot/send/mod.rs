@@ -22,6 +22,7 @@ pub mod location;
 pub mod message;
 pub mod photo;
 pub mod poll;
+pub mod video;
 
 impl From<&str> for MessageFormat {
     fn from(v: &str) -> Self {
