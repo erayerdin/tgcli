@@ -129,3 +129,13 @@ pub fn positive_integer_validator(value: String) -> ValidatorResult {
         )),
     }
 }
+
+pub fn float_validator(value: String) -> ValidatorResult {
+    match value.parse::<f32>() {
+        Ok(_) => Ok(()),
+        Err(_) => Err(format!(
+            "Value must be a valid 32-bit float.\nValue: {}",
+            value
+        )),
+    }
+}

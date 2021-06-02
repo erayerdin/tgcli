@@ -4,7 +4,7 @@ use clap::{
 };
 
 use crate::cli::validators::{
-    audio_validator, caption_validator, file_validator, image_validator,
+    audio_validator, caption_validator, file_validator, float_validator, image_validator,
     positive_integer_validator, video_validator,
 };
 
@@ -158,12 +158,14 @@ pub fn get_app() -> App<'static, 'static> {
                                 .help("The latitude of the location.")
                                 .short("x")
                                 .takes_value(true)
-                                .required(true),
+                                .required(true)
+                                .validator(float_validator),
                             Arg::with_name("longitude")
                                 .help("The longitude of the location.")
                                 .short("y")
                                 .takes_value(true)
-                                .required(true),
+                                .required(true)
+                                .validator(float_validator),
                         ]),
                 ])])])
 }
