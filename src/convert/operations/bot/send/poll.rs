@@ -45,7 +45,6 @@ impl From<ArgMatches<'static>> for PollParams {
 impl From<ArgMatches<'static>> for SendPollOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendPollOperation...");
-        log::trace!("arg matches: {:?}", m);
 
         SendPollOperation::new((
             RootParams::from(m.clone()),

@@ -48,7 +48,6 @@ impl From<ArgMatches<'static>> for VideoParams {
 impl From<ArgMatches<'static>> for SendVideoOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendVideoOperation...");
-        log::trace!("arg matches: {:?}", m);
 
         SendVideoOperation::new((
             RootParams::from(m.clone()),

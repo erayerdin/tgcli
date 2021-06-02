@@ -45,7 +45,6 @@ impl From<ArgMatches<'static>> for DocumentParams {
 impl From<ArgMatches<'static>> for SendDocumentOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendDocumentOperation...");
-        log::trace!("arg matches: {:?}", m);
 
         SendDocumentOperation::new((
             RootParams::from(m.clone()),

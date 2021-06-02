@@ -39,7 +39,6 @@ impl From<ArgMatches<'static>> for MessageParams {
 impl From<ArgMatches<'static>> for SendMessageOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendMessageOperation...");
-        log::trace!("arg matches: {:?}", m);
 
         SendMessageOperation::new((
             RootParams::from(m.clone()),

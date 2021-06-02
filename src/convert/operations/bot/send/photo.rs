@@ -44,7 +44,6 @@ impl From<ArgMatches<'static>> for PhotoParams {
 impl From<ArgMatches<'static>> for SendPhotoOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendPhotoOperation...");
-        log::trace!("arg matches: {:?}", m);
 
         SendPhotoOperation::new((
             RootParams::from(m.clone()),

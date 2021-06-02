@@ -41,7 +41,6 @@ impl From<ArgMatches<'static>> for LocationParams {
 impl From<ArgMatches<'static>> for SendLocationOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendLocationOperation...");
-        log::trace!("arg matches: {:?}", m);
 
         SendLocationOperation::new((
             RootParams::from(m.clone()),

@@ -46,7 +46,6 @@ impl From<ArgMatches<'static>> for AudioParams {
 impl From<ArgMatches<'static>> for SendAudioOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches into SendAudioOperation...");
-        log::trace!("arg matches: {:?}", m);
 
         SendAudioOperation::new((
             RootParams::from(m.clone()),
