@@ -5,7 +5,6 @@ use clap::ArgMatches;
 use crate::operations::{
     bot::{
         send::{
-            audio::AudioParams,
             document::{DocumentParams, SendDocumentOperation},
             SendParams,
         },
