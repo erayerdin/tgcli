@@ -69,6 +69,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "fern"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8c9a4820f0ccc8a7afd67c39a0f1a0f4b07ca1725164271a64939d7aeb9af065"
+dependencies = [
+ "log",
+]
+
+[[package]]
 name = "getrandom"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -167,6 +176,7 @@ name = "tgcli"
 version = "0.4.0"
 dependencies = [
  "clap",
+ "fern",
  "log",
  "mime",
  "mime_guess",
