@@ -20,6 +20,7 @@ pub mod audio;
 pub mod document;
 pub mod location;
 pub mod message;
+pub mod photo;
 
 impl From<&str> for MessageFormat {
     fn from(v: &str) -> Self {
