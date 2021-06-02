@@ -170,6 +170,29 @@ pub fn get_app() -> App<'static, 'static> {
                 ])])])
 }
 
-pub fn match_app(app: App) {
-    app.get_matches();
+pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
+    let matches = app.get_matches();
+
+    match matches.subcommand() {
+        ("bot", Some(bot_subc)) => match bot_subc.subcommand() {
+            ("send", Some(send_subc)) => match send_subc.subcommand() {
+                ("audio", Some(audio_subc)) => SendAudioOperation::from(audio_subc.clone()).send(),
+                ("document", Some(document_subc)) => {
+                    SendDocumentOperation::from(document_subc.clone()).send()
+                }
+                ("location", Some(location_subc)) => {
+                    SendLocationOperation::from(location_subc.clone()).send()
+                }
+                ("message", Some(message_subc)) => {
+                    SendMessageOperation::from(message_subc.clone()).send()
+                }
+                ("photo", Some(photo_subc)) => SendPhotoOperation::from(photo_subc.clone()).send(),
+                ("poll", Some(poll_subc)) => SendPollOperation::from(poll_subc.clone()).send(),
+                ("video", Some(video_subc)) => SendVideoOperation::from(video_subc.clone()).send(),
+                (&_, _) => unimplemented!(),
+            },
+            (&_, _) => unimplemented!(),
+        },
+        (&_, _) => unimplemented!(),
+    }
 }
