@@ -44,10 +44,10 @@ impl From<ArgMatches<'static>> for SendLocationOperation {
         log::debug!("arg matches: {:?}", m);
 
         SendLocationOperation::new((
-            RootParams::from(m),
-            BotParams::from(m),
-            SendParams::from(m),
-            LocationParams::from(m),
+            RootParams::from(m.clone()),
+            BotParams::from(m.clone()),
+            SendParams::from(m.clone()),
+            LocationParams::from(m.clone()),
         ))
     }
 }
