@@ -30,13 +30,13 @@ use crate::operations::{
 impl From<ArgMatches<'static>> for PhotoParams {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to PhotoParams...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
 
         let params = PhotoParams::new(
             PathBuf::from(m.value_of("file").unwrap()),
             m.value_of("message").map_or(None, |v| Some(v.to_string())),
         );
-        log::debug!("photo params: {:?}", params);
+        log::trace!("photo params: {:?}", params);
         params
     }
 }
@@ -44,7 +44,7 @@ impl From<ArgMatches<'static>> for PhotoParams {
 impl From<ArgMatches<'static>> for SendPhotoOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendPhotoOperation...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
 
         SendPhotoOperation::new((
             RootParams::from(m.clone()),

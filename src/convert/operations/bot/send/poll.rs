@@ -28,7 +28,7 @@ use crate::operations::{
 impl From<ArgMatches<'static>> for PollParams {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to PollParams...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
 
         let params = PollParams::new(
             m.value_of("question").unwrap().to_string(),
@@ -37,7 +37,7 @@ impl From<ArgMatches<'static>> for PollParams {
                 .map(|v| v.to_string())
                 .collect(),
         );
-        log::debug!("poll params: {:?}", params);
+        log::trace!("poll params: {:?}", params);
         params
     }
 }
@@ -45,7 +45,7 @@ impl From<ArgMatches<'static>> for PollParams {
 impl From<ArgMatches<'static>> for SendPollOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendPollOperation...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
 
         SendPollOperation::new((
             RootParams::from(m.clone()),

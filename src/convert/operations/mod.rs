@@ -21,13 +21,13 @@ pub mod bot;
 impl From<ArgMatches<'static>> for RootParams {
     fn from(m: ArgMatches) -> Self {
         log::debug!("Converting ArgMatches to RootParams...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
         let params = RootParams::new(if m.is_present("no-secure") {
             false
         } else {
             true
         });
-        log::debug!("root params: {:?}", params);
+        log::trace!("root params: {:?}", params);
         params
     }
 }

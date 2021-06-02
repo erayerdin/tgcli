@@ -30,7 +30,7 @@ use crate::operations::{
 impl From<ArgMatches<'static>> for VideoParams {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to VideoParams...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
 
         let params = VideoParams::new(
             PathBuf::from(m.value_of("file").unwrap()),
@@ -40,7 +40,7 @@ impl From<ArgMatches<'static>> for VideoParams {
             m.value_of("vertical")
                 .map_or(None, |v| Some(v.parse().unwrap())),
         );
-        log::debug!("video params: {:?}", params);
+        log::trace!("video params: {:?}", params);
         params
     }
 }
@@ -48,7 +48,7 @@ impl From<ArgMatches<'static>> for VideoParams {
 impl From<ArgMatches<'static>> for SendVideoOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendVideoOperation...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
 
         SendVideoOperation::new((
             RootParams::from(m.clone()),

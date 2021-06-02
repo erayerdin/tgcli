@@ -30,14 +30,14 @@ use crate::operations::{
 impl From<ArgMatches<'static>> for DocumentParams {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to DocumentParams...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
         let params = DocumentParams::new(
             PathBuf::from(m.value_of("file").unwrap()),
             m.value_of("thumbnail")
                 .map_or(None, |v| Some(PathBuf::from(v))),
             m.value_of("message").map_or(None, |v| Some(v.to_string())),
         );
-        log::debug!("document params: {:?}", params);
+        log::trace!("document params: {:?}", params);
         params
     }
 }
@@ -45,7 +45,7 @@ impl From<ArgMatches<'static>> for DocumentParams {
 impl From<ArgMatches<'static>> for SendDocumentOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendDocumentOperation...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
 
         SendDocumentOperation::new((
             RootParams::from(m.clone()),

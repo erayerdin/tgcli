@@ -21,9 +21,9 @@ pub mod send;
 impl From<ArgMatches<'static>> for BotParams {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to BotParams...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
         let params = BotParams::new(m.value_of("token").unwrap());
-        log::debug!("bot params: {:?}", params);
+        log::trace!("bot params: {:?}", params);
         params
     }
 }

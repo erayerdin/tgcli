@@ -30,7 +30,7 @@ use crate::operations::{
 impl From<ArgMatches<'static>> for AudioParams {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to AudioParams...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
         let params = AudioParams::new(
             PathBuf::from(m.value_of("file").unwrap()),
             m.value_of("message").map_or(None, |v| Some(v.to_string())),
@@ -38,7 +38,7 @@ impl From<ArgMatches<'static>> for AudioParams {
             m.value_of("performer")
                 .map_or(None, |v| Some(v.to_string())),
         );
-        log::debug!("audio params: {:?}", params);
+        log::trace!("audio params: {:?}", params);
         params
     }
 }
@@ -46,7 +46,7 @@ impl From<ArgMatches<'static>> for AudioParams {
 impl From<ArgMatches<'static>> for SendAudioOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches into SendAudioOperation...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
 
         SendAudioOperation::new((
             RootParams::from(m.clone()),

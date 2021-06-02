@@ -42,12 +42,12 @@ impl From<&str> for MessageFormat {
 impl From<ArgMatches<'static>> for SendParams {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendParams...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
         let params = SendParams::new(
             m.value_of("receiver").unwrap(),
             MessageFormat::from(m.value_of("format").unwrap()),
         );
-        log::debug!("send params: {:?}", params);
+        log::trace!("send params: {:?}", params);
         params
     }
 }

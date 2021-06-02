@@ -31,7 +31,7 @@ impl From<ArgMatches<'static>> for MessageParams {
         log::debug!("arg params: {:?}", m);
 
         let params = MessageParams::new(m.value_of("message").unwrap().to_owned());
-        log::debug!("message params: {:?}", params);
+        log::trace!("message params: {:?}", params);
         params
     }
 }
@@ -39,7 +39,7 @@ impl From<ArgMatches<'static>> for MessageParams {
 impl From<ArgMatches<'static>> for SendMessageOperation {
     fn from(m: ArgMatches<'static>) -> Self {
         log::debug!("Converting ArgMatches to SendMessageOperation...");
-        log::debug!("arg matches: {:?}", m);
+        log::trace!("arg matches: {:?}", m);
 
         SendMessageOperation::new((
             RootParams::from(m.clone()),
