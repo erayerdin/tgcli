@@ -3,9 +3,20 @@ use clap::{
     Arg, SubCommand,
 };
 
-use crate::cli::validators::{
-    audio_validator, caption_validator, file_validator, float_validator, image_validator,
-    positive_integer_validator, video_validator,
+use crate::{
+    cli::validators::{
+        audio_validator, caption_validator, file_validator, float_validator, image_validator,
+        positive_integer_validator, video_validator,
+    },
+    operations::{
+        bot::send::{
+            audio::SendAudioOperation, document::SendDocumentOperation,
+            location::SendLocationOperation, message::SendMessageOperation,
+            photo::SendPhotoOperation, poll::SendPollOperation, video::SendVideoOperation,
+            SendOperation,
+        },
+        OperationError,
+    },
 };
 
 // Copyright 2021 Eray Erdin
@@ -63,9 +74,13 @@ pub fn get_app() -> App<'static, 'static> {
                 .short("t")
                 .help("Telegram bot token.")
                 .takes_value(true)
-                .required(true)
+                // an arg cannot be global and required at the same time for some reason
+                // REF https://github.com/clap-rs/clap/issues/1546
+                // .required(true)
+                .default_value("INVALID")
                 .env("TELEGRAM_BOT_TOKEN")
-                .hide_env_values(true)])
+                .hide_env_values(true)
+                .global(true)])
             .subcommands(vec![SubCommand::with_name("send")
                 .settings(&[AppSettings::SubcommandRequiredElseHelp])
                 .about("Sending operations for bots.")
@@ -74,13 +89,18 @@ pub fn get_app() -> App<'static, 'static> {
                         .help("The chat ID of receiver.")
                         .short("r")
                         .takes_value(true)
-                        .required(true),
+                        // an arg cannot be global and required at the same time for some reason
+                        // REF https://github.com/clap-rs/clap/issues/1546
+                        // .required(true)
+                        .default_value("INVALID")
+                        .global(true),
                     Arg::with_name("format")
                         .long("format")
                         .help("Format of the message.")
                         .takes_value(true)
                         .possible_values(&["markdown", "html"])
-                        .default_value("markdown"),
+                        .default_value("markdown")
+                        .global(true),
                 ])
                 .subcommands(vec![
                     SubCommand::with_name("message")
