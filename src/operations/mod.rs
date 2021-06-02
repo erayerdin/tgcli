@@ -25,4 +25,21 @@ impl RootParams {
     }
 }
 
-pub struct OperationError; // TODO tbi
+pub struct OperationError {
+    exit_code: i32,
+    message: String,
+}
+
+impl OperationError {
+    pub fn new(exit_code: i32, message: &str) -> Self {
+        Self {
+            exit_code,
+            message: String::from(message),
+        }
+    }
+
+    pub fn exit(self) {
+        log::error!("{}", self.message);
+        std::process::exit(self.exit_code);
+    }
+}
