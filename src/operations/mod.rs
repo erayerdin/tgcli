@@ -43,3 +43,15 @@ impl OperationError {
         std::process::exit(self.exit_code);
     }
 }
+
+/// These are common exit codes that are used to exit
+/// the application. -1 and 1 are reserved for Clap
+/// itself.
+///
+/// All variant names start with where the error originates
+/// from. If the error comes from clap, the names start with
+/// Clap.
+pub enum CommonExitCodes {
+    /// A required argument is not provided.
+    ClapMissingValue = 2,
+}
