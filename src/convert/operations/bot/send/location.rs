@@ -1,3 +1,5 @@
+use std::convert::TryFrom;
+
 use clap::ArgMatches;
 
 use crate::operations::{
@@ -44,7 +46,8 @@ impl From<ArgMatches<'static>> for SendLocationOperation {
 
         SendLocationOperation::new((
             RootParams::from(m.clone()),
-            BotParams::from(m.clone()),
+            // TODO implement this error
+            BotParams::try_from(m.clone()).expect("This error is to be implemented."),
             SendParams::from(m.clone()),
             LocationParams::from(m.clone()),
         ))

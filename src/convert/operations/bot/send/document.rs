@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{convert::TryFrom, path::PathBuf};
 
 use clap::ArgMatches;
 
@@ -48,7 +48,8 @@ impl From<ArgMatches<'static>> for SendDocumentOperation {
 
         SendDocumentOperation::new((
             RootParams::from(m.clone()),
-            BotParams::from(m.clone()),
+            // TODO implement this error
+            BotParams::try_from(m.clone()).expect("This error is to be implemented."),
             SendParams::from(m.clone()),
             DocumentParams::from(m.clone()),
         ))
