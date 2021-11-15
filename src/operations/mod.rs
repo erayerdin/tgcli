@@ -55,4 +55,8 @@ impl OperationError {
 pub enum CommonExitCodes {
     /// A required argument is not provided.
     ClapMissingValue = 2,
+    /// Provided value is not valid. For example,
+    /// expected value is f32 while a non-f32 value
+    /// is provided by the user.
+    StdInvalidValue = 3,
 }
