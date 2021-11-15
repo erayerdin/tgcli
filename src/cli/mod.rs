@@ -216,7 +216,13 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                     }
                 }
                 ("location", Some(location_subc)) => {
-                    SendLocationOperation::from(location_subc.clone()).send()
+                    match SendLocationOperation::try_from(location_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
                 }
                 ("message", Some(message_subc)) => {
                     SendMessageOperation::from(message_subc.clone()).send()
