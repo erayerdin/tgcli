@@ -77,7 +77,6 @@ pub fn get_app() -> App<'static, 'static> {
                 // an arg cannot be global and required at the same time for some reason
                 // REF https://github.com/clap-rs/clap/issues/1546
                 // .required(true)
-                .default_value("INVALID")
                 .env("TELEGRAM_BOT_TOKEN")
                 .hide_env_values(true)
                 .global(true)])
@@ -92,7 +91,6 @@ pub fn get_app() -> App<'static, 'static> {
                         // an arg cannot be global and required at the same time for some reason
                         // REF https://github.com/clap-rs/clap/issues/1546
                         // .required(true)
-                        .default_value("INVALID")
                         .global(true),
                     Arg::with_name("format")
                         .long("format")
