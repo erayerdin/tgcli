@@ -10,7 +10,7 @@ use crate::operations::{
         },
         BotParams,
     },
-    OperationError, RootParams,
+    CommonExitCodes, OperationError, RootParams,
 };
 
 // Copyright 2021 Eray Erdin
@@ -33,8 +33,19 @@ impl TryFrom<ArgMatches<'static>> for DocumentParams {
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to DocumentParams...");
         log::trace!("arg matches: {:?}", m);
+
+        let file = match m.value_of("file") {
+            Some(f) => PathBuf::from(f),
+            None => {
+                return Err(OperationError::new(
+                    CommonExitCodes::ClapMissingValue as i32,
+                    "`file` is a required argument on `document` subcommand but is missing.",
+                ))
+            }
+        };
+
         let params = DocumentParams::new(
-            PathBuf::from(m.value_of("file").unwrap()),
+            file,
             m.value_of("thumbnail")
                 .map_or(None, |v| Some(PathBuf::from(v))),
             m.value_of("message").map_or(None, |v| Some(v.to_string())),
@@ -44,19 +55,37 @@ impl TryFrom<ArgMatches<'static>> for DocumentParams {
     }
 }
 
-impl From<ArgMatches<'static>> for SendDocumentOperation {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for SendDocumentOperation {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to SendDocumentOperation...");
 
-        SendDocumentOperation::new((
-            // TODO implement RootParams error
-            RootParams::try_from(m.clone()).expect("This error is to be implemented."),
-            // TODO implement this error
-            BotParams::try_from(m.clone()).expect("This error is to be implemented."),
-            // TODO implement SendParams error
-            SendParams::try_from(m.clone()).expect("This error is to be implemented."),
-            // TODO implement DocumentParams error
-            DocumentParams::try_from(m.clone()).expect("This error is to be implemented."),
-        ))
+        let root_params = match RootParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let bot_params = match BotParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let send_params = match SendParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let document_params = match DocumentParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        Ok(SendDocumentOperation::new((
+            root_params,
+            bot_params,
+            send_params,
+            document_params,
+        )))
     }
 }
