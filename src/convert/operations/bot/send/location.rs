@@ -10,7 +10,7 @@ use crate::operations::{
         },
         BotParams,
     },
-    RootParams,
+    CommonExitCodes, OperationError, RootParams,
 };
 
 // Copyright 2021 Eray Erdin
@@ -27,16 +27,50 @@ use crate::operations::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-impl From<ArgMatches<'static>> for LocationParams {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for LocationParams {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to LocationParams...");
         log::trace!("arg matches: {:?}", m);
-        let params = LocationParams::new(
-            m.value_of("latitude").unwrap().parse().unwrap(),
-            m.value_of("longitude").unwrap().parse().unwrap(),
-        );
+
+        let latitude: f32 =
+            match m.value_of("latitude") {
+                Some(l) => match l.parse() {
+                    Ok(v) => v,
+                    Err(_) => {
+                        return Err(OperationError::new(
+                            CommonExitCodes::StdInvalidValue as i32,
+                            "`latitude` argument must be a valid 32-bit floating point number.",
+                        ))
+                    }
+                },
+                None => return Err(OperationError::new(
+                    CommonExitCodes::ClapMissingValue as i32,
+                    "`latitude` is a required argument on `location` subcommand but is missing.",
+                )),
+            };
+
+        let longitude: f32 =
+            match m.value_of("longitude") {
+                Some(l) => {
+                    match l.parse() {
+                        Ok(v) => v,
+                        Err(_) => return Err(OperationError::new(
+                            CommonExitCodes::StdInvalidValue as i32,
+                            "`longitude` argument must be a valid 32-bit floating point number.",
+                        )),
+                    }
+                }
+                None => return Err(OperationError::new(
+                    CommonExitCodes::ClapMissingValue as i32,
+                    "`longitude` is a required argument on `location` subcommand but is missing.",
+                )),
+            };
+
+        let params = LocationParams::new(latitude, longitude);
         log::trace!("location params: {:?}", params);
-        params
+        Ok(params)
     }
 }
 
@@ -51,7 +85,8 @@ impl From<ArgMatches<'static>> for SendLocationOperation {
             BotParams::try_from(m.clone()).expect("This error is to be implemented."),
             // TODO implement SendParams error
             SendParams::try_from(m.clone()).expect("This error is to be implemented."),
-            LocationParams::from(m.clone()),
+            // TODO implement LocationParams error
+            LocationParams::try_from(m.clone()).expect("This error is to be implemented."),
         ))
     }
 }
