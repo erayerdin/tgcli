@@ -27,8 +27,8 @@ impl RootParams {
 
 #[derive(Debug)]
 pub struct OperationError {
-    exit_code: i32,
-    message: String,
+    pub exit_code: i32,
+    pub message: String,
 }
 
 impl OperationError {

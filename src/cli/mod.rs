@@ -1,3 +1,5 @@
+use std::{convert::TryFrom, process};
+
 use clap::{
     app_from_crate, crate_authors, crate_description, crate_name, crate_version, App, AppSettings,
     Arg, SubCommand,
@@ -195,7 +197,15 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
     match matches.subcommand() {
         ("bot", Some(bot_subc)) => match bot_subc.subcommand() {
             ("send", Some(send_subc)) => match send_subc.subcommand() {
-                ("audio", Some(audio_subc)) => SendAudioOperation::from(audio_subc.clone()).send(),
+                ("audio", Some(audio_subc)) => {
+                    match SendAudioOperation::try_from(audio_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
+                }
                 ("document", Some(document_subc)) => {
                     SendDocumentOperation::from(document_subc.clone()).send()
                 }
