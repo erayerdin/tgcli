@@ -46,7 +46,8 @@ impl From<ArgMatches<'static>> for SendPhotoOperation {
         log::debug!("Converting ArgMatches to SendPhotoOperation...");
 
         SendPhotoOperation::new((
-            RootParams::from(m.clone()),
+            // TODO implement RootParams error
+            RootParams::try_from(m.clone()).expect("This error is to be implemented."),
             // TODO implement this error
             BotParams::try_from(m.clone()).expect("This error is to be implemented."),
             SendParams::from(m.clone()),

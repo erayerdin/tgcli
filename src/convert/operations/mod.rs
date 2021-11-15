@@ -1,6 +1,8 @@
+use std::convert::TryFrom;
+
 use clap::ArgMatches;
 
-use crate::operations::RootParams;
+use crate::operations::{OperationError, RootParams};
 
 // Copyright 2021 Eray Erdin
 //
@@ -18,8 +20,10 @@ use crate::operations::RootParams;
 
 pub mod bot;
 
-impl From<ArgMatches<'static>> for RootParams {
-    fn from(m: ArgMatches) -> Self {
+impl TryFrom<ArgMatches<'static>> for RootParams {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to RootParams...");
         log::trace!("arg matches: {:?}", m);
         let params = RootParams::new(if m.is_present("no-secure") {
@@ -28,6 +32,6 @@ impl From<ArgMatches<'static>> for RootParams {
             true
         });
         log::trace!("root params: {:?}", params);
-        params
+        Ok(params)
     }
 }
