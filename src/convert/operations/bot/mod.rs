@@ -24,6 +24,9 @@ impl TryFrom<ArgMatches<'static>> for BotParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
+        log::debug!("Converting ArgMatches to BotParams...");
+        log::trace!("arg matches: {:?}", m);
+
         let token = match m.value_of("token") {
             Some(t) => t,
             None => {
@@ -34,8 +37,6 @@ impl TryFrom<ArgMatches<'static>> for BotParams {
             }
         };
 
-        log::debug!("Converting ArgMatches to BotParams...");
-        log::trace!("arg matches: {:?}", m);
         let params = BotParams::new(token);
         log::trace!("bot params: {:?}", params);
         Ok(params)

@@ -51,7 +51,8 @@ impl From<ArgMatches<'static>> for SendDocumentOperation {
             RootParams::try_from(m.clone()).expect("This error is to be implemented."),
             // TODO implement this error
             BotParams::try_from(m.clone()).expect("This error is to be implemented."),
-            SendParams::from(m.clone()),
+            // TODO implement SendParams error
+            SendParams::try_from(m.clone()).expect("This error is to be implemented."),
             DocumentParams::from(m.clone()),
         ))
     }
