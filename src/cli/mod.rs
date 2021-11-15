@@ -85,8 +85,9 @@ pub fn get_app() -> App<'static, 'static> {
                 .about("Sending operations for bots.")
                 .args(&[
                     Arg::with_name("receiver")
-                        .help("The chat ID of receiver.")
                         .short("r")
+                        .long("receiver")
+                        .help("The chat ID of receiver.")
                         .takes_value(true)
                         // an arg cannot be global and required at the same time for some reason
                         // REF https://github.com/clap-rs/clap/issues/1546
