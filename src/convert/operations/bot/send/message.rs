@@ -10,7 +10,7 @@ use crate::operations::{
         },
         BotParams,
     },
-    RootParams,
+    OperationError, RootParams,
 };
 
 // Copyright 2021 Eray Erdin
@@ -27,14 +27,16 @@ use crate::operations::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-impl From<ArgMatches<'static>> for MessageParams {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for MessageParams {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to MessageParams...");
         log::debug!("arg params: {:?}", m);
 
         let params = MessageParams::new(m.value_of("message").unwrap().to_owned());
         log::trace!("message params: {:?}", params);
-        params
+        Ok(params)
     }
 }
 
@@ -49,7 +51,7 @@ impl From<ArgMatches<'static>> for SendMessageOperation {
             BotParams::try_from(m.clone()).expect("This error is to be implemented."),
             // TODO implement SendParams error
             SendParams::try_from(m.clone()).expect("This error is to be implemented."),
-            MessageParams::from(m.clone()),
+            MessageParams::try_from(m.clone()).expect("This error is to be implemented."),
         ))
     }
 }
