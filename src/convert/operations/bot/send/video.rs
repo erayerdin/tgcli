@@ -47,18 +47,37 @@ impl TryFrom<ArgMatches<'static>> for VideoParams {
     }
 }
 
-impl From<ArgMatches<'static>> for SendVideoOperation {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for SendVideoOperation {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to SendVideoOperation...");
 
-        SendVideoOperation::new((
-            // TODO implement RootParams error
-            RootParams::try_from(m.clone()).expect("This error is to be implemented."),
-            // TODO implement this error
-            BotParams::try_from(m.clone()).expect("This error is to be implemented."),
-            // TODO implement SendParams error
-            SendParams::try_from(m.clone()).expect("This error is to be implemented."),
-            VideoParams::try_from(m.clone()).expect("This error is to be implemented."),
-        ))
+        let root_params = match RootParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let bot_params = match BotParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let send_params = match SendParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let video_params = match VideoParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        Ok(SendVideoOperation::new((
+            root_params,
+            bot_params,
+            send_params,
+            video_params,
+        )))
     }
 }

@@ -249,7 +249,15 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                         process::exit(e.exit_code);
                     }
                 },
-                ("video", Some(video_subc)) => SendVideoOperation::from(video_subc.clone()).send(),
+                ("video", Some(video_subc)) => {
+                    match SendVideoOperation::try_from(video_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
+                }
                 (&_, _) => unimplemented!(),
             },
             (&_, _) => unimplemented!(),
