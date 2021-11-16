@@ -10,7 +10,7 @@ use crate::operations::{
         },
         BotParams,
     },
-    RootParams,
+    OperationError, RootParams,
 };
 
 // Copyright 2021 Eray Erdin
@@ -27,8 +27,10 @@ use crate::operations::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-impl From<ArgMatches<'static>> for VideoParams {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for VideoParams {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to VideoParams...");
         log::trace!("arg matches: {:?}", m);
 
@@ -41,7 +43,7 @@ impl From<ArgMatches<'static>> for VideoParams {
                 .map_or(None, |v| Some(v.parse().unwrap())),
         );
         log::trace!("video params: {:?}", params);
-        params
+        Ok(params)
     }
 }
 
@@ -56,7 +58,7 @@ impl From<ArgMatches<'static>> for SendVideoOperation {
             BotParams::try_from(m.clone()).expect("This error is to be implemented."),
             // TODO implement SendParams error
             SendParams::try_from(m.clone()).expect("This error is to be implemented."),
-            VideoParams::from(m.clone()),
+            VideoParams::try_from(m.clone()).expect("This error is to be implemented."),
         ))
     }
 }
