@@ -1,3 +1,5 @@
+use std::convert::TryFrom;
+
 use clap::ArgMatches;
 
 use crate::operations::{
@@ -8,7 +10,7 @@ use crate::operations::{
         },
         BotParams,
     },
-    RootParams,
+    OperationError, RootParams,
 };
 
 // Copyright 2021 Eray Erdin
@@ -25,26 +27,50 @@ use crate::operations::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-impl From<ArgMatches<'static>> for MessageParams {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for MessageParams {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to MessageParams...");
         log::debug!("arg params: {:?}", m);
 
         let params = MessageParams::new(m.value_of("message").unwrap().to_owned());
         log::trace!("message params: {:?}", params);
-        params
+        Ok(params)
     }
 }
 
-impl From<ArgMatches<'static>> for SendMessageOperation {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for SendMessageOperation {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to SendMessageOperation...");
 
-        SendMessageOperation::new((
-            RootParams::from(m.clone()),
-            BotParams::from(m.clone()),
-            SendParams::from(m.clone()),
-            MessageParams::from(m.clone()),
-        ))
+        let root_params = match RootParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let bot_params = match BotParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let send_params = match SendParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let message_params = match MessageParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        Ok(SendMessageOperation::new((
+            root_params,
+            bot_params,
+            send_params,
+            message_params,
+        )))
     }
 }

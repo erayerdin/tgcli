@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{convert::TryFrom, path::PathBuf};
 
 use clap::ArgMatches;
 
@@ -10,7 +10,7 @@ use crate::operations::{
         },
         BotParams,
     },
-    RootParams,
+    OperationError, RootParams,
 };
 
 // Copyright 2021 Eray Erdin
@@ -27,8 +27,10 @@ use crate::operations::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-impl From<ArgMatches<'static>> for VideoParams {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for VideoParams {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to VideoParams...");
         log::trace!("arg matches: {:?}", m);
 
@@ -41,19 +43,41 @@ impl From<ArgMatches<'static>> for VideoParams {
                 .map_or(None, |v| Some(v.parse().unwrap())),
         );
         log::trace!("video params: {:?}", params);
-        params
+        Ok(params)
     }
 }
 
-impl From<ArgMatches<'static>> for SendVideoOperation {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for SendVideoOperation {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to SendVideoOperation...");
 
-        SendVideoOperation::new((
-            RootParams::from(m.clone()),
-            BotParams::from(m.clone()),
-            SendParams::from(m.clone()),
-            VideoParams::from(m.clone()),
-        ))
+        let root_params = match RootParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let bot_params = match BotParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let send_params = match SendParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let video_params = match VideoParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        Ok(SendVideoOperation::new((
+            root_params,
+            bot_params,
+            send_params,
+            video_params,
+        )))
     }
 }

@@ -1,3 +1,5 @@
+use std::convert::TryFrom;
+
 use clap::ArgMatches;
 
 use crate::operations::{
@@ -8,7 +10,7 @@ use crate::operations::{
         },
         BotParams,
     },
-    RootParams,
+    OperationError, RootParams,
 };
 
 // Copyright 2021 Eray Erdin
@@ -25,8 +27,10 @@ use crate::operations::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-impl From<ArgMatches<'static>> for PollParams {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for PollParams {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to PollParams...");
         log::trace!("arg matches: {:?}", m);
 
@@ -38,19 +42,41 @@ impl From<ArgMatches<'static>> for PollParams {
                 .collect(),
         );
         log::trace!("poll params: {:?}", params);
-        params
+        Ok(params)
     }
 }
 
-impl From<ArgMatches<'static>> for SendPollOperation {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for SendPollOperation {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to SendPollOperation...");
 
-        SendPollOperation::new((
-            RootParams::from(m.clone()),
-            BotParams::from(m.clone()),
-            SendParams::from(m.clone()),
-            PollParams::from(m.clone()),
-        ))
+        let root_params = match RootParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let bot_params = match BotParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let send_params = match SendParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        let poll_params = match PollParams::try_from(m.clone()) {
+            Ok(p) => p,
+            Err(e) => return Err(e),
+        };
+
+        Ok(SendPollOperation::new((
+            root_params,
+            bot_params,
+            send_params,
+            poll_params,
+        )))
     }
 }

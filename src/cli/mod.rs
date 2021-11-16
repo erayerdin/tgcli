@@ -1,3 +1,5 @@
+use std::{convert::TryFrom, process};
+
 use clap::{
     app_from_crate, crate_authors, crate_description, crate_name, crate_version, App, AppSettings,
     Arg, SubCommand,
@@ -77,7 +79,6 @@ pub fn get_app() -> App<'static, 'static> {
                 // an arg cannot be global and required at the same time for some reason
                 // REF https://github.com/clap-rs/clap/issues/1546
                 // .required(true)
-                .default_value("INVALID")
                 .env("TELEGRAM_BOT_TOKEN")
                 .hide_env_values(true)
                 .global(true)])
@@ -86,13 +87,13 @@ pub fn get_app() -> App<'static, 'static> {
                 .about("Sending operations for bots.")
                 .args(&[
                     Arg::with_name("receiver")
-                        .help("The chat ID of receiver.")
                         .short("r")
+                        .long("receiver")
+                        .help("The chat ID of receiver.")
                         .takes_value(true)
                         // an arg cannot be global and required at the same time for some reason
                         // REF https://github.com/clap-rs/clap/issues/1546
                         // .required(true)
-                        .default_value("INVALID")
                         .global(true),
                     Arg::with_name("format")
                         .long("format")
@@ -196,19 +197,67 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
     match matches.subcommand() {
         ("bot", Some(bot_subc)) => match bot_subc.subcommand() {
             ("send", Some(send_subc)) => match send_subc.subcommand() {
-                ("audio", Some(audio_subc)) => SendAudioOperation::from(audio_subc.clone()).send(),
+                ("audio", Some(audio_subc)) => {
+                    match SendAudioOperation::try_from(audio_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
+                }
                 ("document", Some(document_subc)) => {
-                    SendDocumentOperation::from(document_subc.clone()).send()
+                    match SendDocumentOperation::try_from(document_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
                 }
                 ("location", Some(location_subc)) => {
-                    SendLocationOperation::from(location_subc.clone()).send()
+                    match SendLocationOperation::try_from(location_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
                 }
                 ("message", Some(message_subc)) => {
-                    SendMessageOperation::from(message_subc.clone()).send()
+                    match SendMessageOperation::try_from(message_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
                 }
-                ("photo", Some(photo_subc)) => SendPhotoOperation::from(photo_subc.clone()).send(),
-                ("poll", Some(poll_subc)) => SendPollOperation::from(poll_subc.clone()).send(),
-                ("video", Some(video_subc)) => SendVideoOperation::from(video_subc.clone()).send(),
+                ("photo", Some(photo_subc)) => {
+                    match SendPhotoOperation::try_from(photo_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
+                }
+                ("poll", Some(poll_subc)) => match SendPollOperation::try_from(poll_subc.clone()) {
+                    Ok(o) => o.send(),
+                    Err(e) => {
+                        log::error!("{}", e.message);
+                        process::exit(e.exit_code);
+                    }
+                },
+                ("video", Some(video_subc)) => {
+                    match SendVideoOperation::try_from(video_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
+                }
                 (&_, _) => unimplemented!(),
             },
             (&_, _) => unimplemented!(),

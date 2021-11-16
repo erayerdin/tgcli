@@ -25,9 +25,10 @@ impl RootParams {
     }
 }
 
+#[derive(Debug)]
 pub struct OperationError {
-    exit_code: i32,
-    message: String,
+    pub exit_code: i32,
+    pub message: String,
 }
 
 impl OperationError {
@@ -42,4 +43,20 @@ impl OperationError {
         log::error!("{}", self.message);
         std::process::exit(self.exit_code);
     }
+}
+
+/// These are common exit codes that are used to exit
+/// the application. -1 and 1 are reserved for Clap
+/// itself.
+///
+/// All variant names start with where the error originates
+/// from. If the error comes from clap, the names start with
+/// Clap.
+pub enum CommonExitCodes {
+    /// A required argument is not provided.
+    ClapMissingValue = 2,
+    /// Provided value is not valid. For example,
+    /// expected value is f32 while a non-f32 value
+    /// is provided by the user.
+    StdInvalidValue = 3,
 }

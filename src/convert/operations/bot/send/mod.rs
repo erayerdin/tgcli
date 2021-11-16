@@ -1,6 +1,11 @@
+use std::convert::TryFrom;
+
 use clap::ArgMatches;
 
-use crate::operations::bot::send::{MessageFormat, SendParams};
+use crate::operations::{
+    bot::send::{MessageFormat, SendParams},
+    CommonExitCodes, OperationError,
+};
 
 // Copyright 2021 Eray Erdin
 //
@@ -39,15 +44,35 @@ impl From<&str> for MessageFormat {
     }
 }
 
-impl From<ArgMatches<'static>> for SendParams {
-    fn from(m: ArgMatches<'static>) -> Self {
+impl TryFrom<ArgMatches<'static>> for SendParams {
+    type Error = OperationError;
+
+    fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         log::debug!("Converting ArgMatches to SendParams...");
         log::trace!("arg matches: {:?}", m);
-        let params = SendParams::new(
-            m.value_of("receiver").unwrap(),
-            MessageFormat::from(m.value_of("format").unwrap()),
-        );
+
+        let receiver = match m.value_of("receiver") {
+            Some(r) => r,
+            None => {
+                return Err(OperationError::new(
+                    CommonExitCodes::ClapMissingValue as i32,
+                    "`receiver` is a required argument on `send` subcommand but is missing.",
+                ))
+            }
+        };
+
+        let format = match m.value_of("format") {
+            Some(f) => f,
+            None => {
+                return Err(OperationError::new(
+                    CommonExitCodes::ClapMissingValue as i32,
+                    "`format` is a required argument on `send` subcommand but is missing.",
+                ))
+            }
+        };
+
+        let params = SendParams::new(receiver, MessageFormat::from(format));
         log::trace!("send params: {:?}", params);
-        params
+        Ok(params)
     }
 }
