@@ -233,7 +233,15 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                         }
                     }
                 }
-                ("photo", Some(photo_subc)) => SendPhotoOperation::from(photo_subc.clone()).send(),
+                ("photo", Some(photo_subc)) => {
+                    match SendPhotoOperation::try_from(photo_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
+                }
                 ("poll", Some(poll_subc)) => SendPollOperation::from(poll_subc.clone()).send(),
                 ("video", Some(video_subc)) => SendVideoOperation::from(video_subc.clone()).send(),
                 (&_, _) => unimplemented!(),
