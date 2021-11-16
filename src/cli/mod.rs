@@ -225,7 +225,13 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                     }
                 }
                 ("message", Some(message_subc)) => {
-                    SendMessageOperation::from(message_subc.clone()).send()
+                    match SendMessageOperation::try_from(message_subc.clone()) {
+                        Ok(o) => o.send(),
+                        Err(e) => {
+                            log::error!("{}", e.message);
+                            process::exit(e.exit_code);
+                        }
+                    }
                 }
                 ("photo", Some(photo_subc)) => SendPhotoOperation::from(photo_subc.clone()).send(),
                 ("poll", Some(poll_subc)) => SendPollOperation::from(poll_subc.clone()).send(),
