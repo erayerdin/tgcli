@@ -1,4 +1,4 @@
-use crate::operations::{bot::BotParams, RootParams};
+use crate::operations::{bot::BotParams, CommonExitCodes, OperationError, RootParams};
 
 use super::{SendOperation, SendParams};
 
@@ -41,7 +41,49 @@ impl SendMessageOperation {
 }
 
 impl SendOperation for SendMessageOperation {
-    fn send(self) -> Result<(), crate::operations::OperationError> {
-        todo!() // TODO implement SendMessageOperation
+    fn send(self) -> Result<(), OperationError> {
+        log::info!("Sending message...");
+
+        // TODO use base url as constant
+        let url = format!(
+            "https://api.telegram.org/bot{}/sendMessage",
+            self.params.1.token
+        );
+        log::trace!("url: {}", url);
+
+        // TODO model request mody
+        let req_body = [
+            ("chat_id", self.params.2.receiver),
+            ("text", self.params.3.message),
+        ];
+        log::trace!("request body: {:?}", req_body);
+
+        // TODO set up client earlier on bot params
+        let client = reqwest::blocking::Client::new();
+        let response = client.post(url).form(&req_body).send();
+
+        match response {
+            Ok(r) => {
+                // TODO model response body
+                if r.status().is_success() {
+                    log::info!("Successfully sent the message.");
+                    log::trace!("response: {:?}", r);
+                    Ok(())
+                } else {
+                    log::error!("A request error occured while sending the message.");
+                    Err(OperationError::new(
+                        CommonExitCodes::ReqwestHttpError as i32,
+                        &format!(
+                            "An error occured while sending the message. {}",
+                            r.text().unwrap() // TODO implement better error reporting
+                        ),
+                    ))
+                }
+            }
+            Err(e) => Err(OperationError::new(
+                CommonExitCodes::ReqwestConnectionError as i32,
+                &format!("An error occured while connecting to Telegram API. {}", e),
+            )),
+        }
     }
 }
