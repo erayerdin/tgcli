@@ -8,3 +8,9 @@ enum ParseMode {
     Markdown,
     HTML,
 }
+
+struct SendMessageRequestModel {
+    chat_id: ChatId,
+    text: String,
+    parse_mode: ParseMode,
+}
