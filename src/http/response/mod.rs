@@ -16,43 +16,6 @@ pub mod models;
 
 #[macro_export]
 macro_rules! handle_response {
-    ($response:ident) => {
-        match $response {
-            Ok(r) => {
-                if r.status().is_success() {
-                    info!("Successfully sent the message.");
-                    trace!("response: {:?}", r);
-                    Ok(())
-                } else {
-                    use crate::http::response::models::{
-                        message::MessageModel, GenericResponseModel,
-                    };
-                    error!("An API error occured while sending the message.");
-                    match r.json::<GenericResponseModel<MessageModel>>() {
-                        Ok(i) => match i.description {
-                            Some(d) => Err(OperationError::new(
-                                CommonExitCodes::TelegramAPIBadRequest as i32,
-                                &d,
-                            )),
-                            None => Err(OperationError::new(
-                                CommonExitCodes::TelegramAPIMissingDescription as i32,
-                                "No description was provided by Telegram for this error.",
-                            )),
-                        },
-                        Err(e) => Err(OperationError::new(
-                            CommonExitCodes::SerdeDeserializationError as i32,
-                            &format!("An error occurred while deserializing the response. {}", e),
-                        )),
-                    }
-                }
-            }
-            Err(e) => Err(OperationError::new(
-                CommonExitCodes::ReqwestConnectionError as i32,
-                &format!("An error occured while connecting to Telegram API. {}", e),
-            )),
-        }
-    };
-
     ($response:ident, on_success => $success:expr, on_failure => $failure:expr) => {
         match $response {
             Ok(r) => {
