@@ -21,7 +21,7 @@ extern crate rstest;
 
 #[fixture]
 fn binary() -> Command {
-    dotenv::dotenv().expect("Could not read .env file.");
+    let _ = dotenv::dotenv();
     Command::cargo_bin("tgcli").expect("Could not find tgcli binary.")
 }
 
