@@ -64,34 +64,22 @@ macro_rules! handle_response {
                     use crate::http::response::models::{
                         message::MessageModel, GenericResponseModel,
                     };
-                    error!("An API error occured while sending the message.");
+                    $failure;
                     match r.json::<GenericResponseModel<MessageModel>>() {
                         Ok(i) => match i.description {
-                            Some(d) => {
-                                $failure;
-                                Err(OperationError::new(
-                                    CommonExitCodes::TelegramAPIBadRequest as i32,
-                                    &d,
-                                ))
-                            }
-                            None => {
-                                $failure;
-                                Err(OperationError::new(
-                                    CommonExitCodes::TelegramAPIMissingDescription as i32,
-                                    "No description was provided by Telegram for this error.",
-                                ))
-                            }
+                            Some(d) => Err(OperationError::new(
+                                CommonExitCodes::TelegramAPIBadRequest as i32,
+                                &d,
+                            )),
+                            None => Err(OperationError::new(
+                                CommonExitCodes::TelegramAPIMissingDescription as i32,
+                                "No description was provided by Telegram for this error.",
+                            )),
                         },
-                        Err(e) => {
-                            $failure;
-                            Err(OperationError::new(
-                                CommonExitCodes::SerdeDeserializationError as i32,
-                                &format!(
-                                    "An error occurred while deserializing the response. {}",
-                                    e
-                                ),
-                            ))
-                        }
+                        Err(e) => Err(OperationError::new(
+                            CommonExitCodes::SerdeDeserializationError as i32,
+                            &format!("An error occurred while deserializing the response. {}", e),
+                        )),
                     }
                 }
             }
