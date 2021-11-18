@@ -31,13 +31,13 @@ pub mod video;
 
 impl From<&str> for MessageFormat {
     fn from(v: &str) -> Self {
-        log::debug!("Converting {} to MessageFormat...", v);
+        debug!("Converting {} to MessageFormat...", v);
 
         match v {
             "markdown" => MessageFormat::Markdown,
             "html" => MessageFormat::HTML,
             _ => {
-                log::warn!("Unknown message format was provided. Falling back to markdown.");
+                warn!("Unknown message format was provided. Falling back to markdown.");
                 MessageFormat::Markdown
             }
         }
@@ -48,8 +48,8 @@ impl TryFrom<ArgMatches<'static>> for SendParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to SendParams...");
-        log::trace!("arg matches: {:?}", m);
+        debug!("Converting ArgMatches to SendParams...");
+        trace!("arg matches: {:?}", m);
 
         let receiver = match m.value_of("receiver") {
             Some(r) => r,
@@ -72,7 +72,7 @@ impl TryFrom<ArgMatches<'static>> for SendParams {
         };
 
         let params = SendParams::new(receiver, MessageFormat::from(format));
-        log::trace!("send params: {:?}", params);
+        trace!("send params: {:?}", params);
         Ok(params)
     }
 }

@@ -31,8 +31,8 @@ impl TryFrom<ArgMatches<'static>> for VideoParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to VideoParams...");
-        log::trace!("arg matches: {:?}", m);
+        debug!("Converting ArgMatches to VideoParams...");
+        trace!("arg matches: {:?}", m);
 
         let params = VideoParams::new(
             PathBuf::from(m.value_of("file").unwrap()),
@@ -42,7 +42,7 @@ impl TryFrom<ArgMatches<'static>> for VideoParams {
             m.value_of("vertical")
                 .map_or(None, |v| Some(v.parse().unwrap())),
         );
-        log::trace!("video params: {:?}", params);
+        trace!("video params: {:?}", params);
         Ok(params)
     }
 }
@@ -51,7 +51,7 @@ impl TryFrom<ArgMatches<'static>> for SendVideoOperation {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to SendVideoOperation...");
+        debug!("Converting ArgMatches to SendVideoOperation...");
 
         let root_params = match RootParams::try_from(m.clone()) {
             Ok(p) => p,

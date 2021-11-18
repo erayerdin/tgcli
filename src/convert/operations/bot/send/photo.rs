@@ -31,14 +31,14 @@ impl TryFrom<ArgMatches<'static>> for PhotoParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to PhotoParams...");
-        log::trace!("arg matches: {:?}", m);
+        debug!("Converting ArgMatches to PhotoParams...");
+        trace!("arg matches: {:?}", m);
 
         let params = PhotoParams::new(
             PathBuf::from(m.value_of("file").unwrap()),
             m.value_of("message").map_or(None, |v| Some(v.to_string())),
         );
-        log::trace!("photo params: {:?}", params);
+        trace!("photo params: {:?}", params);
         Ok(params)
     }
 }
@@ -47,7 +47,7 @@ impl TryFrom<ArgMatches<'static>> for SendPhotoOperation {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to SendPhotoOperation...");
+        debug!("Converting ArgMatches to SendPhotoOperation...");
 
         let root_params = match RootParams::try_from(m.clone()) {
             Ok(p) => p,

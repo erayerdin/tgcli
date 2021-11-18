@@ -31,8 +31,8 @@ impl TryFrom<ArgMatches<'static>> for LocationParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to LocationParams...");
-        log::trace!("arg matches: {:?}", m);
+        debug!("Converting ArgMatches to LocationParams...");
+        trace!("arg matches: {:?}", m);
 
         let latitude: f32 =
             match m.value_of("latitude") {
@@ -69,7 +69,7 @@ impl TryFrom<ArgMatches<'static>> for LocationParams {
             };
 
         let params = LocationParams::new(latitude, longitude);
-        log::trace!("location params: {:?}", params);
+        trace!("location params: {:?}", params);
         Ok(params)
     }
 }
@@ -78,7 +78,7 @@ impl TryFrom<ArgMatches<'static>> for SendLocationOperation {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to SendLocationOperation...");
+        debug!("Converting ArgMatches to SendLocationOperation...");
 
         let root_params = match RootParams::try_from(m.clone()) {
             Ok(p) => p,

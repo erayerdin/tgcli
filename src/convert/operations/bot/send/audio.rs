@@ -31,8 +31,8 @@ impl TryFrom<ArgMatches<'static>> for AudioParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to AudioParams...");
-        log::trace!("arg matches: {:?}", m);
+        debug!("Converting ArgMatches to AudioParams...");
+        trace!("arg matches: {:?}", m);
 
         let file = match m.value_of("file") {
             Some(f) => PathBuf::from(f),
@@ -51,7 +51,7 @@ impl TryFrom<ArgMatches<'static>> for AudioParams {
             m.value_of("performer")
                 .map_or(None, |v| Some(v.to_string())),
         );
-        log::trace!("audio params: {:?}", params);
+        trace!("audio params: {:?}", params);
         Ok(params)
     }
 }
@@ -60,7 +60,7 @@ impl TryFrom<ArgMatches<'static>> for SendAudioOperation {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches into SendAudioOperation...");
+        debug!("Converting ArgMatches into SendAudioOperation...");
 
         let root_params = match RootParams::try_from(m.clone()) {
             Ok(p) => p,

@@ -62,7 +62,7 @@ pub struct SendMessageRequestModel {
 
 impl From<SendMessageRequestModel> for Form {
     fn from(m: SendMessageRequestModel) -> Self {
-        log::debug!("Converting SendMessageRequestModel to Form...");
+        debug!("Converting SendMessageRequestModel to Form...");
         let chat_id = m.chat_id.to_string();
         let parse_mode = m.parse_mode.to_string();
 
@@ -75,7 +75,7 @@ impl From<SendMessageRequestModel> for Form {
 
 impl From<SendMessageParams> for SendMessageRequestModel {
     fn from(params: SendMessageParams) -> Self {
-        log::debug!("Converting SendMessageParams to SendMessageRequestModel...");
+        debug!("Converting SendMessageParams to SendMessageRequestModel...");
 
         let chat_id = match params.2.receiver.parse::<usize>() {
             Ok(v) => ChatId::Int(v),

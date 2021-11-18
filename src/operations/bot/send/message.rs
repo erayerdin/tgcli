@@ -48,17 +48,17 @@ impl SendMessageOperation {
 
 impl SendOperation for SendMessageOperation {
     fn send(self) -> Result<(), OperationError> {
-        log::info!("Sending message...");
+        info!("Sending message...");
 
         let url = format!(
             "{root_url}{token}/sendMessage",
             root_url = API_ROOT_URL,
             token = self.params.1.token,
         );
-        log::trace!("url: {}", url);
+        trace!("url: {}", url);
 
         let req_body: SendMessageRequestModel = self.params.into();
-        log::trace!("request body: {:?}", req_body);
+        trace!("request body: {:?}", req_body);
 
         // TODO set up client earlier on bot params
         let client = reqwest::blocking::Client::new();
@@ -68,11 +68,11 @@ impl SendOperation for SendMessageOperation {
             Ok(r) => {
                 // TODO model response body
                 if r.status().is_success() {
-                    log::info!("Successfully sent the message.");
-                    log::trace!("response: {:?}", r);
+                    info!("Successfully sent the message.");
+                    trace!("response: {:?}", r);
                     Ok(())
                 } else {
-                    log::error!("A request error occured while sending the message.");
+                    error!("A request error occured while sending the message.");
                     Err(OperationError::new(
                         CommonExitCodes::ReqwestHttpError as i32,
                         &format!(

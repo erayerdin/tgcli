@@ -40,7 +40,7 @@ impl OperationError {
     }
 
     pub fn exit(self) {
-        log::error!("{}", self.message);
+        error!("{}", self.message);
         std::process::exit(self.exit_code);
     }
 }
