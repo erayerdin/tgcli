@@ -29,13 +29,15 @@ impl MessageParams {
     }
 }
 
+type SendMessageParams = (RootParams, BotParams, SendParams, MessageParams);
+
 #[derive(Debug)]
 pub struct SendMessageOperation {
-    params: (RootParams, BotParams, SendParams, MessageParams),
+    params: SendMessageParams,
 }
 
 impl SendMessageOperation {
-    pub fn new(params: (RootParams, BotParams, SendParams, MessageParams)) -> Self {
+    pub fn new(params: SendMessageParams) -> Self {
         Self { params }
     }
 }
