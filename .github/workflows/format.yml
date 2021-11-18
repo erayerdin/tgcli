@@ -26,6 +26,10 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions-rs/cargo@v1
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.SECRET_TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_RECEIVER: ${{ secrets.SECRET_TELEGRAM_RECEIVER }}
+          TELEGRAM_RECEIVER_ABSENT: ${{ secrets.SECRET_TELEGRAM_RECEIVER_ABSENT }}
         with:
           command: fmt
           args: -- --check
