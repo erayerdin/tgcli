@@ -17,6 +17,15 @@ enum ParseMode {
     HTML,
 }
 
+impl string::ToString for ParseMode {
+    fn to_string(&self) -> String {
+        match self {
+            ParseMode::Markdown2 => "MarkdownV2".to_owned(),
+            ParseMode::Markdown => "Markdown".to_owned(),
+            ParseMode::HTML => "HTML".to_owned(),
+        }
+    }
+}
 struct SendMessageRequestModel {
     chat_id: ChatId,
     text: String,
