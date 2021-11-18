@@ -12,12 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod message;
-
-#[derive(Debug, Deserialize)]
-struct GenericResponseModel<T> {
-    ok: bool,
-    error_code: usize,
-    description: Option<String>,
-    result: T,
-}
+struct MessageModel;
