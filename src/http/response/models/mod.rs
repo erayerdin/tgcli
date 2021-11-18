@@ -1,5 +1,3 @@
-use crate::operations::OperationError;
-
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,35 +12,12 @@ use crate::operations::OperationError;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod audio;
-pub mod document;
-pub mod location;
 pub mod message;
-pub mod photo;
-pub mod poll;
-pub mod video;
 
-#[derive(Debug)]
-pub enum MessageFormat {
-    Markdown,
-    HTML,
-}
-
-#[derive(Debug)]
-pub struct SendParams {
-    pub receiver: String,
-    pub format: MessageFormat,
-}
-
-impl SendParams {
-    pub fn new(receiver: &str, format: MessageFormat) -> Self {
-        Self {
-            receiver: String::from(receiver),
-            format,
-        }
-    }
-}
-
-pub trait SendOperation {
-    fn send(self) -> Result<(), OperationError>;
+#[derive(Debug, Deserialize)]
+pub struct GenericResponseModel<T> {
+    ok: bool,
+    error_code: usize,
+    pub description: Option<String>,
+    result: Option<T>,
 }

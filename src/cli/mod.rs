@@ -201,7 +201,7 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                     match SendAudioOperation::try_from(audio_subc.clone()) {
                         Ok(o) => o.send(),
                         Err(e) => {
-                            log::error!("{}", e.message);
+                            error!("{}", e.message);
                             process::exit(e.exit_code);
                         }
                     }
@@ -210,7 +210,7 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                     match SendDocumentOperation::try_from(document_subc.clone()) {
                         Ok(o) => o.send(),
                         Err(e) => {
-                            log::error!("{}", e.message);
+                            error!("{}", e.message);
                             process::exit(e.exit_code);
                         }
                     }
@@ -219,7 +219,7 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                     match SendLocationOperation::try_from(location_subc.clone()) {
                         Ok(o) => o.send(),
                         Err(e) => {
-                            log::error!("{}", e.message);
+                            error!("{}", e.message);
                             process::exit(e.exit_code);
                         }
                     }
@@ -228,7 +228,7 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                     match SendMessageOperation::try_from(message_subc.clone()) {
                         Ok(o) => o.send(),
                         Err(e) => {
-                            log::error!("{}", e.message);
+                            error!("{}", e.message);
                             process::exit(e.exit_code);
                         }
                     }
@@ -237,7 +237,7 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                     match SendPhotoOperation::try_from(photo_subc.clone()) {
                         Ok(o) => o.send(),
                         Err(e) => {
-                            log::error!("{}", e.message);
+                            error!("{}", e.message);
                             process::exit(e.exit_code);
                         }
                     }
@@ -245,7 +245,7 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                 ("poll", Some(poll_subc)) => match SendPollOperation::try_from(poll_subc.clone()) {
                     Ok(o) => o.send(),
                     Err(e) => {
-                        log::error!("{}", e.message);
+                        error!("{}", e.message);
                         process::exit(e.exit_code);
                     }
                 },
@@ -253,7 +253,7 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
                     match SendVideoOperation::try_from(video_subc.clone()) {
                         Ok(o) => o.send(),
                         Err(e) => {
-                            log::error!("{}", e.message);
+                            error!("{}", e.message);
                             process::exit(e.exit_code);
                         }
                     }

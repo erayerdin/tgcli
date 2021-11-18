@@ -21,7 +21,7 @@ fn main() {
             }
         })
         .level(if cfg!(debug_assertions) {
-            log::LevelFilter::Debug
+            log::LevelFilter::Trace
         } else {
             log::LevelFilter::Info
         })

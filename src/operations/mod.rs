@@ -40,7 +40,7 @@ impl OperationError {
     }
 
     pub fn exit(self) {
-        log::error!("{}", self.message);
+        error!("{}", self.message);
         std::process::exit(self.exit_code);
     }
 }
@@ -53,10 +53,41 @@ impl OperationError {
 /// from. If the error comes from clap, the names start with
 /// Clap.
 pub enum CommonExitCodes {
-    /// A required argument is not provided.
-    ClapMissingValue = 2,
+    // ////////// //
+    // Std Errors //
+    // ////////// //
+    // between 2-19
     /// Provided value is not valid. For example,
     /// expected value is f32 while a non-f32 value
     /// is provided by the user.
-    StdInvalidValue = 3,
+    StdInvalidValue = 2,
+
+    // /////////// //
+    // Clap Errors //
+    // /////////// //
+    // between 20-39
+    /// A required argument is not provided.
+    ClapMissingValue = 20,
+
+    // ////////////// //
+    // Reqwest Errors //
+    // ////////////// //
+    // between 40-59
+    /// An connection error occured.
+    ReqwestConnectionError = 40,
+    /// An error occured reported by the response.
+    ReqwestHttpError = 41,
+
+    // /////////////////// //
+    // Telegram API Errors //
+    // /////////////////// //
+    // between 60-79
+    TelegramAPIMissingDescription = 60,
+    TelegramAPIBadRequest = 61,
+
+    // //////////// //
+    // Serde Errors //
+    // //////////// //
+    // between 80-99
+    SerdeDeserializationError = 80,
 }

@@ -31,8 +31,8 @@ impl TryFrom<ArgMatches<'static>> for PollParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to PollParams...");
-        log::trace!("arg matches: {:?}", m);
+        debug!("Converting ArgMatches to PollParams...");
+        trace!("arg matches: {:?}", m);
 
         let params = PollParams::new(
             m.value_of("question").unwrap().to_string(),
@@ -41,7 +41,7 @@ impl TryFrom<ArgMatches<'static>> for PollParams {
                 .map(|v| v.to_string())
                 .collect(),
         );
-        log::trace!("poll params: {:?}", params);
+        trace!("poll params: {:?}", params);
         Ok(params)
     }
 }
@@ -50,7 +50,7 @@ impl TryFrom<ArgMatches<'static>> for SendPollOperation {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to SendPollOperation...");
+        debug!("Converting ArgMatches to SendPollOperation...");
 
         let root_params = match RootParams::try_from(m.clone()) {
             Ok(p) => p,

@@ -31,11 +31,11 @@ impl TryFrom<ArgMatches<'static>> for MessageParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to MessageParams...");
-        log::debug!("arg params: {:?}", m);
+        debug!("Converting ArgMatches to MessageParams...");
+        debug!("arg params: {:?}", m);
 
         let params = MessageParams::new(m.value_of("message").unwrap().to_owned());
-        log::trace!("message params: {:?}", params);
+        trace!("message params: {:?}", params);
         Ok(params)
     }
 }
@@ -44,7 +44,7 @@ impl TryFrom<ArgMatches<'static>> for SendMessageOperation {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to SendMessageOperation...");
+        debug!("Converting ArgMatches to SendMessageOperation...");
 
         let root_params = match RootParams::try_from(m.clone()) {
             Ok(p) => p,

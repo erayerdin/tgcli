@@ -1,4 +1,9 @@
-use crate::operations::{bot::BotParams, RootParams};
+use crate::{
+    handle_response,
+    http::request::models::sendmessage::SendMessageRequestModel,
+    operations::{bot::BotParams, CommonExitCodes, OperationError, RootParams},
+    API_ROOT_URL,
+};
 
 use super::{SendOperation, SendParams};
 
@@ -18,7 +23,7 @@ use super::{SendOperation, SendParams};
 
 #[derive(Debug)]
 pub struct MessageParams {
-    message: String,
+    pub message: String,
 }
 
 impl MessageParams {
@@ -29,19 +34,39 @@ impl MessageParams {
     }
 }
 
+pub type SendMessageParams = (RootParams, BotParams, SendParams, MessageParams);
+
 #[derive(Debug)]
 pub struct SendMessageOperation {
-    params: (RootParams, BotParams, SendParams, MessageParams),
+    params: SendMessageParams,
 }
 
 impl SendMessageOperation {
-    pub fn new(params: (RootParams, BotParams, SendParams, MessageParams)) -> Self {
+    pub fn new(params: SendMessageParams) -> Self {
         Self { params }
     }
 }
 
 impl SendOperation for SendMessageOperation {
-    fn send(self) -> Result<(), crate::operations::OperationError> {
-        todo!() // TODO implement SendMessageOperation
+    fn send(self) -> Result<(), OperationError> {
+        info!("Sending message...");
+
+        let url = format!(
+            "{root_url}{token}/sendMessage",
+            root_url = API_ROOT_URL,
+            token = self.params.1.token,
+        );
+        trace!("url: {}", url);
+
+        let req_body: SendMessageRequestModel = self.params.into();
+        trace!("request body: {:?}", req_body);
+
+        // TODO set up client earlier on bot params
+        let client = reqwest::blocking::Client::new();
+        let response = client.post(url).multipart(req_body.into()).send();
+
+        handle_response!(response, on_success => {
+            info!("Successfully sent message.");
+        }, on_failure => {})
     }
 }

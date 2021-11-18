@@ -24,14 +24,14 @@ impl TryFrom<ArgMatches<'static>> for RootParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to RootParams...");
-        log::trace!("arg matches: {:?}", m);
+        debug!("Converting ArgMatches to RootParams...");
+        trace!("arg matches: {:?}", m);
         let params = RootParams::new(if m.is_present("no-secure") {
             false
         } else {
             true
         });
-        log::trace!("root params: {:?}", params);
+        trace!("root params: {:?}", params);
         Ok(params)
     }
 }

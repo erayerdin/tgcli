@@ -31,8 +31,8 @@ impl TryFrom<ArgMatches<'static>> for DocumentParams {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to DocumentParams...");
-        log::trace!("arg matches: {:?}", m);
+        debug!("Converting ArgMatches to DocumentParams...");
+        trace!("arg matches: {:?}", m);
 
         let file = match m.value_of("file") {
             Some(f) => PathBuf::from(f),
@@ -50,7 +50,7 @@ impl TryFrom<ArgMatches<'static>> for DocumentParams {
                 .map_or(None, |v| Some(PathBuf::from(v))),
             m.value_of("message").map_or(None, |v| Some(v.to_string())),
         );
-        log::trace!("document params: {:?}", params);
+        trace!("document params: {:?}", params);
         Ok(params)
     }
 }
@@ -59,7 +59,7 @@ impl TryFrom<ArgMatches<'static>> for SendDocumentOperation {
     type Error = OperationError;
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
-        log::debug!("Converting ArgMatches to SendDocumentOperation...");
+        debug!("Converting ArgMatches to SendDocumentOperation...");
 
         let root_params = match RootParams::try_from(m.clone()) {
             Ok(p) => p,
