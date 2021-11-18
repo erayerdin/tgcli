@@ -31,4 +31,10 @@ jobs:
           TELEGRAM_RECEIVER: ${{ secrets.SECRET_TELEGRAM_RECEIVER }}
           TELEGRAM_RECEIVER_ABSENT: ${{ secrets.SECRET_TELEGRAM_RECEIVER_ABSENT }}
         with:
-          command: build
+          command: build --release
+      - name: 'Upload Build'
+        uses: actions/upload-artifact@v2
+        with:
+          name: tgcli_windows_x64
+          path: target/release/tgcli.exe
+          retention-days: 1
