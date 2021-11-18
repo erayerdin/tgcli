@@ -72,9 +72,22 @@ pub enum CommonExitCodes {
     // ////////////// //
     // Reqwest Errors //
     // ////////////// //
-    // between 40-49
+    // between 40-59
     /// An connection error occured.
     ReqwestConnectionError = 40,
     /// An error occured reported by the response.
     ReqwestHttpError = 41,
+
+    // /////////////////// //
+    // Telegram API Errors //
+    // /////////////////// //
+    // between 60-79
+    TelegramAPIMissingDescription = 60,
+    TelegramAPIBadRequest = 61,
+
+    // //////////// //
+    // Serde Errors //
+    // //////////// //
+    // between 80-99
+    SerdeDeserializationError = 80,
 }

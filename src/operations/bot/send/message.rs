@@ -1,5 +1,8 @@
 use crate::{
-    http::request::models::sendmessage::SendMessageRequestModel,
+    http::{
+        request::models::sendmessage::SendMessageRequestModel,
+        response::models::{message::MessageModel, GenericResponseModel},
+    },
     operations::{bot::BotParams, CommonExitCodes, OperationError, RootParams},
     API_ROOT_URL,
 };
@@ -66,20 +69,28 @@ impl SendOperation for SendMessageOperation {
 
         match response {
             Ok(r) => {
-                // TODO model response body
                 if r.status().is_success() {
                     info!("Successfully sent the message.");
                     trace!("response: {:?}", r);
                     Ok(())
                 } else {
-                    error!("A request error occured while sending the message.");
-                    Err(OperationError::new(
-                        CommonExitCodes::ReqwestHttpError as i32,
-                        &format!(
-                            "An error occured while sending the message. {}",
-                            r.text().unwrap() // TODO implement better error reporting
-                        ),
-                    ))
+                    error!("An API error occured while sending the message.");
+                    match r.json::<GenericResponseModel<MessageModel>>() {
+                        Ok(i) => match i.description {
+                            Some(d) => Err(OperationError::new(
+                                CommonExitCodes::TelegramAPIBadRequest as i32,
+                                &d,
+                            )),
+                            None => Err(OperationError::new(
+                                CommonExitCodes::TelegramAPIMissingDescription as i32,
+                                "No description was provided by Telegram for this error.",
+                            )),
+                        },
+                        Err(e) => Err(OperationError::new(
+                            CommonExitCodes::SerdeDeserializationError as i32,
+                            &format!("An error occurred while deserializing the response. {}", e),
+                        )),
+                    }
                 }
             }
             Err(e) => Err(OperationError::new(

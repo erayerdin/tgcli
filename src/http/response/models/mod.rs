@@ -15,9 +15,9 @@
 pub mod message;
 
 #[derive(Debug, Deserialize)]
-struct GenericResponseModel<T> {
+pub struct GenericResponseModel<T> {
     ok: bool,
     error_code: usize,
-    description: Option<String>,
-    result: T,
+    pub description: Option<String>,
+    result: Option<T>,
 }
