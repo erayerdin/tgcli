@@ -41,6 +41,23 @@ fn send_message_to_present_receiver(mut binary: Command) {
 
     assertion.success();
 }
+
+#[rstest]
+fn send_message_to_absent_receiver(mut binary: Command) {
+    let assertion = binary
+        .args([
+            "bot",
+            "send",
+            "message",
+            "foo",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER_ABSENT")
+                .expect("TELEGRAM_RECEIVER_ABSENT environment variable could not be found. Please create .env file and define it."),
+        ])
+        .assert();
+
+    assertion.failure().code(61);
+}
     let assertion = binary
         .args([
             "bot",
