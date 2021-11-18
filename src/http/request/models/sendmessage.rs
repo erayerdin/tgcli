@@ -37,7 +37,6 @@ impl string::ToString for ChatId {
 #[derive(Debug)]
 /// Which format Telegram should handle the message text in.
 enum ParseMode {
-    Markdown2,
     Markdown,
     HTML,
 }
@@ -45,8 +44,7 @@ enum ParseMode {
 impl string::ToString for ParseMode {
     fn to_string(&self) -> String {
         match self {
-            ParseMode::Markdown2 => "MarkdownV2".to_owned(),
-            ParseMode::Markdown => "Markdown".to_owned(),
+            ParseMode::Markdown => "MarkdownV2".to_owned(),
             ParseMode::HTML => "HTML".to_owned(),
         }
     }
@@ -85,7 +83,7 @@ impl From<SendMessageParams> for SendMessageRequestModel {
         let text = params.3.message;
 
         let parse_mode = match params.2.format {
-            send::MessageFormat::Markdown => ParseMode::Markdown2,
+            send::MessageFormat::Markdown => ParseMode::Markdown,
             send::MessageFormat::HTML => ParseMode::HTML,
         };
 
