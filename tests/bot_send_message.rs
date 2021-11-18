@@ -26,7 +26,21 @@ fn binary() -> Command {
 }
 
 #[rstest]
-fn send_message(mut binary: Command) {
+fn send_message_to_present_receiver(mut binary: Command) {
+    let assertion = binary
+        .args([
+            "bot",
+            "send",
+            "message",
+            "foo",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+        ])
+        .assert();
+
+    assertion.success();
+}
     let assertion = binary
         .args([
             "bot",
