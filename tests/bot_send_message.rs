@@ -58,15 +58,24 @@ fn send_message_to_absent_receiver(mut binary: Command) {
 
     assertion.failure().code(61);
 }
+
+#[rstest]
+fn send_message_format(mut binary: Command, #[values("markdown", "html")] format: &str) {
     let assertion = binary
         .args([
             "bot",
             "send",
             "message",
-            "foo",
+            if format == "html" {
+                r#"<strong>foo</strong>"#
+            } else {
+                "*foo*"
+            },
             "--receiver",
             &env::var("TELEGRAM_RECEIVER")
                 .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+            "--format",
+            format,
         ])
         .assert();
 
