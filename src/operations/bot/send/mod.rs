@@ -30,8 +30,8 @@ pub enum MessageFormat {
 
 #[derive(Debug)]
 pub struct SendParams {
-    receiver: String,
-    format: MessageFormat,
+    pub receiver: String,
+    pub format: MessageFormat,
 }
 
 impl SendParams {

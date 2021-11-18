@@ -2,6 +2,8 @@ use std::string;
 
 use reqwest::blocking::multipart::Form;
 
+use crate::operations::bot::send::{self, message::SendMessageParams};
+
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,6 +59,7 @@ struct SendMessageRequestModel {
 
 impl From<SendMessageRequestModel> for Form {
     fn from(m: SendMessageRequestModel) -> Self {
+        log::debug!("Converting SendMessageRequestModel to Form...");
         let chat_id = m.chat_id.to_string();
         let parse_mode = m.parse_mode.to_string();
 
@@ -64,5 +67,29 @@ impl From<SendMessageRequestModel> for Form {
             .text("chat_id", chat_id)
             .text("text", m.text)
             .text("parse_mode", parse_mode)
+    }
+}
+
+impl From<SendMessageParams> for SendMessageRequestModel {
+    fn from(params: SendMessageParams) -> Self {
+        log::debug!("Converting SendMessageParams to SendMessageRequestModel...");
+
+        let chat_id = match params.2.receiver.parse::<usize>() {
+            Ok(v) => ChatId::Int(v),
+            Err(_) => ChatId::Str(params.2.receiver),
+        };
+
+        let text = params.3.message;
+
+        let parse_mode = match params.2.format {
+            send::MessageFormat::Markdown => ParseMode::Markdown2,
+            send::MessageFormat::HTML => ParseMode::HTML,
+        };
+
+        SendMessageRequestModel {
+            chat_id,
+            text,
+            parse_mode,
+        }
     }
 }

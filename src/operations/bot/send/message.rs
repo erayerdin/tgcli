@@ -18,7 +18,7 @@ use super::{SendOperation, SendParams};
 
 #[derive(Debug)]
 pub struct MessageParams {
-    message: String,
+    pub message: String,
 }
 
 impl MessageParams {
@@ -29,7 +29,7 @@ impl MessageParams {
     }
 }
 
-type SendMessageParams = (RootParams, BotParams, SendParams, MessageParams);
+pub type SendMessageParams = (RootParams, BotParams, SendParams, MessageParams);
 
 #[derive(Debug)]
 pub struct SendMessageOperation {
