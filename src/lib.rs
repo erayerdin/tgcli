@@ -16,3 +16,5 @@ pub mod cli;
 pub mod convert;
 mod http;
 pub mod operations;
+
+const API_ROOT_URL: &str = "https://api.telegram.org/bot";

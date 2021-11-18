@@ -1,6 +1,7 @@
 use crate::{
     http::request::models::sendmessage::SendMessageRequestModel,
     operations::{bot::BotParams, CommonExitCodes, OperationError, RootParams},
+    API_ROOT_URL,
 };
 
 use super::{SendOperation, SendParams};
@@ -49,10 +50,10 @@ impl SendOperation for SendMessageOperation {
     fn send(self) -> Result<(), OperationError> {
         log::info!("Sending message...");
 
-        // TODO use base url as constant
         let url = format!(
-            "https://api.telegram.org/bot{}/sendMessage",
-            self.params.1.token
+            "{root_url}{token}/sendMessage",
+            root_url = API_ROOT_URL,
+            token = self.params.1.token,
         );
         log::trace!("url: {}", url);
 
