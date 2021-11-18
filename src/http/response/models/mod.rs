@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#[macro_use]
-extern crate log;
-
-#[macro_use]
-extern crate serde;
-
-pub mod cli;
-pub mod convert;
-mod http;
-pub mod operations;
-
-const API_ROOT_URL: &str = "https://api.telegram.org/bot";
+#[derive(Debug, Deserialize)]
+struct GenericResponseModel<T> {
+    ok: bool,
+    error_code: usize,
+    description: Option<String>,
+    result: T,
+}
