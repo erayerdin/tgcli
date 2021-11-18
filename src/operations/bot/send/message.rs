@@ -67,6 +67,8 @@ impl SendOperation for SendMessageOperation {
 
         handle_response!(response, on_success => {
             info!("Successfully sent message.");
-        }, on_failure => {})
+        }, on_failure => {
+            error!("An error occured while sending the message.");
+        })
     }
 }
