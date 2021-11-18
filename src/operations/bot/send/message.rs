@@ -1,4 +1,7 @@
-use crate::operations::{bot::BotParams, CommonExitCodes, OperationError, RootParams};
+use crate::{
+    http::request::models::sendmessage::SendMessageRequestModel,
+    operations::{bot::BotParams, CommonExitCodes, OperationError, RootParams},
+};
 
 use super::{SendOperation, SendParams};
 
@@ -53,16 +56,12 @@ impl SendOperation for SendMessageOperation {
         );
         log::trace!("url: {}", url);
 
-        // TODO model request mody
-        let req_body = [
-            ("chat_id", self.params.2.receiver),
-            ("text", self.params.3.message),
-        ];
+        let req_body: SendMessageRequestModel = self.params.into();
         log::trace!("request body: {:?}", req_body);
 
         // TODO set up client earlier on bot params
         let client = reqwest::blocking::Client::new();
-        let response = client.post(url).form(&req_body).send();
+        let response = client.post(url).multipart(req_body.into()).send();
 
         match response {
             Ok(r) => {

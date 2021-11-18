@@ -18,6 +18,7 @@ use crate::operations::bot::send::{self, message::SendMessageParams};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#[derive(Debug)]
 /// What the type of ChatId is.
 enum ChatId {
     Int(usize),
@@ -33,6 +34,7 @@ impl string::ToString for ChatId {
     }
 }
 
+#[derive(Debug)]
 /// Which format Telegram should handle the message text in.
 enum ParseMode {
     Markdown2,
@@ -50,8 +52,9 @@ impl string::ToString for ParseMode {
     }
 }
 
+#[derive(Debug)]
 /// A model for /sendMessage request.
-struct SendMessageRequestModel {
+pub struct SendMessageRequestModel {
     chat_id: ChatId,
     text: String,
     parse_mode: ParseMode,
