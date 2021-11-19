@@ -16,6 +16,7 @@ use std::{path, string};
 
 pub mod senddocument;
 pub mod sendmessage;
+pub mod sendphoto;
 
 #[derive(Debug)]
 /// What the type of ChatId is.
