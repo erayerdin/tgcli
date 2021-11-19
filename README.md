@@ -8,7 +8,7 @@
 
 ![](resources/recording.gif)
 
-`tgcli` is a Python cli app for Telegram.
+`tgcli` is a terminal app to send messages with bots on Telegram.
 
 [docs_url]: https://tgcli.readthedocs.io
 
