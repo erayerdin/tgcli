@@ -39,3 +39,8 @@ jobs:
           name: tgcli_windows_x64
           path: target/release/tgcli.exe
           retention-days: 1
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: target/release/tgcli.exe
