@@ -2,7 +2,10 @@ use std::convert::TryFrom;
 
 use reqwest::blocking::multipart::Form;
 
-use crate::operations::{CommonExitCodes, OperationError};
+use crate::operations::{
+    bot::send::{self, photo::SendPhotoParams},
+    CommonExitCodes, OperationError,
+};
 
 use super::{ChatId, InputFile, ParseMode};
 
@@ -32,6 +35,7 @@ impl TryFrom<SendPhotoRequestModel> for Form {
     type Error = OperationError;
 
     fn try_from(m: SendPhotoRequestModel) -> Result<Self, Self::Error> {
+        debug!("Converting SendPhotoRequestModel to Form...");
         let chat_id = m.chat_id.to_string();
         let parse_mode = m.parse_mode.to_string();
 
@@ -59,5 +63,32 @@ impl TryFrom<SendPhotoRequestModel> for Form {
         };
 
         Ok(photo_form)
+    }
+}
+
+impl From<SendPhotoParams> for SendPhotoRequestModel {
+    fn from(params: SendPhotoParams) -> Self {
+        debug!("Converting SendPhotoParams to SendPhotoRequestModel...");
+
+        let chat_id = match params.2.receiver.parse::<usize>() {
+            Ok(v) => ChatId::Int(v),
+            Err(_) => ChatId::Str(params.2.receiver),
+        };
+
+        let caption = params.3.message;
+
+        let parse_mode = match params.2.format {
+            send::MessageFormat::Markdown => ParseMode::Markdown,
+            send::MessageFormat::HTML => ParseMode::HTML,
+        };
+
+        let photo = InputFile::Local(params.3.file);
+
+        SendPhotoRequestModel {
+            chat_id,
+            caption,
+            parse_mode,
+            photo,
+        }
     }
 }

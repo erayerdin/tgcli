@@ -20,8 +20,8 @@ use super::{SendOperation, SendParams};
 
 #[derive(Debug)]
 pub struct PhotoParams {
-    file: PathBuf,
-    message: Option<String>,
+    pub file: PathBuf,
+    pub message: Option<String>,
 }
 
 impl PhotoParams {
