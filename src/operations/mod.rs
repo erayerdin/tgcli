@@ -77,6 +77,8 @@ pub enum CommonExitCodes {
     ReqwestConnectionError = 40,
     /// An error occured reported by the response.
     ReqwestHttpError = 41,
+    /// An error occured related to constructing a form.
+    ReqwestFormError = 42,
 
     // /////////////////// //
     // Telegram API Errors //
