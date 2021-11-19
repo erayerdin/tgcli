@@ -3,7 +3,7 @@ use reqwest::blocking::Client;
 use crate::{
     handle_response,
     http::request::models::sendmessage::SendMessageRequestModel,
-    operations::{bot::BotParams, CommonExitCodes, OperationError, RootParams},
+    operations::{bot::BotParams, OperationError, RootParams},
     API_ROOT_URL,
 };
 
