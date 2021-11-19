@@ -1,3 +1,9 @@
+use std::convert::TryFrom;
+
+use reqwest::blocking::multipart::Form;
+
+use crate::operations::{CommonExitCodes, OperationError};
+
 use super::{ChatId, InputFile, ParseMode};
 
 // Copyright 2021 Eray Erdin
@@ -20,4 +26,38 @@ pub struct SendPhotoRequestModel {
     photo: InputFile,
     caption: Option<String>,
     parse_mode: ParseMode,
+}
+
+impl TryFrom<SendPhotoRequestModel> for Form {
+    type Error = OperationError;
+
+    fn try_from(m: SendPhotoRequestModel) -> Result<Self, Self::Error> {
+        let chat_id = m.chat_id.to_string();
+        let parse_mode = m.parse_mode.to_string();
+
+        let initial_form = Form::new()
+            .text("chat_id", chat_id)
+            .text("parse_mode", parse_mode);
+
+        let caption_form = match m.caption {
+            Some(c) => initial_form.text("caption", c),
+            None => initial_form,
+        };
+
+        let photo_form = match m.photo {
+            InputFile::Local(p) => match caption_form.file("photo", p) {
+                Ok(f) => f,
+                Err(e) => {
+                    return Err(OperationError::new(
+                        CommonExitCodes::ReqwestFormError as i32,
+                        &format!("Could not send photo to Telegram. {}", e),
+                    ))
+                }
+            },
+            InputFile::Remote(u) => caption_form.text("photo", u.to_string()),
+            InputFile::Id(i) => caption_form.text("photo", i),
+        };
+
+        Ok(photo_form)
+    }
 }
