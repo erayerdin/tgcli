@@ -1,7 +1,6 @@
 use std::env;
 
 use assert_cmd::Command;
-use tgcli::operations::CommonExitCodes;
 
 // Copyright 2021 Eray Erdin
 //
