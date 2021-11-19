@@ -1,4 +1,4 @@
-use std::string;
+use std::{path, string};
 
 // Copyright 2021 Eray Erdin
 //
@@ -50,4 +50,12 @@ impl string::ToString for ParseMode {
 }
 
 #[derive(Debug)]
-struct TargetFile; // TODO implement target file
+/// The file that will be sent to Telegram.
+enum InputFile {
+    /// Local file.
+    Local(path::PathBuf),
+    /// Remote file URL.
+    Remote(url::Url),
+    /// The id of file that was sent before.
+    Id(String),
+}

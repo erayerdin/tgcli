@@ -1,4 +1,4 @@
-use super::{ChatId, ParseMode, TargetFile};
+use super::{ChatId, InputFile, ParseMode};
 
 // Copyright 2021 Eray Erdin
 //
@@ -18,8 +18,8 @@ use super::{ChatId, ParseMode, TargetFile};
 /// A model for /sendDocument request.
 pub struct SendDocumentRequestModel {
     chat_id: ChatId,
-    document: TargetFile,
-    thumbnail: Option<TargetFile>,
+    document: InputFile,
+    thumbnail: Option<InputFile>,
     caption: Option<String>,
     parse_mode: ParseMode,
 }
