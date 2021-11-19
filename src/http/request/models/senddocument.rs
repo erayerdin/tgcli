@@ -66,7 +66,7 @@ impl TryFrom<SendDocumentRequestModel> for Form {
 
         let thumbnail_form = match m.thumbnail {
             Some(inputfile) => match inputfile {
-                InputFile::Local(p) => match document_form.file("thumbnail", p) {
+                InputFile::Local(p) => match document_form.file("thumb", p) {
                     Ok(f) => f,
                     Err(e) => {
                         return Err(OperationError::new(
