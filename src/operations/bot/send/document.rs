@@ -71,6 +71,7 @@ impl SendOperation for SendDocumentOperation {
             Ok(f) => f,
             Err(e) => return Err(e),
         };
+        debug!("request body: {:?}", req_body);
 
         let client = Client::new();
         let response = client.post(url).multipart(req_body).send();
