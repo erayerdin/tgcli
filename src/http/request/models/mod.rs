@@ -14,6 +14,7 @@ use std::string;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pub mod senddocument;
 pub mod sendmessage;
 
 #[derive(Debug)]
@@ -47,3 +48,6 @@ impl string::ToString for ParseMode {
         }
     }
 }
+
+#[derive(Debug)]
+struct TargetFile; // TODO implement target file
