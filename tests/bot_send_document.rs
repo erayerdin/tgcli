@@ -1,6 +1,7 @@
 use std::env;
 
 use assert_cmd::Command;
+use tgcli::operations::CommonExitCodes;
 
 // Copyright 2021 Eray Erdin
 //
@@ -59,4 +60,25 @@ fn send_document_with_message(mut binary: Command) {
         .assert();
 
     assertion.success();
+}
+
+#[rstest]
+fn send_document_with_long_message(mut binary: Command) {
+    let msg = (0..1034).map(|_| "a").collect::<String>();
+
+    let assertion = binary
+        .args([
+            "bot",
+            "send",
+            "document",
+            "resources/test/doc.txt",
+            "--message",
+            &msg,
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
+        ])
+        .assert();
+
+    assertion.failure().code(1); // Validation error code from clap on message
 }
