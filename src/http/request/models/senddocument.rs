@@ -2,7 +2,10 @@ use std::convert::TryFrom;
 
 use reqwest::blocking::multipart::Form;
 
-use crate::operations::{CommonExitCodes, OperationError};
+use crate::operations::{
+    bot::send::{self, document::SendDocumentParams},
+    CommonExitCodes, OperationError,
+};
 
 use super::{ChatId, InputFile, ParseMode};
 
@@ -79,5 +82,38 @@ impl TryFrom<SendDocumentRequestModel> for Form {
         };
 
         Ok(thumbnail_form)
+    }
+}
+
+impl From<SendDocumentParams> for SendDocumentRequestModel {
+    fn from(params: SendDocumentParams) -> Self {
+        debug!("Converting SendDocumentParams to SendDocumentRequestModel...");
+
+        let chat_id = match params.2.receiver.parse::<usize>() {
+            Ok(v) => ChatId::Int(v),
+            Err(_) => ChatId::Str(params.2.receiver),
+        };
+
+        let caption = params.3.message;
+
+        let parse_mode = match params.2.format {
+            send::MessageFormat::Markdown => ParseMode::Markdown,
+            send::MessageFormat::HTML => ParseMode::HTML,
+        };
+
+        let document = InputFile::Local(params.3.file);
+
+        let thumbnail = match params.3.thumbnail {
+            Some(p) => Some(InputFile::Local(p)),
+            None => None,
+        };
+
+        SendDocumentRequestModel {
+            chat_id,
+            caption,
+            parse_mode,
+            document,
+            thumbnail,
+        }
     }
 }

@@ -20,9 +20,9 @@ use super::{SendOperation, SendParams};
 
 #[derive(Debug)]
 pub struct DocumentParams {
-    file: PathBuf,
-    thumbnail: Option<PathBuf>,
-    message: Option<String>,
+    pub file: PathBuf,
+    pub thumbnail: Option<PathBuf>,
+    pub message: Option<String>,
 }
 
 impl DocumentParams {
@@ -34,6 +34,8 @@ impl DocumentParams {
         }
     }
 }
+
+pub type SendDocumentParams = (RootParams, BotParams, SendParams, DocumentParams);
 
 #[derive(Debug)]
 pub struct SendDocumentOperation {
