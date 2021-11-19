@@ -28,6 +28,7 @@ macro_rules! handle_response {
                         message::MessageModel, GenericResponseModel,
                     };
                     $failure;
+                    use crate::operations::CommonExitCodes;
                     match r.json::<GenericResponseModel<MessageModel>>() {
                         Ok(i) => match i.description {
                             Some(d) => Err(OperationError::new(
@@ -47,6 +48,7 @@ macro_rules! handle_response {
                 }
             }
             Err(e) => {
+                use crate::operations::CommonExitCodes;
                 $failure;
                 Err(OperationError::new(
                     CommonExitCodes::ReqwestConnectionError as i32,

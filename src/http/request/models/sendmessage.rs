@@ -1,8 +1,8 @@
-use std::string;
-
 use reqwest::blocking::multipart::Form;
 
 use crate::operations::bot::send::{self, message::SendMessageParams};
+
+use super::{ChatId, ParseMode};
 
 // Copyright 2021 Eray Erdin
 //
@@ -19,38 +19,6 @@ use crate::operations::bot::send::{self, message::SendMessageParams};
 // limitations under the License.
 
 #[derive(Debug)]
-/// What the type of ChatId is.
-enum ChatId {
-    Int(usize),
-    Str(String),
-}
-
-impl string::ToString for ChatId {
-    fn to_string(&self) -> String {
-        match self {
-            ChatId::Int(v) => v.to_string(),
-            ChatId::Str(v) => v.clone(),
-        }
-    }
-}
-
-#[derive(Debug)]
-/// Which format Telegram should handle the message text in.
-enum ParseMode {
-    Markdown,
-    HTML,
-}
-
-impl string::ToString for ParseMode {
-    fn to_string(&self) -> String {
-        match self {
-            ParseMode::Markdown => "MarkdownV2".to_owned(),
-            ParseMode::HTML => "HTML".to_owned(),
-        }
-    }
-}
-
-#[derive(Debug)]
 /// A model for /sendMessage request.
 pub struct SendMessageRequestModel {
     chat_id: ChatId,
@@ -58,6 +26,7 @@ pub struct SendMessageRequestModel {
     parse_mode: ParseMode,
 }
 
+// TODO change to TryFrom
 impl From<SendMessageRequestModel> for Form {
     fn from(m: SendMessageRequestModel) -> Self {
         debug!("Converting SendMessageRequestModel to Form...");

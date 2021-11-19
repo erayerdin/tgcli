@@ -958,6 +958,7 @@ dependencies = [
  "rstest",
  "serde",
  "shellexpand",
+ "url",
 ]
 
 [[package]]
