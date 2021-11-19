@@ -1,3 +1,5 @@
+use reqwest::blocking::Client;
+
 use crate::{
     handle_response,
     http::request::models::sendmessage::SendMessageRequestModel,
@@ -62,7 +64,7 @@ impl SendOperation for SendMessageOperation {
         trace!("request body: {:?}", req_body);
 
         // TODO set up client earlier on bot params
-        let client = reqwest::blocking::Client::new();
+        let client = Client::new();
         let response = client.post(url).multipart(req_body.into()).send();
 
         handle_response!(response, on_success => {
