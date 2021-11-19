@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use crate::operations::{bot::BotParams, RootParams};
+use crate::operations::{bot::BotParams, OperationError, RootParams};
 
 use super::{SendOperation, SendParams};
 
@@ -44,7 +44,7 @@ impl SendPhotoOperation {
 }
 
 impl SendOperation for SendPhotoOperation {
-    fn send(self) -> Result<(), crate::operations::OperationError> {
+    fn send(self) -> Result<(), OperationError> {
         todo!() // TODO implement SendPhotoOperation
     }
 }
