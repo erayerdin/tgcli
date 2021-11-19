@@ -30,13 +30,15 @@ impl PhotoParams {
     }
 }
 
+pub type SendPhotoParams = (RootParams, BotParams, SendParams, PhotoParams);
+
 #[derive(Debug)]
 pub struct SendPhotoOperation {
-    params: (RootParams, BotParams, SendParams, PhotoParams),
+    params: SendPhotoParams,
 }
 
 impl SendPhotoOperation {
-    pub fn new(params: (RootParams, BotParams, SendParams, PhotoParams)) -> Self {
+    pub fn new(params: SendPhotoParams) -> Self {
         Self { params }
     }
 }
