@@ -81,3 +81,22 @@ fn send_document_with_long_message(mut binary: Command) {
 
     assertion.failure().code(1); // Validation error code from clap on message
 }
+
+#[rstest]
+fn send_document_with_thumbnail(mut binary: Command) {
+    let assertion = binary
+        .args([
+            "bot",
+            "send",
+            "document",
+            "resources/test/doc.txt",
+            "--thumbnail",
+            "resources/test/thumbnail512.png",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
+        ])
+        .assert();
+
+    assertion.success();
+}
