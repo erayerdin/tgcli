@@ -1,3 +1,5 @@
+use super::{ChatId, InputFile, ParseMode};
+
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,3 +13,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+#[derive(Debug)]
+pub struct SendPhotoRequestModel {
+    chat_id: ChatId,
+    photo: InputFile,
+    caption: Option<String>,
+    parse_mode: ParseMode,
+}
