@@ -59,13 +59,3 @@ enum InputFile {
     /// The id of file that was sent before.
     Id(String),
 }
-
-impl string::ToString for InputFile {
-    fn to_string(&self) -> String {
-        match self {
-            InputFile::Local(p) => p.to_string_lossy().into_owned(),
-            InputFile::Remote(u) => u.to_string(),
-            InputFile::Id(i) => i.clone(),
-        }
-    }
-}

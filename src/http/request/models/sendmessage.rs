@@ -26,6 +26,7 @@ pub struct SendMessageRequestModel {
     parse_mode: ParseMode,
 }
 
+// TODO change to TryFrom
 impl From<SendMessageRequestModel> for Form {
     fn from(m: SendMessageRequestModel) -> Self {
         debug!("Converting SendMessageRequestModel to Form...");
