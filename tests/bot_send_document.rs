@@ -41,3 +41,22 @@ fn send_document(mut binary: Command) {
 
     assertion.success();
 }
+
+#[rstest]
+fn send_document_with_message(mut binary: Command) {
+    let assertion = binary
+        .args([
+            "bot",
+            "send",
+            "document",
+            "resources/test/doc.txt",
+            "--message",
+            "example document",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
+        ])
+        .assert();
+
+    assertion.success();
+}
