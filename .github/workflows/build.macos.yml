@@ -39,8 +39,3 @@ jobs:
           name: tgcli_macos_x64
           path: target/release/tgcli
           retention-days: 1
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: target/release/tgcli
