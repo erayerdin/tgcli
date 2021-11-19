@@ -1,6 +1,11 @@
+use std::convert::TryFrom;
+
 use reqwest::blocking::multipart::Form;
 
-use crate::operations::bot::send::{self, message::SendMessageParams};
+use crate::operations::{
+    bot::send::{self, message::SendMessageParams},
+    OperationError,
+};
 
 use super::{ChatId, ParseMode};
 
@@ -26,17 +31,18 @@ pub struct SendMessageRequestModel {
     parse_mode: ParseMode,
 }
 
-// TODO change to TryFrom
-impl From<SendMessageRequestModel> for Form {
-    fn from(m: SendMessageRequestModel) -> Self {
+impl TryFrom<SendMessageRequestModel> for Form {
+    type Error = OperationError;
+
+    fn try_from(m: SendMessageRequestModel) -> Result<Self, Self::Error> {
         debug!("Converting SendMessageRequestModel to Form...");
         let chat_id = m.chat_id.to_string();
         let parse_mode = m.parse_mode.to_string();
 
-        Form::new()
+        Ok(Form::new()
             .text("chat_id", chat_id)
             .text("text", m.text)
-            .text("parse_mode", parse_mode)
+            .text("parse_mode", parse_mode))
     }
 }
 

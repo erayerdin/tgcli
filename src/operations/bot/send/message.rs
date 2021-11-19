@@ -1,3 +1,5 @@
+use std::convert::TryInto;
+
 use reqwest::blocking::Client;
 
 use crate::{
@@ -60,12 +62,16 @@ impl SendOperation for SendMessageOperation {
         );
         trace!("url: {}", url);
 
-        let req_body: SendMessageRequestModel = self.params.into();
+        let req_instance: SendMessageRequestModel = self.params.into();
+        let req_body = match req_instance.try_into() {
+            Ok(f) => f,
+            Err(e) => return Err(e),
+        };
         trace!("request body: {:?}", req_body);
 
         // TODO set up client earlier on bot params
         let client = Client::new();
-        let response = client.post(url).multipart(req_body.into()).send();
+        let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
             info!("Successfully sent message.");
