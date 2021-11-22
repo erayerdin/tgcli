@@ -139,3 +139,10 @@ pub fn float_validator(value: String) -> ValidatorResult {
         )),
     }
 }
+
+pub fn question_validator(value: String) -> ValidatorResult {
+    match value.len() {
+        l if l < 1 || l > 300 => Err("The question length must be between 1 and 300.".to_owned()),
+        _ => Ok(()),
+    }
+}

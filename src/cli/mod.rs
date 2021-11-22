@@ -8,7 +8,7 @@ use clap::{
 use crate::{
     cli::validators::{
         audio_validator, caption_validator, file_validator, float_validator, image_validator,
-        positive_integer_validator, video_validator,
+        positive_integer_validator, question_validator, video_validator,
     },
     operations::{
         bot::send::{
@@ -158,7 +158,6 @@ pub fn get_app() -> App<'static, 'static> {
                                 .help("The title of the audio.")
                                 .takes_value(true),
                         ]),
-                    // TODO validate question have 1-300 characters
                     // TODO validate characters have 1-100 characters
                     SubCommand::with_name("poll")
                         .about("Send a poll with a bot.")
@@ -166,7 +165,8 @@ pub fn get_app() -> App<'static, 'static> {
                             Arg::with_name("question")
                                 .help("The question to ask.")
                                 .takes_value(true)
-                                .required(true),
+                                .required(true)
+                                .validator(question_validator),
                             Arg::with_name("option")
                                 .help("An option for the question.")
                                 .short("o")
