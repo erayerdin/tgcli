@@ -158,6 +158,8 @@ pub fn get_app() -> App<'static, 'static> {
                                 .help("The title of the audio.")
                                 .takes_value(true),
                         ]),
+                    // TODO validate question have 1-300 characters
+                    // TODO validate characters have 1-100 characters
                     SubCommand::with_name("poll")
                         .about("Send a poll with a bot.")
                         .args(&[

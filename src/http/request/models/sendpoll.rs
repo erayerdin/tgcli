@@ -1,3 +1,10 @@
+use std::convert::TryFrom;
+
+use reqwest::blocking::multipart::Form;
+use serde_json::json;
+
+use crate::operations::OperationError;
+
 use super::ChatId;
 
 // Copyright 2021 Eray Erdin
@@ -19,4 +26,19 @@ pub struct SendPollRequestModel {
     chat_id: ChatId,
     question: String,
     options: Vec<String>,
+}
+
+impl TryFrom<SendPollRequestModel> for Form {
+    type Error = OperationError;
+
+    fn try_from(m: SendPollRequestModel) -> Result<Self, Self::Error> {
+        debug!("Converting SendPollRequestModel to Form...");
+        let chat_id = m.chat_id.to_string();
+        let options = json!(m.options).to_string();
+
+        Ok(Form::new()
+            .text("chat_id", chat_id)
+            .text("question", m.question)
+            .text("options", options))
+    }
 }
