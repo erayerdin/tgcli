@@ -168,6 +168,7 @@ pub fn get_app() -> App<'static, 'static> {
                             Arg::with_name("option")
                                 .help("An option for the question.")
                                 .short("o")
+                                .required(true)
                                 .multiple(true)
                                 .min_values(2),
                         ]),
