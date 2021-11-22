@@ -3,7 +3,7 @@ use std::convert::TryFrom;
 use reqwest::blocking::multipart::Form;
 use serde_json::json;
 
-use crate::operations::OperationError;
+use crate::operations::{bot::send::poll::SendPollParams, OperationError};
 
 use super::ChatId;
 
@@ -40,5 +40,25 @@ impl TryFrom<SendPollRequestModel> for Form {
             .text("chat_id", chat_id)
             .text("question", m.question)
             .text("options", options))
+    }
+}
+
+impl From<SendPollParams> for SendPollRequestModel {
+    fn from(params: SendPollParams) -> Self {
+        debug!("Converting SendPollParams to SendPollRequestModel...");
+
+        let chat_id = match params.2.receiver.parse::<usize>() {
+            Ok(v) => ChatId::Int(v),
+            Err(_) => ChatId::Str(params.2.receiver),
+        };
+
+        let question = params.3.question;
+        let options = params.3.options;
+
+        SendPollRequestModel {
+            chat_id,
+            question,
+            options,
+        }
     }
 }

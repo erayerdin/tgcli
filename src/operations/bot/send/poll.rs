@@ -18,8 +18,8 @@ use super::{SendOperation, SendParams};
 
 #[derive(Debug)]
 pub struct PollParams {
-    question: String,
-    options: Vec<String>,
+    pub question: String,
+    pub options: Vec<String>,
 }
 
 impl PollParams {
@@ -28,13 +28,15 @@ impl PollParams {
     }
 }
 
+pub type SendPollParams = (RootParams, BotParams, SendParams, PollParams);
+
 #[derive(Debug)]
 pub struct SendPollOperation {
-    params: (RootParams, BotParams, SendParams, PollParams),
+    params: SendPollParams,
 }
 
 impl SendPollOperation {
-    pub fn new(params: (RootParams, BotParams, SendParams, PollParams)) -> Self {
+    pub fn new(params: SendPollParams) -> Self {
         Self { params }
     }
 }
