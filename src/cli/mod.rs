@@ -169,7 +169,7 @@ pub fn get_app() -> App<'static, 'static> {
                                 .help("An option for the question.")
                                 .short("o")
                                 .multiple(true)
-                                .min_values(1),
+                                .min_values(2),
                         ]),
                     SubCommand::with_name("location")
                         .about("Send a location with a bot.")
