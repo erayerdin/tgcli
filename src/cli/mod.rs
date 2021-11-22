@@ -173,6 +173,7 @@ pub fn get_app() -> App<'static, 'static> {
                                 .required(true)
                                 .multiple(true)
                                 .min_values(2)
+                                .max_values(10)
                                 .validator(poll_option_validator),
                         ]),
                     SubCommand::with_name("location")
