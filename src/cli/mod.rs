@@ -163,7 +163,6 @@ pub fn get_app() -> App<'static, 'static> {
                         .args(&[
                             Arg::with_name("question")
                                 .help("The question to ask.")
-                                .short("q")
                                 .takes_value(true)
                                 .required(true),
                             Arg::with_name("option")
