@@ -1,4 +1,13 @@
-use crate::operations::{bot::BotParams, RootParams};
+use std::convert::TryInto;
+
+use reqwest::blocking::Client;
+
+use crate::{
+    handle_response,
+    http::request::models::sendlocation::SendLocationRequestModel,
+    operations::{bot::BotParams, RootParams},
+    API_ROOT_URL,
+};
 
 use super::{SendOperation, SendParams};
 
@@ -46,6 +55,29 @@ impl SendLocationOperation {
 
 impl SendOperation for SendLocationOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
-        todo!() // TODO implement SendLocationOperation
+        info!("Sending location...");
+
+        let url = format!(
+            "{root_url}{token}/sendPoll",
+            root_url = API_ROOT_URL,
+            token = self.params.1.token,
+        );
+        trace!("url: {}", url);
+
+        let req_instance: SendLocationRequestModel = self.params.into();
+        let req_body = match req_instance.try_into() {
+            Ok(f) => f,
+            Err(e) => return Err(e),
+        };
+        trace!("request body: {:?}", req_body);
+
+        let client = Client::new();
+        let response = client.post(url).multipart(req_body).send();
+
+        handle_response!(response, on_success => {
+            info!("Successfully sent location.");
+        }, on_failure => {
+            error!("An error occured while sending the location.");
+        })
     }
 }
