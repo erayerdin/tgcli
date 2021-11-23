@@ -8,7 +8,8 @@ use clap::{
 use crate::{
     cli::validators::{
         audio_validator, caption_validator, file_validator, float_validator, image_validator,
-        positive_integer_validator, video_validator,
+        poll_option_validator, poll_question_validator, positive_integer_validator,
+        video_validator,
     },
     operations::{
         bot::send::{
@@ -163,14 +164,17 @@ pub fn get_app() -> App<'static, 'static> {
                         .args(&[
                             Arg::with_name("question")
                                 .help("The question to ask.")
-                                .short("q")
                                 .takes_value(true)
-                                .required(true),
+                                .required(true)
+                                .validator(poll_question_validator),
                             Arg::with_name("option")
                                 .help("An option for the question.")
                                 .short("o")
+                                .required(true)
                                 .multiple(true)
-                                .min_values(1),
+                                .min_values(2)
+                                .max_values(10)
+                                .validator(poll_option_validator),
                         ]),
                     SubCommand::with_name("location")
                         .about("Send a location with a bot.")

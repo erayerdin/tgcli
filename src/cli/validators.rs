@@ -139,3 +139,17 @@ pub fn float_validator(value: String) -> ValidatorResult {
         )),
     }
 }
+
+pub fn poll_question_validator(value: String) -> ValidatorResult {
+    match value.len() {
+        l if l < 1 || l > 300 => Err("The question length must be between 1 and 300.".to_owned()),
+        _ => Ok(()),
+    }
+}
+
+pub fn poll_option_validator(value: String) -> ValidatorResult {
+    match value.len() {
+        l if l < 1 || l > 100 => Err("The option length must be between 1 and 100.".to_owned()),
+        _ => Ok(()),
+    }
+}
