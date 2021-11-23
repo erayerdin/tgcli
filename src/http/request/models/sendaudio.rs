@@ -2,7 +2,10 @@ use std::convert::TryFrom;
 
 use reqwest::blocking::multipart::Form;
 
-use crate::operations::{CommonExitCodes, OperationError};
+use crate::operations::{
+    bot::send::{self, audio::SendAudioParams},
+    CommonExitCodes, OperationError,
+};
 
 use super::{ChatId, InputFile, ParseMode};
 
@@ -73,5 +76,36 @@ impl TryFrom<SendAudioRequestModel> for Form {
         };
 
         Ok(title_form)
+    }
+}
+
+impl From<SendAudioParams> for SendAudioRequestModel {
+    fn from(params: SendAudioParams) -> Self {
+        debug!("Converting SendAudioParams to SendAudioRequestModel...");
+
+        let chat_id = match params.2.receiver.parse::<usize>() {
+            Ok(v) => ChatId::Int(v),
+            Err(_) => ChatId::Str(params.2.receiver),
+        };
+
+        let caption = params.3.message;
+
+        let parse_mode = match params.2.format {
+            send::MessageFormat::Markdown => ParseMode::Markdown,
+            send::MessageFormat::HTML => ParseMode::HTML,
+        };
+
+        let audio = InputFile::Local(params.3.file);
+        let performer = params.3.performer;
+        let title = params.3.title;
+
+        SendAudioRequestModel {
+            chat_id,
+            caption,
+            parse_mode,
+            audio,
+            performer,
+            title,
+        }
     }
 }

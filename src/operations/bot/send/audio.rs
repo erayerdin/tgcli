@@ -20,10 +20,10 @@ use super::{SendOperation, SendParams};
 
 #[derive(Debug)]
 pub struct AudioParams {
-    file: PathBuf,
-    message: Option<String>,
-    title: Option<String>,
-    performer: Option<String>,
+    pub file: PathBuf,
+    pub message: Option<String>,
+    pub title: Option<String>,
+    pub performer: Option<String>,
 }
 
 impl AudioParams {
@@ -42,13 +42,15 @@ impl AudioParams {
     }
 }
 
+pub type SendAudioParams = (RootParams, BotParams, SendParams, AudioParams);
+
 #[derive(Debug)]
 pub struct SendAudioOperation {
-    params: (RootParams, BotParams, SendParams, AudioParams),
+    params: SendAudioParams,
 }
 
 impl SendAudioOperation {
-    pub fn new(params: (RootParams, BotParams, SendParams, AudioParams)) -> Self {
+    pub fn new(params: SendAudioParams) -> Self {
         Self { params }
     }
 }
