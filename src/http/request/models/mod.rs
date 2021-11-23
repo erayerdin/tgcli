@@ -14,6 +14,7 @@ use std::{path, string};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pub mod sendaudio;
 pub mod senddocument;
 pub mod sendlocation;
 pub mod sendmessage;

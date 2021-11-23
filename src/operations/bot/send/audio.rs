@@ -1,6 +1,13 @@
-use std::path::PathBuf;
+use std::{convert::TryInto, path::PathBuf};
 
-use crate::operations::{bot::BotParams, RootParams};
+use reqwest::blocking::Client;
+
+use crate::{
+    handle_response,
+    http::request::models::sendaudio::SendAudioRequestModel,
+    operations::{bot::BotParams, RootParams},
+    API_ROOT_URL,
+};
 
 use super::{SendOperation, SendParams};
 
@@ -20,10 +27,10 @@ use super::{SendOperation, SendParams};
 
 #[derive(Debug)]
 pub struct AudioParams {
-    file: PathBuf,
-    message: Option<String>,
-    title: Option<String>,
-    performer: Option<String>,
+    pub file: PathBuf,
+    pub message: Option<String>,
+    pub title: Option<String>,
+    pub performer: Option<String>,
 }
 
 impl AudioParams {
@@ -42,19 +49,44 @@ impl AudioParams {
     }
 }
 
+pub type SendAudioParams = (RootParams, BotParams, SendParams, AudioParams);
+
 #[derive(Debug)]
 pub struct SendAudioOperation {
-    params: (RootParams, BotParams, SendParams, AudioParams),
+    params: SendAudioParams,
 }
 
 impl SendAudioOperation {
-    pub fn new(params: (RootParams, BotParams, SendParams, AudioParams)) -> Self {
+    pub fn new(params: SendAudioParams) -> Self {
         Self { params }
     }
 }
 
 impl SendOperation for SendAudioOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
-        todo!() // TODO implement SendAudioOperation
+        info!("Sending audio...");
+
+        let url = format!(
+            "{root_url}{token}/sendAudio",
+            root_url = API_ROOT_URL,
+            token = self.params.1.token
+        );
+        trace!("url: {}", url);
+
+        let req_instance: SendAudioRequestModel = self.params.into();
+        let req_body = match req_instance.try_into() {
+            Ok(f) => f,
+            Err(e) => return Err(e),
+        };
+        debug!("request body: {:?}", req_body);
+
+        let client = Client::new();
+        let response = client.post(url).multipart(req_body).send();
+
+        handle_response!(response, on_success => {
+            info!("Successfully sent audio.");
+        }, on_failure => {
+            error!("An error occurred while sending the audio.");
+        })
     }
 }
