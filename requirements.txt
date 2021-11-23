@@ -1,4 +1,0 @@
-requests
-Click
-yaspin
-colorful

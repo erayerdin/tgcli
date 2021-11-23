@@ -1,57 +1,72 @@
 # tgcli
 
-[![PyPI - Version][badge_version]][pypi_url]
-[![PyPI - Downloads Last Month][badge_downloads]][pypi_url]
-[![PyPI - Python Versions][badge_pyversions]][pypi_url]
-[![PyPI - License][badge_license]][pypi_url]
+![Latest Stable Release][stable_version_badge]
+![Latest Release][latest_version_badge]
+![Github Release Download Count][github_download_counter_badge]
+![License][license_badge]
 [![Docs Status][badge_docs]][docs_url]
-[![Code Style][badge_style]](https://github.com/ambv/black)
 
 ![](resources/recording.gif)
 
-`tgcli` is a Python cli app for Telegram.
+`tgcli` is a terminal app to send messages with bots on Telegram.
 
-[pypi_url]: https://pypi.org/project/tgcli/
 [docs_url]: https://tgcli.readthedocs.io
 
-[badge_version]: https://img.shields.io/pypi/v/tgcli.svg?style=flat-square&logo=python&logoColor=white
-[badge_downloads]: https://img.shields.io/pypi/dm/tgcli.svg?style=flat-square&logo=python&logoColor=white
-[badge_pyversions]: https://img.shields.io/pypi/pyversions/tgcli.svg?style=flat-square&logo=python&logoColor=white
-[badge_license]: https://img.shields.io/pypi/l/tgcli.svg?style=flat-square
+[stable_version_badge]: https://img.shields.io/github/v/release/erayerdin/tgcli?label=stable&style=flat-square
+[latest_version_badge]: https://img.shields.io/github/v/release/erayerdin/tgcli?include_prereleases&label=latest&style=flat-square
+[github_download_counter_badge]: https://img.shields.io/github/downloads/erayerdin/tgcli/total?logo=github&style=flat-square
+[license_badge]: https://img.shields.io/badge/license-Apache--2.0-lightgrey?style=flat-square
 [badge_docs]: https://img.shields.io/readthedocs/tgcli?style=flat-square
-[badge_style]: https://img.shields.io/badge/style-black-000000.svg?style=flat-square
 
 
-|              | Build | Coverage |
-|--------------|-------|----------|
-| **Master**   | [![Master Build][badge_build_master]][build_url] | [![Master Coverage][badge_coverage_master]][coverage_url] |
-| **Development** | [![Development Build][badge_build_development]][build_url] | [![Development Coverage][badge_coverage_development]][coverage_url] |
+|         | Master                                                                                                                                  | Development                                                                                                                                                 | Format                         | Coverage                           |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ---------------------------------- |
+| Linux   | ![Linux Build Status on Master][linux_build_status_master_badge] ![Linux Test Status on Master][linux_test_status_master_badge]         | ![Linux Build Status on Development][linux_build_status_development_badge] ![Linux Test Status on Development][linux_test_status_development_badge]         | ![Format Status][format_badge] | ![Coverage Report][coverage_badge] |
+| MacOS   | ![MacOS Build Status on Master][macos_build_status_master_badge] ![MacOS Test Status on Master][macos_test_status_master_badge]         | ![MacOS Build Status on Development][macos_build_status_development_badge] ![MacOS Test Status on Development][macos_test_status_development_badge]         |                                |                                    |
+| Windows | ![Windows Build Status on Master][windows_build_status_master_badge] ![Windows Test Status on Master][windows_test_status_master_badge] | ![Windows Build Status on Development][windows_build_status_development_badge] ![Windows Test Status on Development][windows_test_status_development_badge] |                                |                                    |
 
-[build_url]: https://travis-ci.com/erayerdin/tgcli
+The details of the build status can be seen [here][build_url]. The details of the coverage report can be seen [here][coverage_url].
+
+[build_url]: https://github.com/erayerdin/tgcli/actions
 [coverage_url]: https://coveralls.io/github/erayerdin/tgcli
 
-[badge_build_master]: https://img.shields.io/travis/com/erayerdin/tgcli/master.svg?style=flat-square&logo=travis&logoColor=white
-[badge_build_development]: https://img.shields.io/travis/com/erayerdin/tgcli/development.svg?style=flat-square&logo=travis&logoColor=white
-[badge_coverage_master]: https://img.shields.io/coveralls/github/erayerdin/tgcli/master.svg?logo=star&logoColor=white&style=flat-square
-[badge_coverage_development]: https://img.shields.io/coveralls/github/erayerdin/tgcli/development.svg?logo=star&logoColor=white&style=flat-square
+<!-- Linux Badges -->
+
+[linux_build_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/master?logo=linux&logoColor=white&style=flat-square
+[linux_build_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/development?logo=linux&logoColor=white&style=flat-square
+
+[linux_test_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/master?label=test&logo=linux&logoColor=white&style=flat-square
+[linux_test_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/development?label=test&logo=linux&logoColor=white&style=flat-square
+
+<!-- MacOS Badges -->
+
+[macos_build_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/master?logo=apple&logoColor=white&style=flat-square
+[macos_build_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/development?logo=apple&logoColor=white&style=flat-square
+
+[macos_test_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/master?label=test&logo=apple&logoColor=white&style=flat-square
+[macos_test_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/development?label=test&logo=apple&logoColor=white&style=flat-square
+
+<!-- Windows Badges -->
+
+[windows_build_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_windows/master?logo=windows&logoColor=white&style=flat-square
+[windows_build_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_windows/development?logo=windows&logoColor=white&style=flat-square
+
+[windows_test_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_windows/master?label=test&logo=windows&logoColor=white&style=flat-square
+[windows_test_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_windows/development?label=test&logo=windows&logoColor=white&style=flat-square
+
+<!-- Miscellaneous Badges -->
+
+[format_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/format/master?label=format&logo=linux&logoColor=white&style=flat-square
+[coverage_badge]: https://img.shields.io/coveralls/github/erayerdin/tgcli/master?logo=linux&logoColor=white&style=flat-square
 
 ## Installing
 
-### pip (No auto-update)
+### Github Releases
 
-Install via `pip`:
+Currently, the project is being migrated to Rust. Until a stable release, the binaries and a Debian package will be distributed on [Releases page][release_page_url].
 
-```bash
-pip install tgcli
-```
-### tgcli (Auto-update, Arch-based)
+[release_page_url]: https://github.com/erayerdin/tgcli/releases
 
-Also available as a package in [AUR](https://aur.archlinux.org/packages/tgcli/).
-
-```bash
-# assuming you use yay
-yay -S tgcli
-```
 ### Install with [Guix](https://guix.gnu.org)
 
 tgcli is [available](https://guix.gnu.org/en/packages/tgcli-0.3.1/) in official channel of Guix.
@@ -62,19 +77,17 @@ guix install tgcli
 
 ## Rationale
 
-[A similar project](https://github.com/vysheng/tg), built on Python, was created by [@vysheng](https://github.com/vysheng), but it has not been updated since 2016 and considered abandoned. This tool *is not a fork* of the mentioned project, it is built from ground up.
+[A similar project](https://github.com/vysheng/tg), built on Python, was created by [@vysheng](https://github.com/vysheng), but it has not been updated since 2016 and considered abandoned. This tool *is not a fork* of the mentioned project, it is built from ground up **with Rust**.
 
 ## Example
 
 For now, the use case is pretty simple. To send a message:
 
 ```bash
-tgcli bot --token "BotToken" send --receiver "UserID" message "Your message"
+tgcli bot send message "Your message" --token "BotToken" --receiver "UserID"
 ```
 
-You don't need to expose your token as flag. If you set
-`TELEGRAM_BOT_TOKEN` environment variable, you do not need to set
-`--token` flag. Just set it before using `tgcli`:
+You don't need to expose your token as flag. If you set `TELEGRAM_BOT_TOKEN` environment variable, you do not need to set `--token` flag. Just set it before using `tgcli`:
 
 ```bash
 export TELEGRAM_BOT_TOKEN="BotToken"
@@ -86,15 +99,8 @@ You can get more information by doing:
 tgcli bot send --help
 ```
 
-Also, this repository uses notification from a private bot, you can see the
-example Travis configuration [here](.travis.yml). Private `TELEGRAM_BOT_TOKEN`
-and `TELEGRAM_RECEIVER` environment variables were set.
-
-This application serves a really small purpose for now. It might face
-breaking changes in the future.
+This application serves a really small purpose for now. It might face breaking changes in the future.
 
 ## Documentation
 
-Documentation has an intensive amount of  information about how to
-use `tgcli`. Refer to the
-[documentation][docs_url].
+Documentation has an intensive amount of  information about how to use `tgcli`. Refer to the [documentation][docs_url].

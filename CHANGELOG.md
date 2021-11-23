@@ -4,6 +4,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.0-alpha.4] - 2021-11-23
+### Added
+ - `bot send poll` has been implemented.
+ - `bot send location` has been implemented.
+ - `bot send video` has been implemented.
+ - `bot send audio` has been implemented.
+
+### Changed
+ - `bot send poll` now takes `question` as positional argument.
+ - `bot send poll` now requires at least two `-o`/`--option` argument or it is invalid.
+ - `question` argument on `bot send poll` can only take 1-300 characters.
+ - `-o`/`--option` on `bot send poll` can only take 1-100 characters.
+
+### Removed
+ - `-q`/`--question` argument from `bot send poll`.
+ - `-w`/`--width` argument from `bot send video`.
+ - `-h`/`--height` argument from `bot send video`.
+
+## [v0.5.0-alpha.3] - 2021-11-19
+### Added
+ - `bot send photo` has been implemented.
+
+## [v0.5.0-alpha.2] - 2021-11-19
+### Added
+ - `bot send document` has been implemented.
+
+## [v0.5.0-alpha.1] - 2021-11-18
+### Added
+ - `bot send message` has been reimplemented.
+ - The same subcommands and arguments from the previous versions are inherited, but they throw "not implemented yet".
+
+### Changed
+ - *Totally migrated to Rust* with a base foundation that might be subject to be shaped further.
+
 ## [v0.4.0pre4] - 2020-05-04
 ### Added
  - Added `-m|--multiple` option to `bot send poll`.
