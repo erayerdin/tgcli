@@ -6,29 +6,46 @@ repo_url: https://github.com/erayerdin/tgcli
 
 theme:
   name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - search
+    - search.highlight
+    - search.share
   palette:
     primary: cyan
     accent: cyan
 
 extra:
+  version:
+    provider: mike
   social:
-    - type: github
+    - icon: fontawesome/brands/github
       link: https://github.com/erayerdin
-    - type: twitter
+    - icon: fontawesome/brands/twitter
       link: https://twitter.com/_erayerdin
-    - type: linkedin
-      link: https://linkedin.com/in/erayerdin
-    - type: telegram
+    - icon: fontawesome/brands/telegram
       link: https://t.me/erayerdin
+    - icon: fontawesome/solid/globe
+      link: https://erayerdin.com
+      name: Personal Blog
   disqus: erayerdin
 
 markdown_extensions:
   - admonition
+  - pymdownx.details
+  - pymdownx.superfences
   - codehilite:
       guess_lang: false
   - toc:
       permalink: true
   - footnotes
+
+plugins:
+  - git-revision-date-localized
 
 nav:
     - Home: index.md
