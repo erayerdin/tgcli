@@ -67,7 +67,7 @@ impl SendOperation for SendVideoOperation {
         info!("Sending video...");
 
         let url = format!(
-            "{root_url}{token}/sendPhoto",
+            "{root_url}{token}/sendVideo",
             root_url = API_ROOT_URL,
             token = self.params.1.token
         );
