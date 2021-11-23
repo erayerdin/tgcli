@@ -2,7 +2,7 @@ use std::convert::TryFrom;
 
 use reqwest::blocking::multipart::Form;
 
-use crate::operations::OperationError;
+use crate::operations::{bot::send::location::SendLocationParams, OperationError};
 
 use super::ChatId;
 
@@ -38,5 +38,25 @@ impl TryFrom<SendLocationRequestModel> for Form {
             .text("chat_id", chat_id)
             .text("latitude", m.latitude.to_string())
             .text("longitude", m.longitude.to_string()))
+    }
+}
+
+impl From<SendLocationParams> for SendLocationRequestModel {
+    fn from(params: SendLocationParams) -> Self {
+        debug!("Converting SendLocationParams to SendLocationRequestModel...");
+
+        let chat_id = match params.2.receiver.parse::<usize>() {
+            Ok(v) => ChatId::Int(v),
+            Err(_) => ChatId::Str(params.2.receiver),
+        };
+
+        let latitude = params.3.latitude;
+        let longitude = params.3.longitude;
+
+        SendLocationRequestModel {
+            chat_id,
+            latitude,
+            longitude,
+        }
     }
 }

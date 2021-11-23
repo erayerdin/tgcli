@@ -18,8 +18,8 @@ use super::{SendOperation, SendParams};
 
 #[derive(Debug)]
 pub struct LocationParams {
-    latitude: f32,
-    longitude: f32,
+    pub latitude: f32,
+    pub longitude: f32,
 }
 
 impl LocationParams {
@@ -31,13 +31,15 @@ impl LocationParams {
     }
 }
 
+pub type SendLocationParams = (RootParams, BotParams, SendParams, LocationParams);
+
 #[derive(Debug)]
 pub struct SendLocationOperation {
-    params: (RootParams, BotParams, SendParams, LocationParams),
+    params: SendLocationParams,
 }
 
 impl SendLocationOperation {
-    pub fn new(params: (RootParams, BotParams, SendParams, LocationParams)) -> Self {
+    pub fn new(params: SendLocationParams) -> Self {
         Self { params }
     }
 }
