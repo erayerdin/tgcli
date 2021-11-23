@@ -70,7 +70,7 @@ fn validate_file_type(path: &PathBuf, file_type: Name) -> ValidatorResult {
                 Ok(())
             } else {
                 Err(format!(
-                    "The file is not a valid {file_type} file. Please provide a valid image file.\nPath: {}",
+                    "The file is not a valid {file_type} file. Please provide a valid {file_type} file.\nPath: {}",
                     path.to_string_lossy(),
                     file_type = file_type,
                 ))
