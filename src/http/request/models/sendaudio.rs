@@ -1,4 +1,10 @@
-use super::{ChatId, InputFile};
+use std::convert::TryFrom;
+
+use reqwest::blocking::multipart::Form;
+
+use crate::operations::{CommonExitCodes, OperationError};
+
+use super::{ChatId, InputFile, ParseMode};
 
 // Copyright 2021 Eray Erdin
 //
@@ -21,5 +27,51 @@ pub struct SendAudioRequestModel {
     performer: Option<String>,
     title: Option<String>,
     caption: Option<String>,
-    parse_mode: Option<String>,
+    parse_mode: ParseMode,
+}
+
+impl TryFrom<SendAudioRequestModel> for Form {
+    type Error = OperationError;
+
+    fn try_from(m: SendAudioRequestModel) -> Result<Self, Self::Error> {
+        debug!("Converting SendAudioRequestModel to Form...");
+
+        let chat_id = m.chat_id.to_string();
+        let parse_mode = m.parse_mode.to_string();
+
+        let initial_form = Form::new()
+            .text("chat_id", chat_id)
+            .text("parse_mode", parse_mode);
+
+        let caption_form = match m.caption {
+            Some(c) => initial_form.text("caption", c),
+            None => initial_form,
+        };
+
+        let audio_form = match m.audio {
+            InputFile::Local(p) => match caption_form.file("audio", p) {
+                Ok(f) => f,
+                Err(e) => {
+                    return Err(OperationError::new(
+                        CommonExitCodes::ReqwestFormError as i32,
+                        &format!("Could not send audio to Telegram. {}", e),
+                    ))
+                }
+            },
+            InputFile::Remote(u) => caption_form.text("audio", u.to_string()),
+            InputFile::Id(i) => caption_form.text("audio", i),
+        };
+
+        let performer_form = match m.performer {
+            Some(p) => audio_form.text("performer", p),
+            None => audio_form,
+        };
+
+        let title_form = match m.title {
+            Some(t) => performer_form.text("title", t),
+            None => performer_form,
+        };
+
+        Ok(title_form)
+    }
 }
