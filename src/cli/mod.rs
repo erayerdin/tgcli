@@ -136,13 +136,11 @@ pub fn get_app() -> App<'static, 'static> {
                                 .help("Horizontal aspect ratio of the video.")
                                 .takes_value(true)
                                 .short("h")
-                                .default_value("1")
                                 .validator(positive_integer_validator),
                             Arg::with_name("vertical")
                                 .help("Vertical aspect ratio of the video.")
                                 .takes_value(true)
                                 .short("v")
-                                .default_value("1")
                                 .validator(positive_integer_validator),
                         ]),
                     SubCommand::with_name("audio")
