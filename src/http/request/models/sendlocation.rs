@@ -1,3 +1,9 @@
+use std::convert::TryFrom;
+
+use reqwest::blocking::multipart::Form;
+
+use crate::operations::OperationError;
+
 use super::ChatId;
 
 // Copyright 2021 Eray Erdin
@@ -19,4 +25,18 @@ pub struct SendLocationRequestModel {
     chat_id: ChatId,
     latitude: f32,
     longitude: f32,
+}
+
+impl TryFrom<SendLocationRequestModel> for Form {
+    type Error = OperationError;
+
+    fn try_from(m: SendLocationRequestModel) -> Result<Self, Self::Error> {
+        debug!("Converting SendLocationRequestModel to Form...");
+        let chat_id = m.chat_id.to_string();
+
+        Ok(Form::new()
+            .text("chat_id", chat_id)
+            .text("latitude", m.latitude.to_string())
+            .text("longitude", m.longitude.to_string()))
+    }
 }
