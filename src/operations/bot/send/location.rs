@@ -58,7 +58,7 @@ impl SendOperation for SendLocationOperation {
         info!("Sending location...");
 
         let url = format!(
-            "{root_url}{token}/sendPoll",
+            "{root_url}{token}/sendLocation",
             root_url = API_ROOT_URL,
             token = self.params.1.token,
         );
