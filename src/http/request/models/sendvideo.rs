@@ -24,8 +24,8 @@ use super::{ChatId, InputFile, ParseMode};
 pub struct SendVideoRequestModel {
     chat_id: ChatId,
     video: InputFile,
-    width: usize,
-    height: usize,
+    width: Option<usize>,
+    height: Option<usize>,
     caption: Option<String>,
     parse_mode: ParseMode,
 }
@@ -61,9 +61,19 @@ impl TryFrom<SendVideoRequestModel> for Form {
             InputFile::Id(i) => caption_form.text("video", i),
         };
 
-        let dimension_form = video_form
-            .text("width", m.width.to_string())
-            .text("height", m.height.to_string());
+        let width_form = match m.width {
+            Some(w) => video_form.text("width", w.to_string()),
+            None => video_form,
+        };
+
+        let height_form = match m.height {
+            Some(h) => video_form.text("height", h.to_string()),
+            None => width_form,
+        };
+
+        Ok(height_form)
+    }
+}
 
         Ok(dimension_form)
     }
