@@ -1,6 +1,6 @@
 [package]
 name = "tgcli"
-version = "0.5.0-alpha.3"
+version = "0.5.0-alpha.4"
 authors = ["Eray Erdin <eraygezer.94@gmail.com>"]
 edition = "2018"
 description = "A Telegram Terminal Application"
