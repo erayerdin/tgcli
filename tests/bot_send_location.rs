@@ -40,3 +40,19 @@ fn send_location(mut binary: Command) {
 
     assertion.success();
 }
+
+#[rstest]
+fn send_location_invalid_float(mut binary: Command, #[values("a", "0..1", "1..0")] latitude: &str) {
+    let assertion = binary.args([
+        "bot",
+        "send",
+        "location",
+        "-x", latitude,
+        "-y", "27.14",
+        "--receiver",
+        &env::var("TELEGRAM_RECEIVER")
+            .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
+    ]).assert();
+
+    assertion.failure().code(1);
+}
