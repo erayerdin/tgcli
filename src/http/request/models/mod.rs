@@ -19,6 +19,7 @@ pub mod sendlocation;
 pub mod sendmessage;
 pub mod sendphoto;
 pub mod sendpoll;
+pub mod sendvideo;
 
 #[derive(Debug)]
 /// What the type of ChatId is.
