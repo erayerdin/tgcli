@@ -1,3 +1,9 @@
+use std::convert::TryFrom;
+
+use reqwest::blocking::multipart::Form;
+
+use crate::operations::{CommonExitCodes, OperationError};
+
 use super::{ChatId, InputFile, ParseMode};
 
 // Copyright 2021 Eray Erdin
@@ -20,6 +26,45 @@ pub struct SendVideoRequestModel {
     video: InputFile,
     width: usize,
     height: usize,
-    caption: String,
+    caption: Option<String>,
     parse_mode: ParseMode,
+}
+
+impl TryFrom<SendVideoRequestModel> for Form {
+    type Error = OperationError;
+
+    fn try_from(m: SendVideoRequestModel) -> Result<Self, Self::Error> {
+        debug!("Converting to SendVideoRequestModel to Form...");
+        let chat_id = m.chat_id.to_string();
+        let parse_mode = m.parse_mode.to_string();
+
+        let initial_form = Form::new()
+            .text("chat_id", chat_id)
+            .text("parse_mode", parse_mode);
+
+        let caption_form = match m.caption {
+            Some(c) => initial_form.text("caption", c),
+            None => initial_form,
+        };
+
+        let video_form = match m.video {
+            InputFile::Local(p) => match caption_form.file("video", p) {
+                Ok(f) => f,
+                Err(e) => {
+                    return Err(OperationError::new(
+                        CommonExitCodes::ReqwestFormError as i32,
+                        &format!("Could not send video to Telegram. {}", e),
+                    ))
+                }
+            },
+            InputFile::Remote(u) => caption_form.text("video", u.to_string()),
+            InputFile::Id(i) => caption_form.text("video", i),
+        };
+
+        let dimension_form = video_form
+            .text("width", m.width.to_string())
+            .text("height", m.height.to_string());
+
+        Ok(dimension_form)
+    }
 }
