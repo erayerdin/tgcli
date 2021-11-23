@@ -63,7 +63,7 @@ The details of the build status can be seen [here][build_url]. The details of th
 
 ### Github Releases
 
-Currently, the project is being migrated to Rust. Until a stable release, the binaries will be distributed on [Releases page][release_page_url].
+Currently, the project is being migrated to Rust. Until a stable release, the binaries and a Debian package will be distributed on [Releases page][release_page_url].
 
 [release_page_url]: https://github.com/erayerdin/tgcli/releases
 
