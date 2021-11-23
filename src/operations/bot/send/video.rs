@@ -1,6 +1,13 @@
-use std::path::PathBuf;
+use std::{convert::TryInto, path::PathBuf};
 
-use crate::operations::{bot::BotParams, RootParams};
+use reqwest::blocking::Client;
+
+use crate::{
+    handle_response,
+    http::request::models::sendvideo::SendVideoRequestModel,
+    operations::{bot::BotParams, RootParams},
+    API_ROOT_URL,
+};
 
 use super::{SendOperation, SendParams};
 
@@ -57,6 +64,29 @@ impl SendVideoOperation {
 
 impl SendOperation for SendVideoOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
-        todo!() // TODO implement SendVideoOperation
+        info!("Sending video...");
+
+        let url = format!(
+            "{root_url}{token}/sendPhoto",
+            root_url = API_ROOT_URL,
+            token = self.params.1.token
+        );
+        trace!("url: {}", url);
+
+        let req_instance: SendVideoRequestModel = self.params.into();
+        let req_body = match req_instance.try_into() {
+            Ok(f) => f,
+            Err(e) => return Err(e),
+        };
+        debug!("request body: {:?}", req_body);
+
+        let client = Client::new();
+        let response = client.post(url).multipart(req_body).send();
+
+        handle_response!(response, on_success => {
+            info!("Successfully sent video.");
+        }, on_failure => {
+            error!("An error occurred while sending the video.");
+        })
     }
 }
