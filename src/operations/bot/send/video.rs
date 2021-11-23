@@ -20,10 +20,10 @@ use super::{SendOperation, SendParams};
 
 #[derive(Debug)]
 pub struct VideoParams {
-    file: PathBuf,
-    message: Option<String>,
-    horizontal: Option<usize>,
-    vertical: Option<usize>,
+    pub file: PathBuf,
+    pub message: Option<String>,
+    pub horizontal: Option<usize>,
+    pub vertical: Option<usize>,
 }
 
 impl VideoParams {
@@ -42,13 +42,15 @@ impl VideoParams {
     }
 }
 
+pub type SendVideoParams = (RootParams, BotParams, SendParams, VideoParams);
+
 #[derive(Debug)]
 pub struct SendVideoOperation {
-    params: (RootParams, BotParams, SendParams, VideoParams),
+    params: SendVideoParams,
 }
 
 impl SendVideoOperation {
-    pub fn new(params: (RootParams, BotParams, SendParams, VideoParams)) -> Self {
+    pub fn new(params: SendVideoParams) -> Self {
         Self { params }
     }
 }

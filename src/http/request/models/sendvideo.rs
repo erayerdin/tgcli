@@ -2,7 +2,10 @@ use std::convert::TryFrom;
 
 use reqwest::blocking::multipart::Form;
 
-use crate::operations::{CommonExitCodes, OperationError};
+use crate::operations::{
+    bot::send::{self, video::SendVideoParams},
+    CommonExitCodes, OperationError,
+};
 
 use super::{ChatId, InputFile, ParseMode};
 
@@ -67,7 +70,7 @@ impl TryFrom<SendVideoRequestModel> for Form {
         };
 
         let height_form = match m.height {
-            Some(h) => video_form.text("height", h.to_string()),
+            Some(h) => width_form.text("height", h.to_string()),
             None => width_form,
         };
 
@@ -75,6 +78,33 @@ impl TryFrom<SendVideoRequestModel> for Form {
     }
 }
 
-        Ok(dimension_form)
+impl From<SendVideoParams> for SendVideoRequestModel {
+    fn from(params: SendVideoParams) -> Self {
+        debug!("Converting SendVideoParams to SendVideoRequestModel...");
+
+        let chat_id = match params.2.receiver.parse::<usize>() {
+            Ok(v) => ChatId::Int(v),
+            Err(_) => ChatId::Str(params.2.receiver),
+        };
+
+        let caption = params.3.message;
+
+        let parse_mode = match params.2.format {
+            send::MessageFormat::Markdown => ParseMode::Markdown,
+            send::MessageFormat::HTML => ParseMode::HTML,
+        };
+
+        let video = InputFile::Local(params.3.file);
+        let width = params.3.horizontal;
+        let height = params.3.vertical;
+
+        SendVideoRequestModel {
+            chat_id,
+            caption,
+            parse_mode,
+            video,
+            width,
+            height,
+        }
     }
 }
