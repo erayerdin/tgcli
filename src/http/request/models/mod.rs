@@ -15,6 +15,7 @@ use std::{path, string};
 // limitations under the License.
 
 pub mod senddocument;
+pub mod sendlocation;
 pub mod sendmessage;
 pub mod sendphoto;
 pub mod sendpoll;
