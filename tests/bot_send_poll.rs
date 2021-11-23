@@ -57,3 +57,21 @@ fn send_poll_insufficient_options(mut binary: Command) {
 
     assertion.failure().code(1);
 }
+
+#[rstest]
+fn send_poll_overused_chars_question(mut binary: Command) {
+    let question = (0..301).map(|_| "a").collect::<String>();
+
+    let assertion = binary.args([
+        "bot",
+        "send",
+        "poll",
+        &question,
+        "-o", "bar",
+        "--receiver",
+        &env::var("TELEGRAM_RECEIVER")
+            .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
+    ]).assert();
+
+    assertion.failure().code(1);
+}
