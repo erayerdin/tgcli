@@ -132,18 +132,22 @@ pub fn get_app() -> App<'static, 'static> {
                         .args(&[
                             FILE_ARG.clone().validator(video_validator),
                             CAPTION_ARG.clone(),
-                            Arg::with_name("horizontal")
-                                .help("Horizontal aspect ratio of the video.")
-                                .takes_value(true)
-                                .short("x")
-                                .long("horizontal")
-                                .validator(positive_integer_validator),
-                            Arg::with_name("vertical")
-                                .help("Vertical aspect ratio of the video.")
-                                .takes_value(true)
-                                .short("y")
-                                .long("vertical")
-                                .validator(positive_integer_validator),
+                            // aspect ratio does not work
+                            // currently, reqwest can only send multipart/form-data with
+                            // files and texts, not numeric values
+                            // which blocks this thing
+                            // Arg::with_name("horizontal")
+                            //     .help("Horizontal aspect ratio of the video.")
+                            //     .takes_value(true)
+                            //     .short("x")
+                            //     .long("horizontal")
+                            //     .validator(positive_integer_validator),
+                            // Arg::with_name("vertical")
+                            //     .help("Vertical aspect ratio of the video.")
+                            //     .takes_value(true)
+                            //     .short("y")
+                            //     .long("vertical")
+                            //     .validator(positive_integer_validator),
                         ]),
                     SubCommand::with_name("audio")
                         .about("Send an audio with a bot.")
