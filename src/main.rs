@@ -28,11 +28,14 @@ fn main() {
                     // }
                     out.finish(format_args!("{}", message))
                 })
-                .level(if cfg!(debug_assertions) {
-                    log::LevelFilter::Trace
-                } else {
-                    log::LevelFilter::Info
-                })
+                .level(
+                    // if cfg!(debug_assertions) {
+                    //     log::LevelFilter::Trace
+                    // } else {
+                    //     log::LevelFilter::Info
+                    // }
+                    log::LevelFilter::Info,
+                )
                 .chain(std::io::stdout()),
         )
         // stderr chain
@@ -43,12 +46,8 @@ fn main() {
                         || metadata.level() == log::LevelFilter::Warn
                 })
                 .format(|out, message, _record| out.finish(format_args!("{}", message)))
-                .level(if cfg!(debug_assertions) {
-                    log::LevelFilter::Trace
-                } else {
-                    log::LevelFilter::Info
-                })
-                .chain(std::io::stdout()),
+                .level(log::LevelFilter::Info)
+                .chain(std::io::stderr()),
         )
         .apply()
         .unwrap();
