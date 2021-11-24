@@ -87,7 +87,7 @@ For now, the use case is pretty simple. To send a message:
 tgcli bot send message "Your message" --token "BotToken" --receiver "UserID"
 ```
 
-You don't need to expose your token as flag. If you set `TELEGRAM_BOT_TOKEN` environment variable, you do not need to set `--token` flag. Just set it before using `tgcli`:
+You don't need to expose your token as argument. If you set `TELEGRAM_BOT_TOKEN` environment variable, you do not need to set `--token` argument. Just set it before using `tgcli`:
 
 ```bash
 export TELEGRAM_BOT_TOKEN="BotToken"

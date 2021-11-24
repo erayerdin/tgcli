@@ -2,25 +2,22 @@
 
 ## Introduction
 
-[![PyPI - Version][badge_version]][pypi_url]
-[![PyPI - Downloads Last Month][badge_downloads]][pypi_url]
-[![PyPI - Python Versions][badge_pyversions]][pypi_url]
-[![PyPI - License][badge_license]][pypi_url]
-[![Docs Status][badge_docs]][docs_url]
-[![Code Style][badge_style]](https://github.com/ambv/black)
+![Latest Stable Release][stable_version_badge]
+![Latest Release][latest_version_badge]
+![Github Release Download Count][github_download_counter_badge]
+![License][license_badge]
 
 [pypi_url]: https://pypi.org/project/tgcli/
 [docs_url]: https://tgcli.readthedocs.io
 
-[badge_version]: https://img.shields.io/pypi/v/tgcli.svg?style=flat-square&logo=python&logoColor=white
-[badge_downloads]: https://img.shields.io/pypi/dm/tgcli.svg?style=flat-square&logo=python&logoColor=white
-[badge_pyversions]: https://img.shields.io/pypi/pyversions/tgcli.svg?style=flat-square&logo=python&logoColor=white
-[badge_license]: https://img.shields.io/pypi/l/tgcli.svg?style=flat-square
-[badge_docs]: https://img.shields.io/readthedocs/tgcli?style=flat-square
-[badge_style]: https://img.shields.io/badge/style-black-000000.svg?style=flat-square
+[stable_version_badge]: https://img.shields.io/github/v/release/erayerdin/tgcli?label=stable&style=flat-square
+[latest_version_badge]: https://img.shields.io/github/v/release/erayerdin/tgcli?include_prereleases&label=latest&style=flat-square
+[github_download_counter_badge]: https://img.shields.io/github/downloads/erayerdin/tgcli/total?logo=github&style=flat-square
+[license_badge]: https://img.shields.io/badge/license-Apache--2.0-lightgrey?style=flat-square
 
-`tgcli` is a Telegram client that you can use on terminal. You can automate
-repetitive tasks on Telegram with `tgcli`.
+`tgcli` is a Telegram client that you can use on terminal. You can automate repetitive tasks such as sending a message, photo, video, audio, location or poll using `tgcli`.
+
+`tgcli` is written in Rust and shipped as a standalone binary. You will not need any runtime dependencies (except `libc` on Linux) to run `tgcli`.
 
 ## License
 

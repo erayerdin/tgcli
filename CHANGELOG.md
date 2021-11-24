@@ -46,9 +46,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v0.4.0pre3] - 2020-04-17
 ### Changed
- - `--horizontal/-h` and `--vertical/-v` flags for `bot send video` has been
+ - `--horizontal/-h` and `--vertical/-v` arguments for `bot send video` has been
  changed to `--width/-w` ad `--height/-h`.
- - Default values for `--width/-w` and `--height/-h` flags on `bot send video`
+ - Default values for `--width/-w` and `--height/-h` arguments on `bot send video`
  has been set to `1920` and `1080`.
  - Various bug fixes.
 
@@ -139,18 +139,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v0.1.0b4] - 2019-01-22
 
 ### Added
- - Added `--as` flag to define the file type you sent.
+ - Added `--as` argument to define the file type you sent.
 
 ## [v0.1.0b3] - 2019-01-22
 
 ### Changed
- - Moved `--secure/--no-secure` flag to root of app.
- - Moved `--token` flag to `bot` subcommand.
+ - Moved `--secure/--no-secure` argument to root of app.
+ - Moved `--token` argument to `bot` subcommand.
 
 ## [v0.1.0b2] - 2019-01-20
 
 ### Added
- - Added `--secure/--no-secure` flag in order to verify Telegram API HTTPS certificate.
+ - Added `--secure/--no-secure` argument in order to verify Telegram API HTTPS certificate.
 
 ### Changed
  - Fixed [issue](https://github.com/erayerdin/tgcli/issues/4) regarding OpenSSL issues on OSX.
@@ -172,7 +172,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Now `bot send` command accepts `-f/--file`, which sends file.
 
 ### Changed
- - `-f` flag in `bot send` now does not stand for `--format`, it stands for `--file`.
+ - `-f` argument in `bot send` now does not stand for `--format`, it stands for `--file`.
 
 ## [0.1.0a2] - 2019-01-15
 

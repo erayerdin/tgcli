@@ -2,32 +2,7 @@
 
 ## Installation
 
-### Pip
-
-The easiest way to install `tgcli` is to use `pip`:
-
-```bash
-pip install tgcli
-```
-
-The drawback of this method is it will not get updated until you explicitly
-tell `pip` to do that. So, in case of a new update, you need to do:
-
-```bash
-pip install tgcli --upgrade
-```
-
-### Arch-like Distributions
-
-If you are using Arch-Linux or any Arch-like distribution (like Manjaro,
-Archman etc.), you can also install it from [AUR][tgcli_aur] with an AUR helper
-such as `yay` or `yaourt` as below:
-
-```bash
-yay -S tgcli
-```
-
-[tgcli_aur]: https://aur.archlinux.org/packages/tgcli
+`tgcli` is currently being migrated to Rust and is in its alpha stage. During that stage, the standalone binaries for Windows and Linux and a `deb` package for convenience is released. You can check out [Releases](https://github.com/erayerdin/tgcli/releases) page to get one of them.
 
 ## A Basic Usage
 
@@ -37,18 +12,15 @@ In this tutorial, our goal is to send ourselves a message using a bot.
 
 #### Creating A Bot
 
-In order to create a bot, you will need to contact
-[@BotFather](https://t.me/BotFather). Steps are:
+In order to create a bot, you will need to contact [@BotFather](https://t.me/BotFather). Steps are:
 
  - Send `/newbot` to `@BotFather`.
  - Give a human-readable name for your bot.
  - Give a computer-readable username for your bot.
 
-Then `@BotFather` will provide you a token for HTTP API. Note it down to
-somewhere.
+Then `@BotFather` will provide you a token for HTTP API. Note it down to somewhere.
 
-Now, search your bot with the username you've just set. Send the bot an initial
-message.
+Now, search your bot with the username you've just set. Send the bot an initial message.
 
 !!! Reason
     Bots cannot initiate conversation in Telegram. So you cannot send a message
@@ -59,12 +31,11 @@ message.
 
 We need to know our own user ID for bot to send us a message.
 
-!!! Info
+!!! Warning
     ID is *different from your human-readable name* or your username (the one
     that starts with (at) sign). It is an integer.
 
-In order to get it, you need to send [@userinfobot](https://t.me/userinfobot)
-any message and the bot will reply you with your information:
+In order to get it, you need to send [@userinfobot](https://t.me/userinfobot) any message and the bot will reply you with your information:
 
 ```
 @foo
@@ -77,18 +48,15 @@ Take note of your ID.
 
 ### Sending the Message
 
-Now, we have (i) token of our bot and (ii) our user ID. You are pretty much
-ready to go with these. Open up a terminal and...
+Now, we have (i) token of our bot and (ii) our user ID. You are pretty much ready to go with these. Open up a terminal and...
 
 ```bash
-tgcli bot --token "BotToken" send --receiver "1234567890" message "Message"
+tgcli bot send message "Message" --token "BotToken" --receiver "1234567890"
 # or better
-tgcli bot -t "BotToken" send -r "1234567890" message "Message"
+tgcli bot send message "Message" -t "BotToken" -r "1234567890"
 ```
 
-You can also set `TELEGRAM_BOT_TOKEN` environment variable to protect your
-bot token in the current terminal session. For more information about how to
-use bot, refer to [Bot](bot.md) section.
+You can also set `TELEGRAM_BOT_TOKEN` environment variable to protect your bot token in the current terminal session. For more information about how to use bot, refer to [Bot](bot.md) section.
 
 ## Getting Offline Information
 
