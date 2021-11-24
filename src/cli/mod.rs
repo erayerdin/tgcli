@@ -96,7 +96,8 @@ pub fn get_app() -> App<'static, 'static> {
                     Arg::with_name("no-notify")
                         .long("no-notify")
                         .takes_value(false)
-                        .help("Will not send notification to the user if present."),
+                        .global(true)
+                        .help("Will send a silent notification to the user if present."),
                 ])
                 .subcommands(vec![
                     SubCommand::with_name("message")
