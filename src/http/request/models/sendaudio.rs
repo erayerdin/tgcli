@@ -31,6 +31,7 @@ pub struct SendAudioRequestModel {
     title: Option<String>,
     caption: Option<String>,
     parse_mode: ParseMode,
+    disable_notification: bool,
 }
 
 impl TryFrom<SendAudioRequestModel> for Form {
@@ -75,7 +76,12 @@ impl TryFrom<SendAudioRequestModel> for Form {
             None => performer_form,
         };
 
-        Ok(title_form)
+        let notification_form = match m.disable_notification {
+            true => title_form.text("disable_notification", "true"),
+            false => title_form,
+        };
+
+        Ok(notification_form)
     }
 }
 
@@ -98,6 +104,7 @@ impl From<SendAudioParams> for SendAudioRequestModel {
         let audio = InputFile::Local(params.3.file);
         let performer = params.3.performer;
         let title = params.3.title;
+        let disable_notification = params.2.silent;
 
         SendAudioRequestModel {
             chat_id,
@@ -106,6 +113,7 @@ impl From<SendAudioParams> for SendAudioRequestModel {
             audio,
             performer,
             title,
+            disable_notification,
         }
     }
 }

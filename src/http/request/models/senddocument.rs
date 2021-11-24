@@ -31,6 +31,7 @@ pub struct SendDocumentRequestModel {
     thumbnail: Option<InputFile>,
     caption: Option<String>,
     parse_mode: ParseMode,
+    disable_notification: bool,
 }
 
 impl TryFrom<SendDocumentRequestModel> for Form {
@@ -81,7 +82,12 @@ impl TryFrom<SendDocumentRequestModel> for Form {
             None => document_form,
         };
 
-        Ok(thumbnail_form)
+        let notification_form = match m.disable_notification {
+            true => thumbnail_form.text("disable_notification", "true"),
+            false => thumbnail_form,
+        };
+
+        Ok(notification_form)
     }
 }
 
@@ -108,12 +114,15 @@ impl From<SendDocumentParams> for SendDocumentRequestModel {
             None => None,
         };
 
+        let disable_notification = params.2.silent;
+
         SendDocumentRequestModel {
             chat_id,
             caption,
             parse_mode,
             document,
             thumbnail,
+            disable_notification,
         }
     }
 }

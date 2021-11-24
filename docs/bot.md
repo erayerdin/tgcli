@@ -50,6 +50,7 @@ operations. To get help:
 | ---------- | ---------- | ----------------- | ------------ | --------------------------------------------------------------------------------------------------------- |
 | -r         | --receiver | Required          | Global       | The receiver's ID, an integer.                                                                            |
 |            | --format   | Optional          | Global       | The format of message. Choices are `markdown` and `html`. Default is `markdown`.[^markdown_format_choice] |
+|            | --silent   | Optional          | Global       | The message will not play notification sound on target device if present.                                 |
 
 After you define the receiver's ID, then you can use any subcommand of `send`. To give an example:
 
@@ -59,10 +60,19 @@ tgcli bot send message "Hello, world!" -r 1234
 # or --receiver
 ```
 
-[^markdown_format_choice]: By default, [MarkdownV2](https://core.telegram.org/bots/api#markdownv2-style) style is used.
-
 !!! tip
     ID of a user  *is not* username or human-readable name. It is an unsigned 64-bit integer representing the account. To get your ID, send [@userinfobot](https://t.me/userinfobot) *any* message and it will provide you *your own* user id.
+
+If you'd like to send a message without the notification sound playing on the target device, you can use `--silent` global argument to supress the sound.
+
+```bash
+tgcli bot send message "foo" -r 1234 --silent
+```
+
+!!! warning
+    `--silent` argument does not disable notification, it only supresses the notification sound. The user will still see the notification on device *unless the user willingly disabled the notifications from your bot*.
+
+[^markdown_format_choice]: By default, [MarkdownV2](https://core.telegram.org/bots/api#markdownv2-style) style is used.
 
 ### message
 

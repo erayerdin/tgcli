@@ -29,6 +29,7 @@ pub struct SendMessageRequestModel {
     chat_id: ChatId,
     text: String,
     parse_mode: ParseMode,
+    disable_notification: bool,
 }
 
 impl TryFrom<SendMessageRequestModel> for Form {
@@ -39,10 +40,17 @@ impl TryFrom<SendMessageRequestModel> for Form {
         let chat_id = m.chat_id.to_string();
         let parse_mode = m.parse_mode.to_string();
 
-        Ok(Form::new()
+        let initial_form = Form::new()
             .text("chat_id", chat_id)
             .text("text", m.text)
-            .text("parse_mode", parse_mode))
+            .text("parse_mode", parse_mode);
+
+        let notification_form = match m.disable_notification {
+            true => initial_form.text("disable_notification", "true"),
+            false => initial_form,
+        };
+
+        Ok(notification_form)
     }
 }
 
@@ -62,10 +70,13 @@ impl From<SendMessageParams> for SendMessageRequestModel {
             send::MessageFormat::HTML => ParseMode::HTML,
         };
 
+        let disable_notification = params.2.silent;
+
         SendMessageRequestModel {
             chat_id,
             text,
             parse_mode,
+            disable_notification,
         }
     }
 }

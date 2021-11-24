@@ -25,6 +25,7 @@ pub struct SendLocationRequestModel {
     chat_id: ChatId,
     latitude: f32,
     longitude: f32,
+    disable_notification: bool,
 }
 
 impl TryFrom<SendLocationRequestModel> for Form {
@@ -34,10 +35,17 @@ impl TryFrom<SendLocationRequestModel> for Form {
         debug!("Converting SendLocationRequestModel to Form...");
         let chat_id = m.chat_id.to_string();
 
-        Ok(Form::new()
+        let initial_form = Form::new()
             .text("chat_id", chat_id)
             .text("latitude", m.latitude.to_string())
-            .text("longitude", m.longitude.to_string()))
+            .text("longitude", m.longitude.to_string());
+
+        let notification_form = match m.disable_notification {
+            true => initial_form.text("disable_notification", "true"),
+            false => initial_form,
+        };
+
+        Ok(notification_form)
     }
 }
 
@@ -52,11 +60,13 @@ impl From<SendLocationParams> for SendLocationRequestModel {
 
         let latitude = params.3.latitude;
         let longitude = params.3.longitude;
+        let disable_notification = params.2.silent;
 
         SendLocationRequestModel {
             chat_id,
             latitude,
             longitude,
+            disable_notification,
         }
     }
 }
