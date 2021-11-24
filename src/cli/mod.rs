@@ -59,6 +59,10 @@ pub fn get_app() -> App<'static, 'static> {
             AppSettings::DeriveDisplayOrder,
         ])
         .settings(&[AppSettings::SubcommandRequiredElseHelp])
+        .args(&[Arg::with_name("verbose")
+            .short("v")
+            .multiple(true)
+            .max_values(4)])
         .subcommands(vec![SubCommand::with_name("bot")
             .settings(&[AppSettings::SubcommandRequiredElseHelp])
             .about("Operations for bots.")
