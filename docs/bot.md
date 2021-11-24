@@ -50,6 +50,7 @@ operations. To get help:
 | ---------- | ---------- | ----------------- | ------------ | --------------------------------------------------------------------------------------------------------- |
 | -r         | --receiver | Required          | Global       | The receiver's ID, an integer.                                                                            |
 |            | --format   | Optional          | Global       | The format of message. Choices are `markdown` and `html`. Default is `markdown`.[^markdown_format_choice] |
+|            | --silent   | Optional          | Global       | The message will not play notification sound on target device if present.                                 |
 
 After you define the receiver's ID, then you can use any subcommand of `send`. To give an example:
 
