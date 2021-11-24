@@ -1,3 +1,5 @@
+use fern::colors::{Color, ColoredLevelConfig};
+
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +15,12 @@
 // limitations under the License.
 
 pub fn get_logger() -> Result<(), log::SetLoggerError> {
+    let mut colors = ColoredLevelConfig::new()
+        .error(Color::BrightRed)
+        .warn(Color::Yellow)
+        .debug(Color::Blue)
+        .trace(Color::Cyan);
+
     fern::Dispatch::new()
         // stdout chain
         .chain(
@@ -21,7 +29,7 @@ pub fn get_logger() -> Result<(), log::SetLoggerError> {
                     metadata.level() != log::LevelFilter::Error
                         || metadata.level() != log::LevelFilter::Warn
                 })
-                .format(|out, message, _record| {
+                .format(move |out, message, record| {
                     // if cfg!(debug_assertions) {
                     //     out.finish(format_args!(
                     //         "[{}][{}] {}",
@@ -36,7 +44,11 @@ pub fn get_logger() -> Result<(), log::SetLoggerError> {
                     //         _ => out.finish(format_args!("{}", message)),
                     //     }
                     // }
-                    out.finish(format_args!("{}", message))
+                    out.finish(format_args!(
+                        "\x1B[{}m{}\x1B[0m",
+                        colors.get_color(&record.level()).to_fg_str(),
+                        message
+                    ))
                 })
                 .level(
                     // if cfg!(debug_assertions) {
@@ -55,7 +67,13 @@ pub fn get_logger() -> Result<(), log::SetLoggerError> {
                     metadata.level() == log::LevelFilter::Error
                         || metadata.level() == log::LevelFilter::Warn
                 })
-                .format(|out, message, _record| out.finish(format_args!("{}", message)))
+                .format(move |out, message, record| {
+                    out.finish(format_args!(
+                        "\x1B[{}m{}\x1B[0m",
+                        colors.get_color(&record.level()).to_fg_str(),
+                        message
+                    ))
+                })
                 .level(log::LevelFilter::Info)
                 .chain(std::io::stderr()),
         )
