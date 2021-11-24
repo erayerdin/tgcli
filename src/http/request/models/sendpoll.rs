@@ -26,6 +26,7 @@ pub struct SendPollRequestModel {
     chat_id: ChatId,
     question: String,
     options: Vec<String>,
+    disable_notification: bool,
 }
 
 impl TryFrom<SendPollRequestModel> for Form {
@@ -36,10 +37,17 @@ impl TryFrom<SendPollRequestModel> for Form {
         let chat_id = m.chat_id.to_string();
         let options = json!(m.options).to_string();
 
-        Ok(Form::new()
+        let initial_form = Form::new()
             .text("chat_id", chat_id)
             .text("question", m.question)
-            .text("options", options))
+            .text("options", options);
+
+        let notification_form = match m.disable_notification {
+            true => initial_form.text("disable_notification", "true"),
+            false => initial_form,
+        };
+
+        Ok(notification_form)
     }
 }
 
@@ -54,11 +62,13 @@ impl From<SendPollParams> for SendPollRequestModel {
 
         let question = params.3.question;
         let options = params.3.options;
+        let disable_notification = params.2.silent;
 
         SendPollRequestModel {
             chat_id,
             question,
             options,
+            disable_notification,
         }
     }
 }
