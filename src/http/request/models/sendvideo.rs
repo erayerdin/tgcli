@@ -31,6 +31,7 @@ pub struct SendVideoRequestModel {
     height: Option<usize>,
     caption: Option<String>,
     parse_mode: ParseMode,
+    disable_notification: bool,
 }
 
 impl TryFrom<SendVideoRequestModel> for Form {
@@ -74,7 +75,12 @@ impl TryFrom<SendVideoRequestModel> for Form {
             None => width_form,
         };
 
-        Ok(height_form)
+        let notification_form = match m.disable_notification {
+            true => height_form.text("disable_notification", "true"),
+            false => height_form,
+        };
+
+        Ok(notification_form)
     }
 }
 
@@ -98,6 +104,8 @@ impl From<SendVideoParams> for SendVideoRequestModel {
         let width = params.3.horizontal;
         let height = params.3.vertical;
 
+        let disable_notification = params.2.silent;
+
         SendVideoRequestModel {
             chat_id,
             caption,
@@ -105,6 +113,7 @@ impl From<SendVideoParams> for SendVideoRequestModel {
             video,
             width,
             height,
+            disable_notification,
         }
     }
 }
