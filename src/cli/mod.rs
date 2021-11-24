@@ -62,23 +62,17 @@ pub fn get_app() -> App<'static, 'static> {
         .subcommands(vec![SubCommand::with_name("bot")
             .settings(&[AppSettings::SubcommandRequiredElseHelp])
             .about("Operations for bots.")
-            .args(&[
-                Arg::with_name("token")
-                    .long("token")
-                    .short("t")
-                    .help("Telegram bot token.")
-                    .takes_value(true)
-                    // an arg cannot be global and required at the same time for some reason
-                    // REF https://github.com/clap-rs/clap/issues/1546
-                    // .required(true)
-                    .env("TELEGRAM_BOT_TOKEN")
-                    .hide_env_values(true)
-                    .global(true),
-                Arg::with_name("no-notify")
-                    .long("no-notify")
-                    .takes_value(false)
-                    .help("Will not send notification to the user if present."),
-            ])
+            .args(&[Arg::with_name("token")
+                .long("token")
+                .short("t")
+                .help("Telegram bot token.")
+                .takes_value(true)
+                // an arg cannot be global and required at the same time for some reason
+                // REF https://github.com/clap-rs/clap/issues/1546
+                // .required(true)
+                .env("TELEGRAM_BOT_TOKEN")
+                .hide_env_values(true)
+                .global(true)])
             .subcommands(vec![SubCommand::with_name("send")
                 .settings(&[AppSettings::SubcommandRequiredElseHelp])
                 .about("Sending operations for bots.")
@@ -99,6 +93,10 @@ pub fn get_app() -> App<'static, 'static> {
                         .possible_values(&["markdown", "html"])
                         .default_value("markdown")
                         .global(true),
+                    Arg::with_name("no-notify")
+                        .long("no-notify")
+                        .takes_value(false)
+                        .help("Will not send notification to the user if present."),
                 ])
                 .subcommands(vec![
                     SubCommand::with_name("message")
