@@ -60,21 +60,3 @@ fn send_audio_with_metadata(mut binary: Command) {
 
     assertion.success();
 }
-
-#[rstest]
-fn send_audio_silent_notification(mut binary: Command) {
-    let assertion = binary
-        .args([
-            "bot",
-            "send",
-            "audio",
-            "resources/test/audio.wav",
-            "--silent",
-            "--receiver",
-            &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
-        ])
-        .assert();
-
-    assertion.success();
-}
