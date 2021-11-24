@@ -8,8 +8,7 @@ use clap::{
 use crate::{
     cli::validators::{
         audio_validator, caption_validator, file_validator, float_validator, image_validator,
-        poll_option_validator, poll_question_validator, positive_integer_validator,
-        video_validator,
+        poll_option_validator, poll_question_validator, video_validator,
     },
     operations::{
         bot::send::{
@@ -60,15 +59,6 @@ pub fn get_app() -> App<'static, 'static> {
             AppSettings::DeriveDisplayOrder,
         ])
         .settings(&[AppSettings::SubcommandRequiredElseHelp])
-        .args(&[
-            Arg::with_name("secure")
-                .long("secure")
-                .help("To provide secure connection. This is the default behavior.")
-                .conflicts_with("no-secure"),
-            Arg::with_name("no-secure")
-                .long("no-secure")
-                .help(r#"Reverse of "secure" flag."#),
-        ])
         .subcommands(vec![SubCommand::with_name("bot")
             .settings(&[AppSettings::SubcommandRequiredElseHelp])
             .about("Operations for bots.")
