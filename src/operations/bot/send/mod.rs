@@ -32,15 +32,15 @@ pub enum MessageFormat {
 pub struct SendParams {
     pub receiver: String,
     pub format: MessageFormat,
-    pub no_notify: bool,
+    pub silent: bool,
 }
 
 impl SendParams {
-    pub fn new(receiver: &str, format: MessageFormat, no_notify: bool) -> Self {
+    pub fn new(receiver: &str, format: MessageFormat, silent: bool) -> Self {
         Self {
             receiver: String::from(receiver),
             format,
-            no_notify,
+            silent,
         }
     }
 }

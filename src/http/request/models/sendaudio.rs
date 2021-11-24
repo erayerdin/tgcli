@@ -104,7 +104,7 @@ impl From<SendAudioParams> for SendAudioRequestModel {
         let audio = InputFile::Local(params.3.file);
         let performer = params.3.performer;
         let title = params.3.title;
-        let disable_notification = params.2.no_notify;
+        let disable_notification = params.2.silent;
 
         SendAudioRequestModel {
             chat_id,

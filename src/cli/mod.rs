@@ -93,8 +93,8 @@ pub fn get_app() -> App<'static, 'static> {
                         .possible_values(&["markdown", "html"])
                         .default_value("markdown")
                         .global(true),
-                    Arg::with_name("no-notify")
-                        .long("no-notify")
+                    Arg::with_name("silent")
+                        .long("silent")
                         .takes_value(false)
                         .global(true)
                         .help("Will send a silent notification to the user if present."),
