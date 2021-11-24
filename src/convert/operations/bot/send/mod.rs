@@ -71,7 +71,9 @@ impl TryFrom<ArgMatches<'static>> for SendParams {
             }
         };
 
-        let params = SendParams::new(receiver, MessageFormat::from(format));
+        let no_notify = m.is_present("no-notify");
+
+        let params = SendParams::new(receiver, MessageFormat::from(format), no_notify);
         trace!("send params: {:?}", params);
         Ok(params)
     }
