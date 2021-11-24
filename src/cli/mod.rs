@@ -35,6 +35,7 @@ use crate::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pub mod logging;
 pub mod validators;
 
 pub fn get_app() -> App<'static, 'static> {
