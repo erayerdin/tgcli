@@ -14,8 +14,15 @@ use fern::colors::{Color, ColoredLevelConfig};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub fn get_logger() -> Result<(), log::SetLoggerError> {
-    let mut colors = ColoredLevelConfig::new()
+pub fn set_logger(
+    // Defines verbosity level.
+    // 0 - Info, Warn, Error
+    // 1 - Debug, Info, Warn, Error
+    // 2 - Debug, Info, Warn, Error + Labels
+    // 3 - Trace, Debug, Info, Warn, Error + Labels
+    verbosity: u64,
+) -> Result<(), log::SetLoggerError> {
+    let colors = ColoredLevelConfig::new()
         .error(Color::BrightRed)
         .warn(Color::Yellow)
         .debug(Color::Blue)
@@ -56,7 +63,11 @@ pub fn get_logger() -> Result<(), log::SetLoggerError> {
                     // } else {
                     //     log::LevelFilter::Info
                     // }
-                    log::LevelFilter::Info,
+                    match verbosity {
+                        0 => log::LevelFilter::Info,
+                        1 | 2 => log::LevelFilter::Debug,
+                        _ => log::LevelFilter::Trace,
+                    },
                 )
                 .chain(std::io::stdout()),
         )
@@ -74,7 +85,7 @@ pub fn get_logger() -> Result<(), log::SetLoggerError> {
                         message
                     ))
                 })
-                .level(log::LevelFilter::Info)
+                .level(log::LevelFilter::Warn)
                 .chain(std::io::stderr()),
         )
         .apply()
