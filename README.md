@@ -6,8 +6,6 @@
 ![License][license_badge]
 [![Docs Status][badge_docs]][docs_url]
 
-![](resources/recording.gif)
-
 `tgcli` is a terminal app to send messages with bots on Telegram.
 
 [docs_url]: https://tgcli.readthedocs.io
