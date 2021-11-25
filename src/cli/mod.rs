@@ -41,7 +41,7 @@ use crate::{
 pub mod logging;
 pub mod validators;
 
-pub fn get_app() -> App<'static, 'static> {
+pub async fn get_app() -> App<'static, 'static> {
     #[allow(non_snake_case)]
     let CAPTION_ARG = Arg::with_name("message")
         .long("message")
