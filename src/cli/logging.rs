@@ -16,10 +16,11 @@ use fern::colors::{Color, ColoredLevelConfig};
 
 pub fn set_logger(
     // Defines verbosity level.
-    // 0 - Info, Warn, Error
-    // 1 - Debug, Info, Warn, Error + Level Labels
-    // 2 - Debug, Info, Warn, Error + Level Labels + Location Labels
-    // 3 - Trace, Debug, Info, Warn, Error + Level Labels + Location Labels
+    // 0 - Info, Warn, Error + Self Target
+    // 1 - Debug, Info, Warn, Error + Self Target + Level Labels
+    // 2 - Debug, Info, Warn, Error + Self Target + Level Labels + Location Labels
+    // 3 - Trace, Debug, Info, Warn, Error + Self Target + Level Labels + Location Labels
+    // 4 - Trace, Debug, Info, Warn, Error + All Targets + Level Labels + Location Labels
     verbosity: u64,
 ) -> Result<(), log::SetLoggerError> {
     let colors = ColoredLevelConfig::new()
@@ -29,6 +30,13 @@ pub fn set_logger(
         .trace(Color::Cyan);
 
     fern::Dispatch::new()
+        .filter(move |metadata| {
+            if verbosity >= 4 {
+                true
+            } else {
+                metadata.target().starts_with("tgcli")
+            }
+        })
         // stdout chain
         .chain(
             fern::Dispatch::new()
