@@ -57,7 +57,7 @@ impl SendDocumentOperation {
 
 impl SendOperation for SendDocumentOperation {
     fn send(self) -> Result<(), OperationError> {
-        info!("Sending document...");
+        info!("📎 Sending document...");
 
         let url = format!(
             "{root_url}{token}/sendDocument",
@@ -77,9 +77,9 @@ impl SendOperation for SendDocumentOperation {
         let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
-            info!("Successfully sent document.");
+            info!("📦 Successfully sent document.");
         }, on_failure => {
-            error!("An error occurred while sending the document.");
+            error!("💀 An error occurred while sending the document.");
         })
     }
 }

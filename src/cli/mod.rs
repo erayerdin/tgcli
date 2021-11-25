@@ -6,9 +6,12 @@ use clap::{
 };
 
 use crate::{
-    cli::validators::{
-        audio_validator, caption_validator, file_validator, float_validator, image_validator,
-        poll_option_validator, poll_question_validator, video_validator,
+    cli::{
+        logging::set_logger,
+        validators::{
+            audio_validator, caption_validator, file_validator, float_validator, image_validator,
+            poll_option_validator, poll_question_validator, video_validator,
+        },
     },
     operations::{
         bot::send::{
@@ -17,7 +20,7 @@ use crate::{
             photo::SendPhotoOperation, poll::SendPollOperation, video::SendVideoOperation,
             SendOperation,
         },
-        OperationError,
+        CommonExitCodes, OperationError,
     },
 };
 
@@ -35,6 +38,7 @@ use crate::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pub mod logging;
 pub mod validators;
 
 pub fn get_app() -> App<'static, 'static> {
@@ -59,6 +63,12 @@ pub fn get_app() -> App<'static, 'static> {
             AppSettings::DeriveDisplayOrder,
         ])
         .settings(&[AppSettings::SubcommandRequiredElseHelp])
+        .args(&[Arg::with_name("verbose")
+            .short("v")
+            .multiple(true)
+            .takes_value(false)
+            .global(true)
+            .help("Sets the verbosity level.")])
         .subcommands(vec![SubCommand::with_name("bot")
             .settings(&[AppSettings::SubcommandRequiredElseHelp])
             .about("Operations for bots.")
@@ -196,6 +206,17 @@ pub fn get_app() -> App<'static, 'static> {
 
 pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
     let matches = app.get_matches();
+    let verbosity_level = matches.occurrences_of("verbose");
+
+    match set_logger(verbosity_level) {
+        Ok(_) => (),
+        Err(e) => {
+            return Err(OperationError::new(
+                CommonExitCodes::FernSetupError as i32,
+                &format!("Failed to set up logger. {}", e),
+            ))
+        }
+    };
 
     match matches.subcommand() {
         ("bot", Some(bot_subc)) => match bot_subc.subcommand() {

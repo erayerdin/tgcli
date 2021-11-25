@@ -32,7 +32,7 @@ impl TryFrom<ArgMatches<'static>> for MessageParams {
 
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         debug!("Converting ArgMatches to MessageParams...");
-        debug!("arg params: {:?}", m);
+        trace!("arg params: {:?}", m);
 
         let params = MessageParams::new(m.value_of("message").unwrap().to_owned());
         trace!("message params: {:?}", params);

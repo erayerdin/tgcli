@@ -64,7 +64,7 @@ impl SendAudioOperation {
 
 impl SendOperation for SendAudioOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
-        info!("Sending audio...");
+        info!("🔊 Sending audio...");
 
         let url = format!(
             "{root_url}{token}/sendAudio",
@@ -84,9 +84,9 @@ impl SendOperation for SendAudioOperation {
         let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
-            info!("Successfully sent audio.");
+            info!("📦 Successfully sent audio.");
         }, on_failure => {
-            error!("An error occurred while sending the audio.");
+            error!("☠️ An error occurred while sending the audio.");
         })
     }
 }

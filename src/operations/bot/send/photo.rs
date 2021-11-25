@@ -52,7 +52,7 @@ impl SendPhotoOperation {
 
 impl SendOperation for SendPhotoOperation {
     fn send(self) -> Result<(), OperationError> {
-        info!("Sending photo...");
+        info!("📷 Sending photo...");
 
         let url = format!(
             "{root_url}{token}/sendPhoto",
@@ -72,9 +72,9 @@ impl SendOperation for SendPhotoOperation {
         let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
-            info!("Successfully sent photo.");
+            info!("📦 Successfully sent photo.");
         }, on_failure => {
-            error!("An error occurred while sending the photo.");
+            error!("☠️ An error occurred while sending the photo.");
         })
     }
 }

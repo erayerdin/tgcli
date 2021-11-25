@@ -92,4 +92,10 @@ pub enum CommonExitCodes {
     // //////////// //
     // between 80-99
     SerdeDeserializationError = 80,
+
+    // /////////// //
+    // Fern Errors //
+    // /////////// //
+    // between 100-119
+    FernSetupError = 100,
 }
