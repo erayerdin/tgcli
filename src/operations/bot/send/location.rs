@@ -55,7 +55,7 @@ impl SendLocationOperation {
 
 impl SendOperation for SendLocationOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
-        info!("Sending location...");
+        info!("🌍 Sending location...");
 
         let url = format!(
             "{root_url}{token}/sendLocation",
@@ -75,9 +75,9 @@ impl SendOperation for SendLocationOperation {
         let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
-            info!("Successfully sent location.");
+            info!("📦 Successfully sent location.");
         }, on_failure => {
-            error!("An error occured while sending the location.");
+            error!("☠️ An error occured while sending the location.");
         })
     }
 }

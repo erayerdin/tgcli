@@ -52,7 +52,7 @@ impl SendPollOperation {
 
 impl SendOperation for SendPollOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
-        info!("Sending poll...");
+        info!("🗯️ Sending poll...");
 
         let url = format!(
             "{root_url}{token}/sendPoll",
@@ -72,9 +72,9 @@ impl SendOperation for SendPollOperation {
         let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
-            info!("Successfully sent poll.");
+            info!("📦 Successfully sent poll.");
         }, on_failure => {
-            error!("An error occured while sending the poll.");
+            error!("☠️ An error occured while sending the poll.");
         })
     }
 }

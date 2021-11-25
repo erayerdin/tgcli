@@ -64,7 +64,7 @@ impl SendVideoOperation {
 
 impl SendOperation for SendVideoOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
-        info!("Sending video...");
+        info!("🎥 Sending video...");
 
         let url = format!(
             "{root_url}{token}/sendVideo",
@@ -84,9 +84,9 @@ impl SendOperation for SendVideoOperation {
         let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
-            info!("Successfully sent video.");
+            info!("📦 Successfully sent video.");
         }, on_failure => {
-            error!("An error occurred while sending the video.");
+            error!("☠️ An error occurred while sending the video.");
         })
     }
 }

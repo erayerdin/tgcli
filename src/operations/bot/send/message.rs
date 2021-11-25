@@ -53,7 +53,7 @@ impl SendMessageOperation {
 
 impl SendOperation for SendMessageOperation {
     fn send(self) -> Result<(), OperationError> {
-        info!("Sending message...");
+        info!("✏️ Sending message...");
 
         let url = format!(
             "{root_url}{token}/sendMessage",
@@ -74,9 +74,9 @@ impl SendOperation for SendMessageOperation {
         let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
-            info!("Successfully sent message.");
+            info!("📦 Successfully sent message.");
         }, on_failure => {
-            error!("An error occured while sending the message.");
+            error!("☠️ An error occured while sending the message.");
         })
     }
 }
