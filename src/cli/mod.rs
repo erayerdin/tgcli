@@ -204,7 +204,7 @@ pub async fn get_app() -> App<'static, 'static> {
                 ])])])
 }
 
-pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
+pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
     let matches = app.get_matches();
     let verbosity_level = matches.occurrences_of("verbose");
 
