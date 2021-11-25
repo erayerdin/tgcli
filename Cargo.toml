@@ -26,6 +26,10 @@ features = ["blocking", "multipart", "json"]
 version = "1.0.130"
 features = ["derive"]
 
+[dependencies.tokio]
+version = "1.14.0"
+features = ["full"]
+
 [dev-dependencies]
 assert_cmd = "2.0.2"
 dotenv = "0.15.0"
