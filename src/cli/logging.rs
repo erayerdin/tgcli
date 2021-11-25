@@ -17,9 +17,9 @@ use fern::colors::{Color, ColoredLevelConfig};
 pub fn set_logger(
     // Defines verbosity level.
     // 0 - Info, Warn, Error
-    // 1 - Debug, Info, Warn, Error
-    // 2 - Debug, Info, Warn, Error + Labels
-    // 3 - Trace, Debug, Info, Warn, Error + Labels
+    // 1 - Debug, Info, Warn, Error + Level Labels
+    // 2 - Debug, Info, Warn, Error + Level Labels + Location Labels
+    // 3 - Trace, Debug, Info, Warn, Error + Level Labels + Location Labels
     verbosity: u64,
 ) -> Result<(), log::SetLoggerError> {
     let colors = ColoredLevelConfig::new()
@@ -51,11 +51,26 @@ pub fn set_logger(
                     //         _ => out.finish(format_args!("{}", message)),
                     //     }
                     // }
-                    out.finish(format_args!(
-                        "\x1B[{}m{}\x1B[0m",
-                        colors.get_color(&record.level()).to_fg_str(),
-                        message
-                    ))
+                    match verbosity {
+                        1 => out.finish(format_args!(
+                            "\x1B[{}m[{}] {}\x1B[0m",
+                            colors.get_color(&record.level()).to_fg_str(),
+                            record.level(),
+                            message
+                        )),
+                        2..=u64::MAX => out.finish(format_args!(
+                            "\x1B[{}m[{}][{}] {}\x1B[0m",
+                            colors.get_color(&record.level()).to_fg_str(),
+                            record.level(),
+                            record.target(),
+                            message
+                        )),
+                        0 => out.finish(format_args!(
+                            "\x1B[{}m{}\x1B[0m",
+                            colors.get_color(&record.level()).to_fg_str(),
+                            message
+                        )),
+                    }
                 })
                 .level(
                     // if cfg!(debug_assertions) {
@@ -78,12 +93,25 @@ pub fn set_logger(
                     metadata.level() == log::LevelFilter::Error
                         || metadata.level() == log::LevelFilter::Warn
                 })
-                .format(move |out, message, record| {
-                    out.finish(format_args!(
+                .format(move |out, message, record| match verbosity {
+                    1 => out.finish(format_args!(
+                        "\x1B[{}m[{}] {}\x1B[0m",
+                        colors.get_color(&record.level()).to_fg_str(),
+                        record.level(),
+                        message
+                    )),
+                    2..=u64::MAX => out.finish(format_args!(
+                        "\x1B[{}m[{}][{}] {}\x1B[0m",
+                        colors.get_color(&record.level()).to_fg_str(),
+                        record.level(),
+                        record.target(),
+                        message
+                    )),
+                    0 => out.finish(format_args!(
                         "\x1B[{}m{}\x1B[0m",
                         colors.get_color(&record.level()).to_fg_str(),
                         message
-                    ))
+                    )),
                 })
                 .level(log::LevelFilter::Warn)
                 .chain(std::io::stderr()),
