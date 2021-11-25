@@ -51,8 +51,9 @@ impl SendMessageOperation {
     }
 }
 
+#[async_trait]
 impl SendOperation for SendMessageOperation {
-    fn send(self) -> Result<(), OperationError> {
+    async fn send(self) -> Result<(), OperationError> {
         info!("✏️ Sending message...");
 
         let url = format!(

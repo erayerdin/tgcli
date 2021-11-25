@@ -55,8 +55,9 @@ impl SendDocumentOperation {
     }
 }
 
+#[async_trait]
 impl SendOperation for SendDocumentOperation {
-    fn send(self) -> Result<(), OperationError> {
+    async fn send(self) -> Result<(), OperationError> {
         info!("📎 Sending document...");
 
         let url = format!(

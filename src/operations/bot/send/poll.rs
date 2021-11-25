@@ -50,8 +50,9 @@ impl SendPollOperation {
     }
 }
 
+#[async_trait]
 impl SendOperation for SendPollOperation {
-    fn send(self) -> Result<(), crate::operations::OperationError> {
+    async fn send(self) -> Result<(), crate::operations::OperationError> {
         info!("🗯️ Sending poll...");
 
         let url = format!(

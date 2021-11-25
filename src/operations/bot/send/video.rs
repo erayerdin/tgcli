@@ -62,8 +62,9 @@ impl SendVideoOperation {
     }
 }
 
+#[async_trait]
 impl SendOperation for SendVideoOperation {
-    fn send(self) -> Result<(), crate::operations::OperationError> {
+    async fn send(self) -> Result<(), crate::operations::OperationError> {
         info!("🎥 Sending video...");
 
         let url = format!(
