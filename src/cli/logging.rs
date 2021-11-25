@@ -61,17 +61,15 @@ pub fn set_logger(
                     // }
                     match verbosity {
                         1 => out.finish(format_args!(
-                            "\x1B[{}m[{}] {}\x1B[0m",
-                            colors.get_color(&record.level()).to_fg_str(),
-                            record.level(),
-                            message
+                            "[{levelname}] {message}",
+                            levelname = record.level(),
+                            message = message,
                         )),
                         2..=u64::MAX => out.finish(format_args!(
-                            "\x1B[{}m[{}][{}] {}\x1B[0m",
-                            colors.get_color(&record.level()).to_fg_str(),
-                            record.level(),
-                            record.target(),
-                            message
+                            "[{levelname}][{targetname}] {message}",
+                            levelname = record.level(),
+                            targetname = record.target(),
+                            message = message,
                         )),
                         0 => out.finish(format_args!(
                             "\x1B[{}m{}\x1B[0m",
@@ -103,22 +101,20 @@ pub fn set_logger(
                 })
                 .format(move |out, message, record| match verbosity {
                     1 => out.finish(format_args!(
-                        "\x1B[{}m[{}] {}\x1B[0m",
-                        colors.get_color(&record.level()).to_fg_str(),
-                        record.level(),
-                        message
+                        "[{levelname}] {message}",
+                        levelname = record.level(),
+                        message = message,
                     )),
                     2..=u64::MAX => out.finish(format_args!(
-                        "\x1B[{}m[{}][{}] {}\x1B[0m",
-                        colors.get_color(&record.level()).to_fg_str(),
-                        record.level(),
-                        record.target(),
-                        message
+                        "[{levelname}][{targetname}] {message}",
+                        levelname = record.level(),
+                        targetname = record.target(),
+                        message = message,
                     )),
                     0 => out.finish(format_args!(
-                        "\x1B[{}m{}\x1B[0m",
-                        colors.get_color(&record.level()).to_fg_str(),
-                        message
+                        "\x1B[{colorbyte}m{message}\x1B[0m",
+                        colorbyte = colors.get_color(&record.level()).to_fg_str(),
+                        message = message,
                     )),
                 })
                 .level(log::LevelFilter::Warn)
