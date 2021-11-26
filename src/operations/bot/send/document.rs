@@ -1,6 +1,6 @@
 use std::{convert::TryInto, path::PathBuf};
 
-use reqwest::blocking::Client;
+use reqwest::Client;
 
 use crate::{
     handle_response,
@@ -55,8 +55,9 @@ impl SendDocumentOperation {
     }
 }
 
+#[async_trait]
 impl SendOperation for SendDocumentOperation {
-    fn send(self) -> Result<(), OperationError> {
+    async fn send(self) -> Result<(), OperationError> {
         info!("📎 Sending document...");
 
         let url = format!(
@@ -74,7 +75,7 @@ impl SendOperation for SendDocumentOperation {
         debug!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client.post(url).multipart(req_body).send().await;
 
         handle_response!(response, on_success => {
             info!("📦 Successfully sent document.");

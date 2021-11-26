@@ -1,10 +1,14 @@
 use std::convert::TryFrom;
 
-use reqwest::blocking::multipart::Form;
+use futures::executor;
+use reqwest::multipart::Form;
 
-use crate::operations::{
-    bot::send::{self, video::SendVideoParams},
-    CommonExitCodes, OperationError,
+use crate::{
+    http::request::models::generate_form_part_from_file,
+    operations::{
+        bot::send::{self, video::SendVideoParams},
+        OperationError,
+    },
 };
 
 use super::{ChatId, InputFile, ParseMode};
@@ -52,14 +56,9 @@ impl TryFrom<SendVideoRequestModel> for Form {
         };
 
         let video_form = match m.video {
-            InputFile::Local(p) => match caption_form.file("video", p) {
-                Ok(f) => f,
-                Err(e) => {
-                    return Err(OperationError::new(
-                        CommonExitCodes::ReqwestFormError as i32,
-                        &format!("Could not send video to Telegram. {}", e),
-                    ))
-                }
+            InputFile::Local(p) => match executor::block_on(generate_form_part_from_file(p)) {
+                Ok(part) => caption_form.part("video", part),
+                Err(e) => return Err(e),
             },
             InputFile::Remote(u) => caption_form.text("video", u.to_string()),
             InputFile::Id(i) => caption_form.text("video", i),

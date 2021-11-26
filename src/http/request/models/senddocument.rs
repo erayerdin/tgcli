@@ -1,10 +1,14 @@
 use std::convert::TryFrom;
 
-use reqwest::blocking::multipart::Form;
+use futures::executor;
+use reqwest::multipart::Form;
 
-use crate::operations::{
-    bot::send::{self, document::SendDocumentParams},
-    CommonExitCodes, OperationError,
+use crate::{
+    http::request::models::generate_form_part_from_file,
+    operations::{
+        bot::send::{self, document::SendDocumentParams},
+        OperationError,
+    },
 };
 
 use super::{ChatId, InputFile, ParseMode};
@@ -52,14 +56,9 @@ impl TryFrom<SendDocumentRequestModel> for Form {
         };
 
         let document_form = match m.document {
-            InputFile::Local(p) => match caption_form.file("document", p) {
-                Ok(f) => f,
-                Err(e) => {
-                    return Err(OperationError::new(
-                        CommonExitCodes::ReqwestFormError as i32,
-                        &format!("Could not send document to Telegram. {}", e),
-                    ))
-                }
+            InputFile::Local(p) => match executor::block_on(generate_form_part_from_file(p)) {
+                Ok(part) => caption_form.part("document", part),
+                Err(e) => return Err(e),
             },
             InputFile::Remote(u) => caption_form.text("document", u.to_string()),
             InputFile::Id(i) => caption_form.text("document", i),
@@ -67,14 +66,9 @@ impl TryFrom<SendDocumentRequestModel> for Form {
 
         let thumbnail_form = match m.thumbnail {
             Some(inputfile) => match inputfile {
-                InputFile::Local(p) => match document_form.file("thumb", p) {
-                    Ok(f) => f,
-                    Err(e) => {
-                        return Err(OperationError::new(
-                            CommonExitCodes::ReqwestFormError as i32,
-                            &format!("Could not send thumbnail to Telegram. {}", e),
-                        ))
-                    }
+                InputFile::Local(p) => match executor::block_on(generate_form_part_from_file(p)) {
+                    Ok(part) => document_form.part("thumbnail", part),
+                    Err(e) => return Err(e),
                 },
                 InputFile::Remote(u) => document_form.text("thumbnail", u.to_string()),
                 InputFile::Id(i) => document_form.text("thumbnail", i),

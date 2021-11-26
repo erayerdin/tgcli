@@ -1,6 +1,6 @@
 use std::convert::TryInto;
 
-use reqwest::blocking::Client;
+use reqwest::Client;
 
 use crate::{
     handle_response,
@@ -50,8 +50,9 @@ impl SendPollOperation {
     }
 }
 
+#[async_trait]
 impl SendOperation for SendPollOperation {
-    fn send(self) -> Result<(), crate::operations::OperationError> {
+    async fn send(self) -> Result<(), crate::operations::OperationError> {
         info!("🗯️ Sending poll...");
 
         let url = format!(
@@ -69,7 +70,7 @@ impl SendOperation for SendPollOperation {
         trace!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client.post(url).multipart(req_body).send().await;
 
         handle_response!(response, on_success => {
             info!("📦 Successfully sent poll.");

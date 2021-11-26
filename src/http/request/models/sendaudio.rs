@@ -1,10 +1,14 @@
 use std::convert::TryFrom;
 
-use reqwest::blocking::multipart::Form;
+use futures::executor;
+use reqwest::multipart::Form;
 
-use crate::operations::{
-    bot::send::{self, audio::SendAudioParams},
-    CommonExitCodes, OperationError,
+use crate::{
+    http::request::models::generate_form_part_from_file,
+    operations::{
+        bot::send::{self, audio::SendAudioParams},
+        OperationError,
+    },
 };
 
 use super::{ChatId, InputFile, ParseMode};
@@ -53,14 +57,9 @@ impl TryFrom<SendAudioRequestModel> for Form {
         };
 
         let audio_form = match m.audio {
-            InputFile::Local(p) => match caption_form.file("audio", p) {
-                Ok(f) => f,
-                Err(e) => {
-                    return Err(OperationError::new(
-                        CommonExitCodes::ReqwestFormError as i32,
-                        &format!("Could not send audio to Telegram. {}", e),
-                    ))
-                }
+            InputFile::Local(p) => match executor::block_on(generate_form_part_from_file(p)) {
+                Ok(part) => caption_form.part("audio", part),
+                Err(e) => return Err(e),
             },
             InputFile::Remote(u) => caption_form.text("audio", u.to_string()),
             InputFile::Id(i) => caption_form.text("audio", i),
