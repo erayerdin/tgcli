@@ -1,6 +1,6 @@
 use std::convert::TryFrom;
 
-use reqwest::blocking::multipart::Form;
+use reqwest::multipart::Form;
 
 use crate::operations::{
     bot::send::{self, message::SendMessageParams},

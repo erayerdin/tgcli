@@ -1,6 +1,6 @@
 use std::convert::TryInto;
 
-use reqwest::blocking::Client;
+use reqwest::Client;
 
 use crate::{
     handle_response,
@@ -73,7 +73,7 @@ impl SendOperation for SendLocationOperation {
         trace!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client.post(url).multipart(req_body).send().await;
 
         handle_response!(response, on_success => {
             info!("📦 Successfully sent location.");

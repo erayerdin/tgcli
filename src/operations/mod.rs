@@ -61,6 +61,7 @@ pub enum CommonExitCodes {
     /// expected value is f32 while a non-f32 value
     /// is provided by the user.
     StdInvalidValue = 2,
+    StdFsInvalidFilename = 3,
 
     // /////////// //
     // Clap Errors //
@@ -98,4 +99,10 @@ pub enum CommonExitCodes {
     // /////////// //
     // between 100-119
     FernSetupError = 100,
+
+    // //////////// //
+    // Tokio Errors //
+    // //////////// //
+    // between 120-139
+    TokioFsFileError = 120,
 }

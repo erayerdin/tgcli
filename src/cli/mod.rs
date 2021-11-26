@@ -223,7 +223,7 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
             ("send", Some(send_subc)) => match send_subc.subcommand() {
                 ("audio", Some(audio_subc)) => {
                     match SendAudioOperation::try_from(audio_subc.clone()) {
-                        Ok(o) => o.send(),
+                        Ok(o) => o.send().await,
                         Err(e) => {
                             error!("{}", e.message);
                             process::exit(e.exit_code);
@@ -232,7 +232,7 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
                 }
                 ("document", Some(document_subc)) => {
                     match SendDocumentOperation::try_from(document_subc.clone()) {
-                        Ok(o) => o.send(),
+                        Ok(o) => o.send().await,
                         Err(e) => {
                             error!("{}", e.message);
                             process::exit(e.exit_code);
@@ -241,7 +241,7 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
                 }
                 ("location", Some(location_subc)) => {
                     match SendLocationOperation::try_from(location_subc.clone()) {
-                        Ok(o) => o.send(),
+                        Ok(o) => o.send().await,
                         Err(e) => {
                             error!("{}", e.message);
                             process::exit(e.exit_code);
@@ -250,7 +250,7 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
                 }
                 ("message", Some(message_subc)) => {
                     match SendMessageOperation::try_from(message_subc.clone()) {
-                        Ok(o) => o.send(),
+                        Ok(o) => o.send().await,
                         Err(e) => {
                             error!("{}", e.message);
                             process::exit(e.exit_code);
@@ -259,7 +259,7 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
                 }
                 ("photo", Some(photo_subc)) => {
                     match SendPhotoOperation::try_from(photo_subc.clone()) {
-                        Ok(o) => o.send(),
+                        Ok(o) => o.send().await,
                         Err(e) => {
                             error!("{}", e.message);
                             process::exit(e.exit_code);
@@ -267,7 +267,7 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
                     }
                 }
                 ("poll", Some(poll_subc)) => match SendPollOperation::try_from(poll_subc.clone()) {
-                    Ok(o) => o.send(),
+                    Ok(o) => o.send().await,
                     Err(e) => {
                         error!("{}", e.message);
                         process::exit(e.exit_code);
@@ -275,7 +275,7 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
                 },
                 ("video", Some(video_subc)) => {
                     match SendVideoOperation::try_from(video_subc.clone()) {
-                        Ok(o) => o.send(),
+                        Ok(o) => o.send().await,
                         Err(e) => {
                             error!("{}", e.message);
                             process::exit(e.exit_code);

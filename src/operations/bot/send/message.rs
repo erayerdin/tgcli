@@ -1,6 +1,6 @@
 use std::convert::TryInto;
 
-use reqwest::blocking::Client;
+use reqwest::Client;
 
 use crate::{
     handle_response,
@@ -72,7 +72,7 @@ impl SendOperation for SendMessageOperation {
 
         // TODO set up client earlier on bot params
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client.post(url).multipart(req_body).send().await;
 
         handle_response!(response, on_success => {
             info!("📦 Successfully sent message.");

@@ -1,6 +1,6 @@
 use std::{convert::TryInto, path::PathBuf};
 
-use reqwest::blocking::Client;
+use reqwest::Client;
 
 use crate::{
     handle_response,
@@ -82,7 +82,7 @@ impl SendOperation for SendVideoOperation {
         debug!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client.post(url).multipart(req_body).send().await;
 
         handle_response!(response, on_success => {
             info!("📦 Successfully sent video.");
