@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
  - Migrated entire project to async.
+ - Fixed exiting from SendOperation implementations
 
 ## [v0.5.0-alpha.6]
 ### Added
