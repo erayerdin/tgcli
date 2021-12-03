@@ -15,13 +15,11 @@
 pub mod bot;
 
 #[derive(Debug)]
-pub struct RootParams {
-    secure: bool,
-}
+pub struct RootParams;
 
 impl RootParams {
-    pub fn new(secure: bool) -> Self {
-        Self { secure }
+    pub fn new() -> Self {
+        Self
     }
 }
 
