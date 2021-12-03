@@ -41,6 +41,16 @@ use crate::{
 pub mod logging;
 pub mod validators;
 
+macro_rules! exit_operation_error {
+    ($error:ident) => {{
+        use std::mem::drop;
+        error!("{}", $error.message);
+        let exit_code = $error.exit_code;
+        drop($error);
+        process::exit(exit_code);
+    }};
+}
+
 pub async fn get_app() -> App<'static, 'static> {
     #[allow(non_snake_case)]
     let CAPTION_ARG = Arg::with_name("message")
@@ -225,84 +235,51 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
                     match SendAudioOperation::try_from(audio_subc.clone()) {
                         Ok(o) => match o.send().await {
                             Ok(_) => Ok(()),
-                            Err(e) => {
-                                error!("{}", e.message);
-                                process::exit(e.exit_code);
-                            }
+                            Err(e) => exit_operation_error!(e),
                         },
-                        Err(e) => {
-                            error!("{}", e.message);
-                            process::exit(e.exit_code);
-                        }
+                        Err(e) => exit_operation_error!(e),
                     }
                 }
                 ("document", Some(document_subc)) => {
                     match SendDocumentOperation::try_from(document_subc.clone()) {
                         Ok(o) => match o.send().await {
                             Ok(_) => Ok(()),
-                            Err(e) => {
-                                error!("{}", e.message);
-                                process::exit(e.exit_code);
-                            }
+                            Err(e) => exit_operation_error!(e),
                         },
-                        Err(e) => {
-                            error!("{}", e.message);
-                            process::exit(e.exit_code);
-                        }
+                        Err(e) => exit_operation_error!(e),
                     }
                 }
                 ("location", Some(location_subc)) => {
                     match SendLocationOperation::try_from(location_subc.clone()) {
                         Ok(o) => match o.send().await {
                             Ok(_) => Ok(()),
-                            Err(e) => {
-                                error!("{}", e.message);
-                                process::exit(e.exit_code);
-                            }
+                            Err(e) => exit_operation_error!(e),
                         },
-                        Err(e) => {
-                            error!("{}", e.message);
-                            process::exit(e.exit_code);
-                        }
+                        Err(e) => exit_operation_error!(e),
                     }
                 }
                 ("message", Some(message_subc)) => {
                     match SendMessageOperation::try_from(message_subc.clone()) {
                         Ok(o) => match o.send().await {
                             Ok(_) => Ok(()),
-                            Err(e) => {
-                                error!("{}", e.message);
-                                process::exit(e.exit_code);
-                            }
+                            Err(e) => exit_operation_error!(e),
                         },
-                        Err(e) => {
-                            error!("{}", e.message);
-                            process::exit(e.exit_code);
-                        }
+                        Err(e) => exit_operation_error!(e),
                     }
                 }
                 ("photo", Some(photo_subc)) => {
                     match SendPhotoOperation::try_from(photo_subc.clone()) {
                         Ok(o) => match o.send().await {
                             Ok(_) => Ok(()),
-                            Err(e) => {
-                                error!("{}", e.message);
-                                process::exit(e.exit_code);
-                            }
+                            Err(e) => exit_operation_error!(e),
                         },
-                        Err(e) => {
-                            error!("{}", e.message);
-                            process::exit(e.exit_code);
-                        }
+                        Err(e) => exit_operation_error!(e),
                     }
                 }
                 ("poll", Some(poll_subc)) => match SendPollOperation::try_from(poll_subc.clone()) {
                     Ok(o) => match o.send().await {
                         Ok(_) => Ok(()),
-                        Err(e) => {
-                            error!("{}", e.message);
-                            process::exit(e.exit_code);
-                        }
+                        Err(e) => exit_operation_error!(e),
                     },
                     Err(e) => {
                         error!("{}", e.message);
@@ -313,15 +290,9 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
                     match SendVideoOperation::try_from(video_subc.clone()) {
                         Ok(o) => match o.send().await {
                             Ok(_) => Ok(()),
-                            Err(e) => {
-                                error!("{}", e.message);
-                                process::exit(e.exit_code);
-                            }
+                            Err(e) => exit_operation_error!(e),
                         },
-                        Err(e) => {
-                            error!("{}", e.message);
-                            process::exit(e.exit_code);
-                        }
+                        Err(e) => exit_operation_error!(e),
                     }
                 }
                 (&_, _) => unimplemented!(),
