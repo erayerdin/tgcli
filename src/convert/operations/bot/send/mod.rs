@@ -57,6 +57,7 @@ impl TryFrom<ArgMatches<'static>> for SendParams {
                 return Err(OperationError::new(
                     CommonExitCodes::ClapMissingValue as i32,
                     "`receiver` is a required argument on `send` subcommand but is missing.",
+                    None::<&str>,
                 ))
             }
         };
@@ -67,6 +68,7 @@ impl TryFrom<ArgMatches<'static>> for SendParams {
                 return Err(OperationError::new(
                     CommonExitCodes::ClapMissingValue as i32,
                     "`format` is a required argument on `send` subcommand but is missing.",
+                    None::<&str>,
                 ))
             }
         };

@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
  - Migrated entire project to async.
  - Fixed exiting from SendOperation implementations
+ - Migrated to Rust 2021 edition
+ - Better error handling to clean up
 
 ## [v0.5.0-alpha.6]
 ### Added

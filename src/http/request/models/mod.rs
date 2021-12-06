@@ -78,10 +78,8 @@ async fn generate_form_part_from_file(location: path::PathBuf) -> Result<Part, O
         Err(e) => {
             return Err(OperationError::new(
                 CommonExitCodes::TokioFsFileError as i32,
-                &format!(
-                    "An error occurred while trying to read the input file. {}",
-                    e
-                ),
+                "An error occurred while trying to read the input file.",
+                Some(e),
             ))
         }
     };
@@ -97,6 +95,7 @@ async fn generate_form_part_from_file(location: path::PathBuf) -> Result<Part, O
             return Err(OperationError::new(
                 CommonExitCodes::StdFsInvalidFilename as i32,
                 "Could not get filename from input file.",
+                None::<&str>,
             ))
         }
     };

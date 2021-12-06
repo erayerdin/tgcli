@@ -1,3 +1,5 @@
+use std::fmt;
+
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,32 +17,45 @@
 pub mod bot;
 
 #[derive(Debug)]
-pub struct RootParams {
-    secure: bool,
-}
+pub struct RootParams;
 
 impl RootParams {
-    pub fn new(secure: bool) -> Self {
-        Self { secure }
+    pub fn new() -> Self {
+        Self
     }
 }
 
 #[derive(Debug)]
 pub struct OperationError {
     pub exit_code: i32,
-    pub message: String,
+    /// The simplest message for non-verbose output.
+    pub message_eu: String,
+    /// The error message for verbose output. It is detailed.
+    pub message_origin: Option<String>,
 }
 
 impl OperationError {
-    pub fn new(exit_code: i32, message: &str) -> Self {
+    pub fn new(
+        exit_code: i32,
+        message_eu: impl fmt::Display,
+        message_origin: Option<impl fmt::Display>,
+    ) -> Self {
         Self {
             exit_code,
-            message: String::from(message),
+            message_eu: message_eu.to_string(),
+            message_origin: message_origin.map(|m| m.to_string()),
         }
     }
 
     pub fn exit(self) {
-        error!("{}", self.message);
+        error!("{}", self.message_eu);
+        if self.message_origin.is_some() {
+            debug!(
+                "{}",
+                self.message_origin
+                    .expect("The program should not have failed with this expected unwrap.")
+            );
+        };
         std::process::exit(self.exit_code);
     }
 }

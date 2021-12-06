@@ -40,6 +40,7 @@ impl TryFrom<ArgMatches<'static>> for AudioParams {
                 return Err(OperationError::new(
                     CommonExitCodes::ClapMissingValue as i32,
                     "`file` is a required argument on `audio` subcommand but is missing.",
+                    None::<&str>,
                 ))
             }
         };

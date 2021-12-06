@@ -42,12 +42,14 @@ impl TryFrom<ArgMatches<'static>> for LocationParams {
                         return Err(OperationError::new(
                             CommonExitCodes::StdInvalidValue as i32,
                             "`latitude` argument must be a valid 32-bit floating point number.",
+                            None::<&str>,
                         ))
                     }
                 },
                 None => return Err(OperationError::new(
                     CommonExitCodes::ClapMissingValue as i32,
                     "`latitude` is a required argument on `location` subcommand but is missing.",
+                    None::<&str>,
                 )),
             };
 
@@ -59,12 +61,14 @@ impl TryFrom<ArgMatches<'static>> for LocationParams {
                         Err(_) => return Err(OperationError::new(
                             CommonExitCodes::StdInvalidValue as i32,
                             "`longitude` argument must be a valid 32-bit floating point number.",
+                            None::<&str>,
                         )),
                     }
                 }
                 None => return Err(OperationError::new(
                     CommonExitCodes::ClapMissingValue as i32,
                     "`longitude` is a required argument on `location` subcommand but is missing.",
+                    None::<&str>,
                 )),
             };
 

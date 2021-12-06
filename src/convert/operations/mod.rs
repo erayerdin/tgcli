@@ -26,11 +26,7 @@ impl TryFrom<ArgMatches<'static>> for RootParams {
     fn try_from(m: ArgMatches<'static>) -> Result<Self, Self::Error> {
         debug!("Converting ArgMatches to RootParams...");
         trace!("arg matches: {:?}", m);
-        let params = RootParams::new(if m.is_present("no-secure") {
-            false
-        } else {
-            true
-        });
+        let params = RootParams::new();
         trace!("root params: {:?}", params);
         Ok(params)
     }
