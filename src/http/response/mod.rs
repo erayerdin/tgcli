@@ -35,15 +35,18 @@ macro_rules! handle_response {
                             Some(d) => Err(OperationError::new(
                                 CommonExitCodes::TelegramAPIBadRequest as i32,
                                 &d,
+                                Some(&d),
                             )),
                             None => Err(OperationError::new(
                                 CommonExitCodes::TelegramAPIMissingDescription as i32,
                                 "No description was provided by Telegram for this error.",
+                                None::<&str>,
                             )),
                         },
                         Err(e) => Err(OperationError::new(
                             CommonExitCodes::SerdeDeserializationError as i32,
-                            &format!("An error occurred while deserializing the response. {}", e),
+                            "An error occurred while deserializing the response.",
+                            Some(e),
                         )),
                     }
                 }
@@ -54,7 +57,8 @@ macro_rules! handle_response {
                 $failure;
                 Err(OperationError::new(
                     CommonExitCodes::ReqwestConnectionError as i32,
-                    &format!("An error occured while connecting to Telegram API. {}", e),
+                    "An error occured while connecting to Telegram API.",
+                    Some(e),
                 ))
             }
         }

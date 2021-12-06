@@ -33,6 +33,7 @@ impl TryFrom<ArgMatches<'static>> for BotParams {
                 return Err(OperationError::new(
                     CommonExitCodes::ClapMissingValue as i32,
                     "`token` is a required argument on `bot` subcommand but is missing.",
+                    None::<&str>,
                 ))
             }
         };

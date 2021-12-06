@@ -1,4 +1,4 @@
-use std::{convert::TryFrom, process};
+use std::convert::TryFrom;
 
 use clap::{
     app_from_crate, crate_authors, crate_description, crate_name, crate_version, App, AppSettings,
@@ -41,24 +41,14 @@ use crate::{
 pub mod logging;
 pub mod validators;
 
-macro_rules! exit_operation_error {
-    ($error:ident) => {{
-        use std::mem::drop;
-        error!("{}", $error.message);
-        let exit_code = $error.exit_code;
-        drop($error);
-        process::exit(exit_code);
-    }};
-}
-
 macro_rules! handle_operation {
     ($subc:ident, $operation:ty) => {
         match <$operation>::try_from($subc.clone()) {
             Ok(o) => match o.send().await {
                 Ok(_) => Ok(()),
-                Err(e) => exit_operation_error!(e),
+                Err(e) => return Err(e),
             },
-            Err(e) => exit_operation_error!(e),
+            Err(e) => return Err(e),
         }
     };
 }
@@ -235,7 +225,8 @@ pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError>
         Err(e) => {
             return Err(OperationError::new(
                 CommonExitCodes::FernSetupError as i32,
-                &format!("Failed to set up logger. {}", e),
+                "Failed to set up logger.",
+                Some(e),
             ))
         }
     };

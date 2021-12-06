@@ -40,6 +40,7 @@ impl TryFrom<ArgMatches<'static>> for DocumentParams {
                 return Err(OperationError::new(
                     CommonExitCodes::ClapMissingValue as i32,
                     "`file` is a required argument on `document` subcommand but is missing.",
+                    None::<&str>,
                 ))
             }
         };
