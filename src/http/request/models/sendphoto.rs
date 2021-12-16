@@ -7,7 +7,7 @@ use crate::{
     http::request::models::generate_form_part_from_file,
     operations::{
         bot::send::{self, photo::SendPhotoParams},
-        OperationError,
+        CommonExitCodes, OperationError,
     },
 };
 
@@ -54,9 +54,15 @@ impl TryFrom<SendPhotoRequestModel> for Form {
         };
 
         let photo_form = match m.photo {
-            InputFile::Local(p) => match executor::block_on(generate_form_part_from_file(p)) {
-                Ok(part) => caption_form.part("photo", part),
-                Err(e) => return Err(e),
+            InputFile::Local(p) => match caption_form.file("photo", p) {
+                Ok(file) => file,
+                Err(e) => {
+                    return Err(OperationError::new(
+                        CommonExitCodes::ReqwestFormError as i32,
+                        "An error occured while attaching file to request form.",
+                        Some(e),
+                    ))
+                }
             },
             InputFile::Remote(u) => caption_form.text("photo", u.to_string()),
             InputFile::Id(i) => caption_form.text("photo", i),

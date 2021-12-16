@@ -7,7 +7,7 @@ use crate::{
     http::request::models::generate_form_part_from_file,
     operations::{
         bot::send::{self, video::SendVideoParams},
-        OperationError,
+        CommonExitCodes, OperationError,
     },
 };
 
@@ -56,9 +56,15 @@ impl TryFrom<SendVideoRequestModel> for Form {
         };
 
         let video_form = match m.video {
-            InputFile::Local(p) => match executor::block_on(generate_form_part_from_file(p)) {
-                Ok(part) => caption_form.part("video", part),
-                Err(e) => return Err(e),
+            InputFile::Local(p) => match caption_form.file("video", p) {
+                Ok(file) => file,
+                Err(e) => {
+                    return Err(OperationError::new(
+                        CommonExitCodes::ReqwestFormError as i32,
+                        "An error occured while attaching file to request form.",
+                        Some(e),
+                    ))
+                }
             },
             InputFile::Remote(u) => caption_form.text("video", u.to_string()),
             InputFile::Id(i) => caption_form.text("video", i),
