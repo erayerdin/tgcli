@@ -14,7 +14,7 @@ use fern::colors::{Color, ColoredLevelConfig};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub async fn set_logger(
+pub fn set_logger(
     // Defines verbosity level.
     // 0 - Info, Warn, Error + Self Target
     // 1 - Debug, Info, Warn, Error + Self Target + Level Labels

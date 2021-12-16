@@ -47,5 +47,5 @@ impl SendParams {
 
 #[async_trait]
 pub trait SendOperation {
-    async fn send(self) -> Result<(), OperationError>;
+    fn send(self) -> Result<(), OperationError>;
 }

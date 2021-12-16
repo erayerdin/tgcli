@@ -1,14 +1,10 @@
 use std::convert::TryFrom;
 
-use futures::executor;
-use reqwest::multipart::Form;
+use reqwest::blocking::multipart::Form;
 
-use crate::{
-    http::request::models::generate_form_part_from_file,
-    operations::{
-        bot::send::{self, audio::SendAudioParams},
-        OperationError,
-    },
+use crate::operations::{
+    bot::send::{self, audio::SendAudioParams},
+    CommonExitCodes, OperationError,
 };
 
 use super::{ChatId, InputFile, ParseMode};
@@ -57,9 +53,15 @@ impl TryFrom<SendAudioRequestModel> for Form {
         };
 
         let audio_form = match m.audio {
-            InputFile::Local(p) => match executor::block_on(generate_form_part_from_file(p)) {
-                Ok(part) => caption_form.part("audio", part),
-                Err(e) => return Err(e),
+            InputFile::Local(p) => match caption_form.file("audio", p) {
+                Ok(file) => file,
+                Err(e) => {
+                    return Err(OperationError::new(
+                        CommonExitCodes::ReqwestFormError as i32,
+                        "An error occured while attaching file to request form.",
+                        Some(e),
+                    ))
+                }
             },
             InputFile::Remote(u) => caption_form.text("audio", u.to_string()),
             InputFile::Id(i) => caption_form.text("audio", i),

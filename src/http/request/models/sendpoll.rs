@@ -1,6 +1,6 @@
 use std::convert::TryFrom;
 
-use reqwest::multipart::Form;
+use reqwest::blocking::multipart::Form;
 use serde_json::json;
 
 use crate::operations::{bot::send::poll::SendPollParams, OperationError};

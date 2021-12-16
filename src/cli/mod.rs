@@ -44,7 +44,7 @@ pub mod validators;
 macro_rules! handle_operation {
     ($subc:ident, $operation:ty) => {
         match <$operation>::try_from($subc.clone()) {
-            Ok(o) => match o.send().await {
+            Ok(o) => match o.send() {
                 Ok(_) => Ok(()),
                 Err(e) => return Err(e),
             },
@@ -53,7 +53,7 @@ macro_rules! handle_operation {
     };
 }
 
-pub async fn get_app() -> App<'static, 'static> {
+pub fn get_app() -> App<'static, 'static> {
     #[allow(non_snake_case)]
     let CAPTION_ARG = Arg::with_name("message")
         .long("message")
@@ -216,11 +216,11 @@ pub async fn get_app() -> App<'static, 'static> {
                 ])])])
 }
 
-pub async fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
+pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
     let matches = app.get_matches();
     let verbosity_level = matches.occurrences_of("verbose");
 
-    match set_logger(verbosity_level).await {
+    match set_logger(verbosity_level) {
         Ok(_) => (),
         Err(e) => {
             return Err(OperationError::new(

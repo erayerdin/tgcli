@@ -1,10 +1,5 @@
 use std::{path, string};
 
-use reqwest::{multipart::Part, Body};
-use tokio_util::codec::{BytesCodec, FramedRead};
-
-use crate::operations::{CommonExitCodes, OperationError};
-
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -68,37 +63,4 @@ enum InputFile {
     Remote(url::Url),
     /// The id of file that was sent before.
     Id(String),
-}
-
-async fn generate_form_part_from_file(location: path::PathBuf) -> Result<Part, OperationError> {
-    // REF https://github.com/seanmonstar/reqwest/issues/646#issuecomment-616985015
-
-    let file = match tokio::fs::File::open(location.clone()).await {
-        Ok(f) => f,
-        Err(e) => {
-            return Err(OperationError::new(
-                CommonExitCodes::TokioFsFileError as i32,
-                "An error occurred while trying to read the input file.",
-                Some(e),
-            ))
-        }
-    };
-
-    let body = Body::wrap_stream(FramedRead::new(file, BytesCodec::new()));
-
-    let filename = match location
-        .file_name()
-        .map(|val| val.to_string_lossy().to_string())
-    {
-        Some(n) => n,
-        None => {
-            return Err(OperationError::new(
-                CommonExitCodes::StdFsInvalidFilename as i32,
-                "Could not get filename from input file.",
-                None::<&str>,
-            ))
-        }
-    };
-
-    Ok(Part::stream(body).file_name(filename))
 }

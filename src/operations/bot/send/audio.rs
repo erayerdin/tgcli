@@ -1,6 +1,6 @@
 use std::{convert::TryInto, path::PathBuf};
 
-use reqwest::Client;
+use reqwest::blocking::Client;
 
 use crate::{
     handle_response,
@@ -64,7 +64,7 @@ impl SendAudioOperation {
 
 #[async_trait]
 impl SendOperation for SendAudioOperation {
-    async fn send(self) -> Result<(), crate::operations::OperationError> {
+    fn send(self) -> Result<(), crate::operations::OperationError> {
         info!("🔊 Sending audio...");
 
         let url = format!(
@@ -82,7 +82,7 @@ impl SendOperation for SendAudioOperation {
         debug!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send().await;
+        let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
             info!("📦 Successfully sent audio.");
