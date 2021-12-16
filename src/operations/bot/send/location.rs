@@ -55,7 +55,7 @@ impl SendLocationOperation {
 
 #[async_trait]
 impl SendOperation for SendLocationOperation {
-    async fn send(self) -> Result<(), crate::operations::OperationError> {
+    fn send(self) -> Result<(), crate::operations::OperationError> {
         info!("🌍 Sending location...");
 
         let url = format!(
@@ -73,7 +73,7 @@ impl SendOperation for SendLocationOperation {
         trace!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send().await;
+        let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
             info!("📦 Successfully sent location.");

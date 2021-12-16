@@ -52,7 +52,7 @@ impl SendPhotoOperation {
 
 #[async_trait]
 impl SendOperation for SendPhotoOperation {
-    async fn send(self) -> Result<(), OperationError> {
+    fn send(self) -> Result<(), OperationError> {
         info!("📷 Sending photo...");
 
         let url = format!(
@@ -70,7 +70,7 @@ impl SendOperation for SendPhotoOperation {
         debug!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send().await;
+        let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
             info!("📦 Successfully sent photo.");

@@ -57,7 +57,7 @@ impl SendDocumentOperation {
 
 #[async_trait]
 impl SendOperation for SendDocumentOperation {
-    async fn send(self) -> Result<(), OperationError> {
+    fn send(self) -> Result<(), OperationError> {
         info!("📎 Sending document...");
 
         let url = format!(
@@ -75,7 +75,7 @@ impl SendOperation for SendDocumentOperation {
         debug!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send().await;
+        let response = client.post(url).multipart(req_body).send();
 
         handle_response!(response, on_success => {
             info!("📦 Successfully sent document.");

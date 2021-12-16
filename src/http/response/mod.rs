@@ -30,7 +30,7 @@ macro_rules! handle_response {
                     $failure;
                     use crate::operations::CommonExitCodes;
                     use crate::operations::OperationError;
-                    match r.json::<GenericResponseModel<MessageModel>>().await {
+                    match r.json::<GenericResponseModel<MessageModel>>() {
                         Ok(i) => match i.description {
                             Some(d) => Err(OperationError::new(
                                 CommonExitCodes::TelegramAPIBadRequest as i32,

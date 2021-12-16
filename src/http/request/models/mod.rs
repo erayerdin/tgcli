@@ -70,10 +70,10 @@ enum InputFile {
     Id(String),
 }
 
-async fn generate_form_part_from_file(location: path::PathBuf) -> Result<Part, OperationError> {
+fn generate_form_part_from_file(location: path::PathBuf) -> Result<Part, OperationError> {
     // REF https://github.com/seanmonstar/reqwest/issues/646#issuecomment-616985015
 
-    let file = match tokio::fs::File::open(location.clone()).await {
+    let file = match tokio::fs::File::open(location.clone()) {
         Ok(f) => f,
         Err(e) => {
             return Err(OperationError::new(
