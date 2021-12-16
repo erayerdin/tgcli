@@ -1,7 +1,7 @@
 use std::convert::TryFrom;
 
 use futures::executor;
-use reqwest::multipart::Form;
+use reqwest::blocking::multipart::Form;
 
 use crate::{
     http::request::models::generate_form_part_from_file,

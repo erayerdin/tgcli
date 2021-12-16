@@ -1,6 +1,6 @@
 use std::{path, string};
 
-use reqwest::{multipart::Part, Body};
+use reqwest::blocking::{multipart::Part, Body};
 use tokio_util::codec::{BytesCodec, FramedRead};
 
 use crate::operations::{CommonExitCodes, OperationError};

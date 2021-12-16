@@ -1,6 +1,6 @@
 use std::convert::TryInto;
 
-use reqwest::Client;
+use reqwest::blocking::Client;
 
 use crate::{
     handle_response,
