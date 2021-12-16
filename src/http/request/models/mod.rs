@@ -1,10 +1,5 @@
 use std::{path, string};
 
-use reqwest::blocking::{multipart::Part, Body};
-use tokio_util::codec::{BytesCodec, FramedRead};
-
-use crate::operations::{CommonExitCodes, OperationError};
-
 // Copyright 2021 Eray Erdin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");

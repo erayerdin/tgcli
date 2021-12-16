@@ -1,6 +1,5 @@
 use std::convert::TryFrom;
 
-use futures::executor;
 use reqwest::blocking::multipart::Form;
 
 use crate::operations::{
