@@ -3,12 +3,9 @@ use std::convert::TryFrom;
 use futures::executor;
 use reqwest::blocking::multipart::Form;
 
-use crate::{
-    http::request::models::generate_form_part_from_file,
-    operations::{
-        bot::send::{self, audio::SendAudioParams},
-        CommonExitCodes, OperationError,
-    },
+use crate::operations::{
+    bot::send::{self, audio::SendAudioParams},
+    CommonExitCodes, OperationError,
 };
 
 use super::{ChatId, InputFile, ParseMode};
