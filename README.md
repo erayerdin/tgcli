@@ -59,11 +59,28 @@ The details of the build status can be seen [here][build_url]. The details of th
 
 ## Installing
 
-### Github Releases
+The project is in active development and is in alpha phase. Before installing tgcli, please consider these:
 
-Currently, the project is being migrated to Rust. Until a stable release, the binaries and a Debian package will be distributed on [Releases page][release_page_url].
+ - There might be breaking changes on commands and behavior.
+ - There might be unexpected and unwanted behavior.
 
-[release_page_url]: https://github.com/erayerdin/tgcli/releases
+### Snap Store
+
+The project is available on [Snap Store](https://snapcraft.io/tgcli). However, please consider that the project is alpha phase, installing it is a bit different:
+
+```
+sudo snap install tgcli --edge --devmode
+```
+
+`--edge` flag is used due to it is still in alpha phase and `--devmode` is used because `tgcli` requires networking in the confined environment.
+
+Also, consider that the apps with on the edge channel on Snap Store is not updated automatically. So, if you want to get a new release, you need to uninstall first then reinstall it again.
+
+```
+sudo snap remove tgcli
+sudo snap install tgcli --edge --devmode
+```
+
 
 ### Install with [Guix](https://guix.gnu.org)
 
