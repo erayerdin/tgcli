@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v0.5.0-alpha.7] - 2021-12-17
 ### Changed
  - Migrated entire project to async.
  - Fixed exiting from SendOperation implementations.
