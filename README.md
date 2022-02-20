@@ -5,6 +5,7 @@
 ![Github Release Download Count][github_download_counter_badge]
 ![License][license_badge]
 [![Docs Status][badge_docs]][docs_url]
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ferayerdin%2Ftgcli.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ferayerdin%2Ftgcli?ref=badge_shield)
 
 `tgcli` is a terminal app to send messages with bots on Telegram.
 
@@ -119,3 +120,7 @@ This application serves a really small purpose for now. It might face breaking c
 ## Documentation
 
 Documentation has an intensive amount of  information about how to use `tgcli`. Refer to the [documentation][docs_url].
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ferayerdin%2Ftgcli.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ferayerdin%2Ftgcli?ref=badge_large)
