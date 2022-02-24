@@ -10,7 +10,7 @@ use crate::operations::{
         },
         BotParams,
     },
-    CommonExitCodes, OperationError, RootParams,
+    OperationError, RootParams,
 };
 
 // Copyright 2021 Eray Erdin
@@ -34,16 +34,13 @@ impl TryFrom<ArgMatches<'static>> for DocumentParams {
         debug!("Converting ArgMatches to DocumentParams...");
         trace!("arg matches: {:?}", m);
 
-        let file = match m.value_of("file") {
-            Some(f) => PathBuf::from(f),
-            None => {
-                return Err(OperationError::new(
-                    CommonExitCodes::ClapMissingValue as i32,
-                    "`file` is a required argument on `document` subcommand but is missing.",
-                    None::<&str>,
-                ))
-            }
-        };
+        let file = m.value_of("file").map_or(
+            Err(OperationError::MissingArgument {
+                subc_name: "document".to_owned(),
+                arg_name: "file".to_owned(),
+            }),
+            |v| Ok(PathBuf::from(v)),
+        )?;
 
         let params = DocumentParams::new(
             file,

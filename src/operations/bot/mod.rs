@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod send;
+pub(crate) mod send;
 
 #[derive(Debug)]
-pub struct BotParams {
+pub(crate) struct BotParams {
     token: String,
 }
 
 impl BotParams {
-    pub fn new(token: &str) -> Self {
+    pub(crate) fn new(token: &str) -> Self {
         Self {
             token: String::from(token),
         }

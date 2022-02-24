@@ -3,9 +3,10 @@ use std::convert::TryInto;
 use reqwest::blocking::Client;
 
 use crate::{
-    handle_response,
-    http::request::models::sendpoll::SendPollRequestModel,
-    operations::{bot::BotParams, RootParams},
+    http::{
+        request::models::sendpoll::SendPollRequestModel, response::models::GenericResponseModel,
+    },
+    operations::{bot::BotParams, OperationError, RootParams},
     API_ROOT_URL,
 };
 
@@ -26,26 +27,26 @@ use super::{SendOperation, SendParams};
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct PollParams {
-    pub question: String,
-    pub options: Vec<String>,
+pub(crate) struct PollParams {
+    pub(crate) question: String,
+    pub(crate) options: Vec<String>,
 }
 
 impl PollParams {
-    pub fn new(question: String, options: Vec<String>) -> Self {
+    pub(crate) fn new(question: String, options: Vec<String>) -> Self {
         Self { question, options }
     }
 }
 
-pub type SendPollParams = (RootParams, BotParams, SendParams, PollParams);
+pub(crate) type SendPollParams = (RootParams, BotParams, SendParams, PollParams);
 
 #[derive(Debug)]
-pub struct SendPollOperation {
+pub(crate) struct SendPollOperation {
     params: SendPollParams,
 }
 
 impl SendPollOperation {
-    pub fn new(params: SendPollParams) -> Self {
+    pub(crate) fn new(params: SendPollParams) -> Self {
         Self { params }
     }
 }
@@ -70,12 +71,19 @@ impl SendOperation for SendPollOperation {
         trace!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client
+            .post(url)
+            .multipart(req_body)
+            .send()
+            .map_err(|err| OperationError::ReqwestError(err))?;
+        let data = response
+            .json::<GenericResponseModel>()
+            .map_err(|err| OperationError::ReqwestError(err))?;
 
-        handle_response!(response, on_success => {
-            info!("📦 Successfully sent poll.");
-        }, on_failure => {
-            error!("☠️ An error occured while sending the poll.");
-        })
+        if let Some(description) = data.description {
+            return Err(OperationError::TelegramAPIError { description });
+        }
+
+        Ok(())
     }
 }

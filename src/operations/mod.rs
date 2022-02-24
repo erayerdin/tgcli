@@ -1,4 +1,4 @@
-use std::fmt;
+use std::{error, fmt};
 
 // Copyright 2021 Eray Erdin
 //
@@ -14,110 +14,64 @@ use std::fmt;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod bot;
+pub(crate) mod bot;
 
 #[derive(Debug)]
-pub struct RootParams;
+pub(crate) struct RootParams;
 
 impl RootParams {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         Self
     }
 }
 
 #[derive(Debug)]
-pub struct OperationError {
-    pub exit_code: i32,
-    /// The simplest message for non-verbose output.
-    pub message_eu: String,
-    /// The error message for verbose output. It is detailed.
-    pub message_origin: Option<String>,
+pub enum OperationError {
+    IoError(std::io::Error),
+    ParseFloatError(std::num::ParseFloatError),
+    LoggerError(log::SetLoggerError),
+    ReqwestError(reqwest::Error),
+    SerdeJsonError(serde_json::Error),
+    MissingArgument { subc_name: String, arg_name: String },
+    TelegramAPIError { description: String },
+}
+
+impl error::Error for OperationError {}
+
+impl fmt::Display for OperationError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            OperationError::IoError(err) => err.fmt(f),
+            OperationError::ParseFloatError(err) => err.fmt(f),
+            OperationError::LoggerError(err) => err.fmt(f),
+            OperationError::ReqwestError(err) => err.fmt(f),
+            OperationError::MissingArgument {
+                subc_name,
+                arg_name,
+            } => write!(
+                f,
+                "`{}` is a required argument for `{}` subcommand but is missing.",
+                arg_name, subc_name
+            ),
+            OperationError::TelegramAPIError { description } => {
+                write!(f, "An error occured on Telegram API: {}", description)
+            }
+            OperationError::SerdeJsonError(err) => err.fmt(f),
+        }
+    }
 }
 
 impl OperationError {
-    pub fn new(
-        exit_code: i32,
-        message_eu: impl fmt::Display,
-        message_origin: Option<impl fmt::Display>,
-    ) -> Self {
-        Self {
-            exit_code,
-            message_eu: message_eu.to_string(),
-            message_origin: message_origin.map(|m| m.to_string()),
+    pub fn exit_code(&self) -> i32 {
+        // should we cover exit code for each error kind?
+        match self {
+            OperationError::IoError(_) => 100,
+            OperationError::ParseFloatError(_) => 200,
+            OperationError::LoggerError(_) => 300,
+            OperationError::ReqwestError(_) => 400,
+            OperationError::MissingArgument { .. } => 500,
+            OperationError::TelegramAPIError { .. } => 600,
+            OperationError::SerdeJsonError(_) => 700,
         }
     }
-
-    pub fn exit(self) {
-        error!("{}", self.message_eu);
-        if self.message_origin.is_some() {
-            debug!(
-                "{}",
-                self.message_origin
-                    .expect("The program should not have failed with this expected unwrap.")
-            );
-        };
-        std::process::exit(self.exit_code);
-    }
-}
-
-/// These are common exit codes that are used to exit
-/// the application. -1 and 1 are reserved for Clap
-/// itself.
-///
-/// All variant names start with where the error originates
-/// from. If the error comes from clap, the names start with
-/// Clap.
-pub enum CommonExitCodes {
-    // ////////// //
-    // Std Errors //
-    // ////////// //
-    // between 2-19
-    /// Provided value is not valid. For example,
-    /// expected value is f32 while a non-f32 value
-    /// is provided by the user.
-    StdInvalidValue = 2,
-    StdFsInvalidFilename = 3,
-
-    // /////////// //
-    // Clap Errors //
-    // /////////// //
-    // between 20-39
-    /// A required argument is not provided.
-    ClapMissingValue = 20,
-
-    // ////////////// //
-    // Reqwest Errors //
-    // ////////////// //
-    // between 40-59
-    /// An connection error occured.
-    ReqwestConnectionError = 40,
-    /// An error occured reported by the response.
-    ReqwestHttpError = 41,
-    /// An error occured related to constructing a form.
-    ReqwestFormError = 42,
-
-    // /////////////////// //
-    // Telegram API Errors //
-    // /////////////////// //
-    // between 60-79
-    TelegramAPIMissingDescription = 60,
-    TelegramAPIBadRequest = 61,
-
-    // //////////// //
-    // Serde Errors //
-    // //////////// //
-    // between 80-99
-    SerdeDeserializationError = 80,
-
-    // /////////// //
-    // Fern Errors //
-    // /////////// //
-    // between 100-119
-    FernSetupError = 100,
-
-    // //////////// //
-    // Tokio Errors //
-    // //////////// //
-    // between 120-139
-    TokioFsFileError = 120,
 }

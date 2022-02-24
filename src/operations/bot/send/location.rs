@@ -3,9 +3,11 @@ use std::convert::TryInto;
 use reqwest::blocking::Client;
 
 use crate::{
-    handle_response,
-    http::request::models::sendlocation::SendLocationRequestModel,
-    operations::{bot::BotParams, RootParams},
+    http::{
+        request::models::sendlocation::SendLocationRequestModel,
+        response::models::GenericResponseModel,
+    },
+    operations::{bot::BotParams, OperationError, RootParams},
     API_ROOT_URL,
 };
 
@@ -26,13 +28,13 @@ use super::{SendOperation, SendParams};
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct LocationParams {
-    pub latitude: f32,
-    pub longitude: f32,
+pub(crate) struct LocationParams {
+    pub(crate) latitude: f32,
+    pub(crate) longitude: f32,
 }
 
 impl LocationParams {
-    pub fn new(latitude: f32, longitude: f32) -> Self {
+    pub(crate) fn new(latitude: f32, longitude: f32) -> Self {
         Self {
             latitude,
             longitude,
@@ -40,15 +42,15 @@ impl LocationParams {
     }
 }
 
-pub type SendLocationParams = (RootParams, BotParams, SendParams, LocationParams);
+pub(crate) type SendLocationParams = (RootParams, BotParams, SendParams, LocationParams);
 
 #[derive(Debug)]
-pub struct SendLocationOperation {
+pub(crate) struct SendLocationOperation {
     params: SendLocationParams,
 }
 
 impl SendLocationOperation {
-    pub fn new(params: SendLocationParams) -> Self {
+    pub(crate) fn new(params: SendLocationParams) -> Self {
         Self { params }
     }
 }
@@ -73,12 +75,19 @@ impl SendOperation for SendLocationOperation {
         trace!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client
+            .post(url)
+            .multipart(req_body)
+            .send()
+            .map_err(|err| OperationError::ReqwestError(err))?;
+        let data = response
+            .json::<GenericResponseModel>()
+            .map_err(|err| OperationError::ReqwestError(err))?;
 
-        handle_response!(response, on_success => {
-            info!("📦 Successfully sent location.");
-        }, on_failure => {
-            error!("☠️ An error occured while sending the location.");
-        })
+        if let Some(description) = data.description {
+            return Err(OperationError::TelegramAPIError { description });
+        }
+
+        Ok(())
     }
 }

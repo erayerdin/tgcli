@@ -22,8 +22,8 @@ extern crate serde;
 extern crate async_trait;
 
 pub mod cli;
-pub mod convert;
+pub(crate) mod convert;
 mod http;
-pub mod operations;
+pub(crate) mod operations;
 
 const API_ROOT_URL: &str = "https://api.telegram.org/bot";

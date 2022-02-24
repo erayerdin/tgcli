@@ -4,7 +4,7 @@ use reqwest::blocking::multipart::Form;
 
 use crate::operations::{
     bot::send::{self, audio::SendAudioParams},
-    CommonExitCodes, OperationError,
+    OperationError,
 };
 
 use super::{ChatId, InputFile, ParseMode};
@@ -24,7 +24,7 @@ use super::{ChatId, InputFile, ParseMode};
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct SendAudioRequestModel {
+pub(crate) struct SendAudioRequestModel {
     chat_id: ChatId,
     audio: InputFile,
     performer: Option<String>,
@@ -53,16 +53,9 @@ impl TryFrom<SendAudioRequestModel> for Form {
         };
 
         let audio_form = match m.audio {
-            InputFile::Local(p) => match caption_form.file("audio", p) {
-                Ok(file) => file,
-                Err(e) => {
-                    return Err(OperationError::new(
-                        CommonExitCodes::ReqwestFormError as i32,
-                        "An error occured while attaching file to request form.",
-                        Some(e),
-                    ))
-                }
-            },
+            InputFile::Local(p) => caption_form
+                .file("audio", p)
+                .map_err(|err| OperationError::IoError(err))?,
             InputFile::Remote(u) => caption_form.text("audio", u.to_string()),
             InputFile::Id(i) => caption_form.text("audio", i),
         };

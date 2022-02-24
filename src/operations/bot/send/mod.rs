@@ -14,29 +14,29 @@ use crate::operations::OperationError;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod audio;
-pub mod document;
-pub mod location;
-pub mod message;
-pub mod photo;
-pub mod poll;
-pub mod video;
+pub(crate) mod audio;
+pub(crate) mod document;
+pub(crate) mod location;
+pub(crate) mod message;
+pub(crate) mod photo;
+pub(crate) mod poll;
+pub(crate) mod video;
 
 #[derive(Debug)]
-pub enum MessageFormat {
+pub(crate) enum MessageFormat {
     Markdown,
     HTML,
 }
 
 #[derive(Debug)]
-pub struct SendParams {
-    pub receiver: String,
-    pub format: MessageFormat,
-    pub silent: bool,
+pub(crate) struct SendParams {
+    pub(crate) receiver: String,
+    pub(crate) format: MessageFormat,
+    pub(crate) silent: bool,
 }
 
 impl SendParams {
-    pub fn new(receiver: &str, format: MessageFormat, silent: bool) -> Self {
+    pub(crate) fn new(receiver: &str, format: MessageFormat, silent: bool) -> Self {
         Self {
             receiver: String::from(receiver),
             format,
@@ -46,6 +46,6 @@ impl SendParams {
 }
 
 #[async_trait]
-pub trait SendOperation {
+pub(crate) trait SendOperation {
     fn send(self) -> Result<(), OperationError>;
 }

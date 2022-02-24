@@ -18,7 +18,7 @@ use crate::operations::{OperationError, RootParams};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod bot;
+pub(crate) mod bot;
 
 impl TryFrom<ArgMatches<'static>> for RootParams {
     type Error = OperationError;

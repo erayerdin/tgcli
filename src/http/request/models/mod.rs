@@ -14,13 +14,13 @@ use std::{path, string};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod sendaudio;
-pub mod senddocument;
-pub mod sendlocation;
-pub mod sendmessage;
-pub mod sendphoto;
-pub mod sendpoll;
-pub mod sendvideo;
+pub(crate) mod sendaudio;
+pub(crate) mod senddocument;
+pub(crate) mod sendlocation;
+pub(crate) mod sendmessage;
+pub(crate) mod sendphoto;
+pub(crate) mod sendpoll;
+pub(crate) mod sendvideo;
 
 #[derive(Debug)]
 /// What the type of ChatId is.
@@ -54,6 +54,8 @@ impl string::ToString for ParseMode {
     }
 }
 
+// TODO remote and id will be implemented
+#[allow(dead_code)]
 #[derive(Debug)]
 /// The file that will be sent to Telegram.
 enum InputFile {

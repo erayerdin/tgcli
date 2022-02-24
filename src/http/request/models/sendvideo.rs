@@ -4,7 +4,7 @@ use reqwest::blocking::multipart::Form;
 
 use crate::operations::{
     bot::send::{self, video::SendVideoParams},
-    CommonExitCodes, OperationError,
+    OperationError,
 };
 
 use super::{ChatId, InputFile, ParseMode};
@@ -24,7 +24,7 @@ use super::{ChatId, InputFile, ParseMode};
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct SendVideoRequestModel {
+pub(crate) struct SendVideoRequestModel {
     chat_id: ChatId,
     video: InputFile,
     width: Option<usize>,
@@ -52,16 +52,9 @@ impl TryFrom<SendVideoRequestModel> for Form {
         };
 
         let video_form = match m.video {
-            InputFile::Local(p) => match caption_form.file("video", p) {
-                Ok(file) => file,
-                Err(e) => {
-                    return Err(OperationError::new(
-                        CommonExitCodes::ReqwestFormError as i32,
-                        "An error occured while attaching file to request form.",
-                        Some(e),
-                    ))
-                }
-            },
+            InputFile::Local(p) => caption_form
+                .file("video", p)
+                .map_err(|err| OperationError::IoError(err))?,
             InputFile::Remote(u) => caption_form.text("video", u.to_string()),
             InputFile::Id(i) => caption_form.text("video", i),
         };

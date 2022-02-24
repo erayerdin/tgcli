@@ -4,7 +4,7 @@ use reqwest::blocking::multipart::Form;
 
 use crate::operations::{
     bot::send::{self, document::SendDocumentParams},
-    CommonExitCodes, OperationError,
+    OperationError,
 };
 
 use super::{ChatId, InputFile, ParseMode};
@@ -25,7 +25,7 @@ use super::{ChatId, InputFile, ParseMode};
 
 #[derive(Debug)]
 /// A model for /sendDocument request.
-pub struct SendDocumentRequestModel {
+pub(crate) struct SendDocumentRequestModel {
     chat_id: ChatId,
     document: InputFile,
     thumbnail: Option<InputFile>,
@@ -52,32 +52,18 @@ impl TryFrom<SendDocumentRequestModel> for Form {
         };
 
         let document_form = match m.document {
-            InputFile::Local(p) => match caption_form.file("document", p) {
-                Ok(file) => file,
-                Err(e) => {
-                    return Err(OperationError::new(
-                        CommonExitCodes::ReqwestFormError as i32,
-                        "An error occured while attaching file to request form.",
-                        Some(e),
-                    ))
-                }
-            },
+            InputFile::Local(p) => caption_form
+                .file("document", p)
+                .map_err(|err| OperationError::IoError(err))?,
             InputFile::Remote(u) => caption_form.text("document", u.to_string()),
             InputFile::Id(i) => caption_form.text("document", i),
         };
 
         let thumbnail_form = match m.thumbnail {
             Some(inputfile) => match inputfile {
-                InputFile::Local(p) => match document_form.file("thumbnail", p) {
-                    Ok(file) => file,
-                    Err(e) => {
-                        return Err(OperationError::new(
-                            CommonExitCodes::ReqwestFormError as i32,
-                            "An error occured while attaching file to request form.",
-                            Some(e),
-                        ))
-                    }
-                },
+                InputFile::Local(p) => document_form
+                    .file("thumbnail", p)
+                    .map_err(|err| OperationError::IoError(err))?,
                 InputFile::Remote(u) => document_form.text("thumbnail", u.to_string()),
                 InputFile::Id(i) => document_form.text("thumbnail", i),
             },

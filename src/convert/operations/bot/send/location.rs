@@ -10,7 +10,7 @@ use crate::operations::{
         },
         BotParams,
     },
-    CommonExitCodes, OperationError, RootParams,
+    OperationError, RootParams,
 };
 
 // Copyright 2021 Eray Erdin
@@ -34,43 +34,29 @@ impl TryFrom<ArgMatches<'static>> for LocationParams {
         debug!("Converting ArgMatches to LocationParams...");
         trace!("arg matches: {:?}", m);
 
-        let latitude: f32 =
-            match m.value_of("latitude") {
-                Some(l) => match l.parse() {
-                    Ok(v) => v,
-                    Err(_) => {
-                        return Err(OperationError::new(
-                            CommonExitCodes::StdInvalidValue as i32,
-                            "`latitude` argument must be a valid 32-bit floating point number.",
-                            None::<&str>,
-                        ))
-                    }
-                },
-                None => return Err(OperationError::new(
-                    CommonExitCodes::ClapMissingValue as i32,
-                    "`latitude` is a required argument on `location` subcommand but is missing.",
-                    None::<&str>,
-                )),
-            };
+        let latitude: f32 = match m.value_of("latitude") {
+            Some(l) => l
+                .parse()
+                .map_err(|err| OperationError::ParseFloatError(err))?,
+            None => {
+                return Err(OperationError::MissingArgument {
+                    subc_name: "location".to_owned(),
+                    arg_name: "latitude".to_owned(),
+                })
+            }
+        };
 
-        let longitude: f32 =
-            match m.value_of("longitude") {
-                Some(l) => {
-                    match l.parse() {
-                        Ok(v) => v,
-                        Err(_) => return Err(OperationError::new(
-                            CommonExitCodes::StdInvalidValue as i32,
-                            "`longitude` argument must be a valid 32-bit floating point number.",
-                            None::<&str>,
-                        )),
-                    }
-                }
-                None => return Err(OperationError::new(
-                    CommonExitCodes::ClapMissingValue as i32,
-                    "`longitude` is a required argument on `location` subcommand but is missing.",
-                    None::<&str>,
-                )),
-            };
+        let longitude: f32 = match m.value_of("longitude") {
+            Some(l) => l
+                .parse()
+                .map_err(|err| OperationError::ParseFloatError(err))?,
+            None => {
+                return Err(OperationError::MissingArgument {
+                    subc_name: "location".to_owned(),
+                    arg_name: "longitude".to_owned(),
+                })
+            }
+        };
 
         let params = LocationParams::new(latitude, longitude);
         trace!("location params: {:?}", params);

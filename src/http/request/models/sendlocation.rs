@@ -21,7 +21,7 @@ use super::ChatId;
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct SendLocationRequestModel {
+pub(crate) struct SendLocationRequestModel {
     chat_id: ChatId,
     latitude: f32,
     longitude: f32,

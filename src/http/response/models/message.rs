@@ -12,5 +12,5 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#[derive(Deserialize)]
-pub struct MessageModel;
+#[derive(Debug, Deserialize)]
+pub(crate) struct MessageModel;

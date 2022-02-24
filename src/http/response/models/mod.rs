@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod message;
+pub(crate) mod message;
 
 #[derive(Debug, Deserialize)]
-pub struct GenericResponseModel<T> {
-    ok: bool,
-    error_code: usize,
-    pub description: Option<String>,
-    result: Option<T>,
+pub(crate) struct GenericResponseModel {
+    // ok: bool,
+    // error_code: Option<usize>,
+    pub(crate) description: Option<String>,
 }

@@ -19,7 +19,7 @@ use mime_guess::MimeGuess;
 
 type ValidatorResult = Result<(), String>;
 
-pub fn caption_validator(value: String) -> ValidatorResult {
+pub(crate) fn caption_validator(value: String) -> ValidatorResult {
     if value.chars().count() > 1024 {
         return Err(String::from(
             "Message cannot be larger than 1024 characters.",
@@ -29,7 +29,7 @@ pub fn caption_validator(value: String) -> ValidatorResult {
     Ok(())
 }
 
-pub fn file_validator(value: String) -> ValidatorResult {
+pub(crate) fn file_validator(value: String) -> ValidatorResult {
     let cwd = match current_dir() {
         Ok(d) => d,
         Err(_) => return Err(String::from("Could not get current working directory.")),
@@ -84,7 +84,7 @@ fn validate_file_type(path: &PathBuf, file_type: Name) -> ValidatorResult {
     }
 }
 
-pub fn image_validator(value: String) -> ValidatorResult {
+pub(crate) fn image_validator(value: String) -> ValidatorResult {
     if let Err(val) = file_validator(value.clone()) {
         return Err(val);
     }
@@ -93,7 +93,7 @@ pub fn image_validator(value: String) -> ValidatorResult {
     validate_file_type(&path, mime::IMAGE)
 }
 
-pub fn video_validator(value: String) -> ValidatorResult {
+pub(crate) fn video_validator(value: String) -> ValidatorResult {
     if let Err(val) = file_validator(value.clone()) {
         return Err(val);
     }
@@ -102,7 +102,7 @@ pub fn video_validator(value: String) -> ValidatorResult {
     validate_file_type(&path, mime::VIDEO)
 }
 
-pub fn audio_validator(value: String) -> ValidatorResult {
+pub(crate) fn audio_validator(value: String) -> ValidatorResult {
     if let Err(val) = file_validator(value.clone()) {
         return Err(val);
     }
@@ -111,26 +111,7 @@ pub fn audio_validator(value: String) -> ValidatorResult {
     validate_file_type(&path, mime::AUDIO)
 }
 
-pub fn positive_integer_validator(value: String) -> ValidatorResult {
-    match value.parse::<usize>() {
-        Ok(v) => {
-            if v == 0 {
-                Err(format!(
-                    "Value must be a positive integer.\nValue: {}",
-                    value
-                ))
-            } else {
-                Ok(())
-            }
-        }
-        Err(_) => Err(format!(
-            "Value must be a positive integer.\nValue: {}",
-            value
-        )),
-    }
-}
-
-pub fn float_validator(value: String) -> ValidatorResult {
+pub(crate) fn float_validator(value: String) -> ValidatorResult {
     match value.parse::<f32>() {
         Ok(_) => Ok(()),
         Err(_) => Err(format!(
@@ -140,14 +121,14 @@ pub fn float_validator(value: String) -> ValidatorResult {
     }
 }
 
-pub fn poll_question_validator(value: String) -> ValidatorResult {
+pub(crate) fn poll_question_validator(value: String) -> ValidatorResult {
     match value.len() {
         l if l < 1 || l > 300 => Err("The question length must be between 1 and 300.".to_owned()),
         _ => Ok(()),
     }
 }
 
-pub fn poll_option_validator(value: String) -> ValidatorResult {
+pub(crate) fn poll_option_validator(value: String) -> ValidatorResult {
     match value.len() {
         l if l < 1 || l > 100 => Err("The option length must be between 1 and 100.".to_owned()),
         _ => Ok(()),

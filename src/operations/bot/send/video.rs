@@ -3,9 +3,10 @@ use std::{convert::TryInto, path::PathBuf};
 use reqwest::blocking::Client;
 
 use crate::{
-    handle_response,
-    http::request::models::sendvideo::SendVideoRequestModel,
-    operations::{bot::BotParams, RootParams},
+    http::{
+        request::models::sendvideo::SendVideoRequestModel, response::models::GenericResponseModel,
+    },
+    operations::{bot::BotParams, OperationError, RootParams},
     API_ROOT_URL,
 };
 
@@ -26,15 +27,15 @@ use super::{SendOperation, SendParams};
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct VideoParams {
-    pub file: PathBuf,
-    pub message: Option<String>,
-    pub horizontal: Option<usize>,
-    pub vertical: Option<usize>,
+pub(crate) struct VideoParams {
+    pub(crate) file: PathBuf,
+    pub(crate) message: Option<String>,
+    pub(crate) horizontal: Option<usize>,
+    pub(crate) vertical: Option<usize>,
 }
 
 impl VideoParams {
-    pub fn new(
+    pub(crate) fn new(
         file: PathBuf,
         message: Option<String>,
         horizontal: Option<usize>,
@@ -49,15 +50,15 @@ impl VideoParams {
     }
 }
 
-pub type SendVideoParams = (RootParams, BotParams, SendParams, VideoParams);
+pub(crate) type SendVideoParams = (RootParams, BotParams, SendParams, VideoParams);
 
 #[derive(Debug)]
-pub struct SendVideoOperation {
+pub(crate) struct SendVideoOperation {
     params: SendVideoParams,
 }
 
 impl SendVideoOperation {
-    pub fn new(params: SendVideoParams) -> Self {
+    pub(crate) fn new(params: SendVideoParams) -> Self {
         Self { params }
     }
 }
@@ -82,12 +83,19 @@ impl SendOperation for SendVideoOperation {
         debug!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client
+            .post(url)
+            .multipart(req_body)
+            .send()
+            .map_err(|err| OperationError::ReqwestError(err))?;
+        let data = response
+            .json::<GenericResponseModel>()
+            .map_err(|err| OperationError::ReqwestError(err))?;
 
-        handle_response!(response, on_success => {
-            info!("📦 Successfully sent video.");
-        }, on_failure => {
-            error!("☠️ An error occurred while sending the video.");
-        })
+        if let Some(description) = data.description {
+            return Err(OperationError::TelegramAPIError { description });
+        }
+
+        Ok(())
     }
 }

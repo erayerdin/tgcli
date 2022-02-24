@@ -3,9 +3,10 @@ use std::{convert::TryInto, path::PathBuf};
 use reqwest::blocking::Client;
 
 use crate::{
-    handle_response,
-    http::request::models::sendaudio::SendAudioRequestModel,
-    operations::{bot::BotParams, RootParams},
+    http::{
+        request::models::sendaudio::SendAudioRequestModel, response::models::GenericResponseModel,
+    },
+    operations::{bot::BotParams, OperationError, RootParams},
     API_ROOT_URL,
 };
 
@@ -26,15 +27,15 @@ use super::{SendOperation, SendParams};
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct AudioParams {
-    pub file: PathBuf,
-    pub message: Option<String>,
-    pub title: Option<String>,
-    pub performer: Option<String>,
+pub(crate) struct AudioParams {
+    pub(crate) file: PathBuf,
+    pub(crate) message: Option<String>,
+    pub(crate) title: Option<String>,
+    pub(crate) performer: Option<String>,
 }
 
 impl AudioParams {
-    pub fn new(
+    pub(crate) fn new(
         file: PathBuf,
         message: Option<String>,
         title: Option<String>,
@@ -49,15 +50,15 @@ impl AudioParams {
     }
 }
 
-pub type SendAudioParams = (RootParams, BotParams, SendParams, AudioParams);
+pub(crate) type SendAudioParams = (RootParams, BotParams, SendParams, AudioParams);
 
 #[derive(Debug)]
-pub struct SendAudioOperation {
+pub(crate) struct SendAudioOperation {
     params: SendAudioParams,
 }
 
 impl SendAudioOperation {
-    pub fn new(params: SendAudioParams) -> Self {
+    pub(crate) fn new(params: SendAudioParams) -> Self {
         Self { params }
     }
 }
@@ -81,13 +82,21 @@ impl SendOperation for SendAudioOperation {
         };
         debug!("request body: {:?}", req_body);
 
+        // TODO add logging to response and data
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client
+            .post(url)
+            .multipart(req_body)
+            .send()
+            .map_err(|err| OperationError::ReqwestError(err))?;
+        let data = response
+            .json::<GenericResponseModel>()
+            .map_err(|err| OperationError::ReqwestError(err))?;
 
-        handle_response!(response, on_success => {
-            info!("📦 Successfully sent audio.");
-        }, on_failure => {
-            error!("☠️ An error occurred while sending the audio.");
-        })
+        if let Some(description) = data.description {
+            return Err(OperationError::TelegramAPIError { description });
+        }
+
+        Ok(())
     }
 }

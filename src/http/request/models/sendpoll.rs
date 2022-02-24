@@ -22,7 +22,7 @@ use super::ChatId;
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct SendPollRequestModel {
+pub(crate) struct SendPollRequestModel {
     chat_id: ChatId,
     question: String,
     options: Vec<String>,

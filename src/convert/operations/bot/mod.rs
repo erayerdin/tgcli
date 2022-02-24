@@ -2,7 +2,7 @@ use std::convert::TryFrom;
 
 use clap::ArgMatches;
 
-use crate::operations::{bot::BotParams, CommonExitCodes, OperationError};
+use crate::operations::{bot::BotParams, OperationError};
 
 // Copyright 2021 Eray Erdin
 //
@@ -18,7 +18,7 @@ use crate::operations::{bot::BotParams, CommonExitCodes, OperationError};
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod send;
+pub(crate) mod send;
 
 impl TryFrom<ArgMatches<'static>> for BotParams {
     type Error = OperationError;
@@ -27,16 +27,12 @@ impl TryFrom<ArgMatches<'static>> for BotParams {
         debug!("Converting ArgMatches to BotParams...");
         trace!("arg matches: {:?}", m);
 
-        let token = match m.value_of("token") {
-            Some(t) => t,
-            None => {
-                return Err(OperationError::new(
-                    CommonExitCodes::ClapMissingValue as i32,
-                    "`token` is a required argument on `bot` subcommand but is missing.",
-                    None::<&str>,
-                ))
-            }
-        };
+        let token = m
+            .value_of("token")
+            .ok_or_else(|| OperationError::MissingArgument {
+                subc_name: "bot".to_owned(),
+                arg_name: "token".to_owned(),
+            })?;
 
         let params = BotParams::new(token);
         trace!("bot params: {:?}", params);

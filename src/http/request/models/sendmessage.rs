@@ -25,7 +25,7 @@ use super::{ChatId, ParseMode};
 
 #[derive(Debug)]
 /// A model for /sendMessage request.
-pub struct SendMessageRequestModel {
+pub(crate) struct SendMessageRequestModel {
     chat_id: ChatId,
     text: String,
     parse_mode: ParseMode,

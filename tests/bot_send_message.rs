@@ -1,7 +1,6 @@
 use std::env;
 
 use assert_cmd::Command;
-use tgcli::operations::CommonExitCodes;
 
 // Copyright 2021 Eray Erdin
 //
@@ -57,9 +56,7 @@ fn send_message_to_absent_receiver(mut binary: Command) {
         ])
         .assert();
 
-    assertion
-        .failure()
-        .code(CommonExitCodes::TelegramAPIBadRequest as i32);
+    assertion.failure();
 }
 
 #[rstest]

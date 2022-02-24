@@ -3,8 +3,9 @@ use std::{convert::TryInto, path::PathBuf};
 use reqwest::blocking::Client;
 
 use crate::{
-    handle_response,
-    http::request::models::sendphoto::SendPhotoRequestModel,
+    http::{
+        request::models::sendphoto::SendPhotoRequestModel, response::models::GenericResponseModel,
+    },
     operations::{bot::BotParams, OperationError, RootParams},
     API_ROOT_URL,
 };
@@ -26,26 +27,26 @@ use super::{SendOperation, SendParams};
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct PhotoParams {
-    pub file: PathBuf,
-    pub message: Option<String>,
+pub(crate) struct PhotoParams {
+    pub(crate) file: PathBuf,
+    pub(crate) message: Option<String>,
 }
 
 impl PhotoParams {
-    pub fn new(file: PathBuf, message: Option<String>) -> Self {
+    pub(crate) fn new(file: PathBuf, message: Option<String>) -> Self {
         Self { file, message }
     }
 }
 
-pub type SendPhotoParams = (RootParams, BotParams, SendParams, PhotoParams);
+pub(crate) type SendPhotoParams = (RootParams, BotParams, SendParams, PhotoParams);
 
 #[derive(Debug)]
-pub struct SendPhotoOperation {
+pub(crate) struct SendPhotoOperation {
     params: SendPhotoParams,
 }
 
 impl SendPhotoOperation {
-    pub fn new(params: SendPhotoParams) -> Self {
+    pub(crate) fn new(params: SendPhotoParams) -> Self {
         Self { params }
     }
 }
@@ -70,12 +71,19 @@ impl SendOperation for SendPhotoOperation {
         debug!("request body: {:?}", req_body);
 
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client
+            .post(url)
+            .multipart(req_body)
+            .send()
+            .map_err(|err| OperationError::ReqwestError(err))?;
+        let data = response
+            .json::<GenericResponseModel>()
+            .map_err(|err| OperationError::ReqwestError(err))?;
 
-        handle_response!(response, on_success => {
-            info!("📦 Successfully sent photo.");
-        }, on_failure => {
-            error!("☠️ An error occurred while sending the photo.");
-        })
+        if let Some(description) = data.description {
+            return Err(OperationError::TelegramAPIError { description });
+        }
+
+        Ok(())
     }
 }

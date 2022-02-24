@@ -4,7 +4,7 @@ use clap::ArgMatches;
 
 use crate::operations::{
     bot::send::{MessageFormat, SendParams},
-    CommonExitCodes, OperationError,
+    OperationError,
 };
 
 // Copyright 2021 Eray Erdin
@@ -21,13 +21,13 @@ use crate::operations::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod audio;
-pub mod document;
-pub mod location;
-pub mod message;
-pub mod photo;
-pub mod poll;
-pub mod video;
+pub(crate) mod audio;
+pub(crate) mod document;
+pub(crate) mod location;
+pub(crate) mod message;
+pub(crate) mod photo;
+pub(crate) mod poll;
+pub(crate) mod video;
 
 impl From<&str> for MessageFormat {
     fn from(v: &str) -> Self {
@@ -51,27 +51,19 @@ impl TryFrom<ArgMatches<'static>> for SendParams {
         debug!("Converting ArgMatches to SendParams...");
         trace!("arg matches: {:?}", m);
 
-        let receiver = match m.value_of("receiver") {
-            Some(r) => r,
-            None => {
-                return Err(OperationError::new(
-                    CommonExitCodes::ClapMissingValue as i32,
-                    "`receiver` is a required argument on `send` subcommand but is missing.",
-                    None::<&str>,
-                ))
-            }
-        };
+        let receiver = m
+            .value_of("receiver")
+            .ok_or(OperationError::MissingArgument {
+                subc_name: "send".to_owned(),
+                arg_name: "receiver".to_owned(),
+            })?;
 
-        let format = match m.value_of("format") {
-            Some(f) => f,
-            None => {
-                return Err(OperationError::new(
-                    CommonExitCodes::ClapMissingValue as i32,
-                    "`format` is a required argument on `send` subcommand but is missing.",
-                    None::<&str>,
-                ))
-            }
-        };
+        let format = m
+            .value_of("format")
+            .ok_or(OperationError::MissingArgument {
+                subc_name: "send".to_owned(),
+                arg_name: "format".to_owned(),
+            })?;
 
         let silent = m.is_present("silent");
 

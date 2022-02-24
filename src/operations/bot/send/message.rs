@@ -3,8 +3,10 @@ use std::convert::TryInto;
 use reqwest::blocking::Client;
 
 use crate::{
-    handle_response,
-    http::request::models::sendmessage::SendMessageRequestModel,
+    http::{
+        request::models::sendmessage::SendMessageRequestModel,
+        response::models::GenericResponseModel,
+    },
     operations::{bot::BotParams, OperationError, RootParams},
     API_ROOT_URL,
 };
@@ -26,27 +28,27 @@ use super::{SendOperation, SendParams};
 // limitations under the License.
 
 #[derive(Debug)]
-pub struct MessageParams {
-    pub message: String,
+pub(crate) struct MessageParams {
+    pub(crate) message: String,
 }
 
 impl MessageParams {
-    pub fn new(message: String) -> Self {
+    pub(crate) fn new(message: String) -> Self {
         Self {
             message: message.to_string(),
         }
     }
 }
 
-pub type SendMessageParams = (RootParams, BotParams, SendParams, MessageParams);
+pub(crate) type SendMessageParams = (RootParams, BotParams, SendParams, MessageParams);
 
 #[derive(Debug)]
-pub struct SendMessageOperation {
+pub(crate) struct SendMessageOperation {
     params: SendMessageParams,
 }
 
 impl SendMessageOperation {
-    pub fn new(params: SendMessageParams) -> Self {
+    pub(crate) fn new(params: SendMessageParams) -> Self {
         Self { params }
     }
 }
@@ -72,12 +74,19 @@ impl SendOperation for SendMessageOperation {
 
         // TODO set up client earlier on bot params
         let client = Client::new();
-        let response = client.post(url).multipart(req_body).send();
+        let response = client
+            .post(url)
+            .multipart(req_body)
+            .send()
+            .map_err(|err| OperationError::ReqwestError(err))?;
+        let data = response
+            .json::<GenericResponseModel>()
+            .map_err(|err| OperationError::ReqwestError(err))?;
 
-        handle_response!(response, on_success => {
-            info!("📦 Successfully sent message.");
-        }, on_failure => {
-            error!("☠️ An error occured while sending the message.");
-        })
+        if let Some(description) = data.description {
+            return Err(OperationError::TelegramAPIError { description });
+        }
+
+        Ok(())
     }
 }

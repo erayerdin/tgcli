@@ -20,7 +20,7 @@ use crate::{
             photo::SendPhotoOperation, poll::SendPollOperation, video::SendVideoOperation,
             SendOperation,
         },
-        CommonExitCodes, OperationError,
+        OperationError,
     },
 };
 
@@ -38,8 +38,8 @@ use crate::{
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod logging;
-pub mod validators;
+pub(crate) mod logging;
+pub(crate) mod validators;
 
 macro_rules! handle_operation {
     ($subc:ident, $operation:ty) => {
@@ -220,16 +220,8 @@ pub fn match_app(app: App<'static, 'static>) -> Result<(), OperationError> {
     let matches = app.get_matches();
     let verbosity_level = matches.occurrences_of("verbose");
 
-    match set_logger(verbosity_level) {
-        Ok(_) => (),
-        Err(e) => {
-            return Err(OperationError::new(
-                CommonExitCodes::FernSetupError as i32,
-                "Failed to set up logger.",
-                Some(e),
-            ))
-        }
-    };
+    set_logger(verbosity_level)
+        .map_err(|set_logger_error| OperationError::LoggerError(set_logger_error))?;
 
     match matches.subcommand() {
         ("bot", Some(bot_subc)) => match bot_subc.subcommand() {
