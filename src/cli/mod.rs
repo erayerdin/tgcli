@@ -4,8 +4,8 @@ use crate::{
     cli::{
         logging::set_logger,
         validators::{
-            caption_validator, file_presence_validator, poll_option_validator,
-            poll_question_validator,
+            audio_validator, caption_validator, file_presence_validator, image_validator,
+            poll_option_validator, poll_question_validator, video_validator,
         },
     },
     operations::{
@@ -101,7 +101,7 @@ pub(crate) enum SendSubcommands {
     /// A message with image viewer.
     Photo {
         /// The file to be sent.
-        #[clap(validator = file_presence_validator)]
+        #[clap(validator = image_validator)]
         file: path::PathBuf,
         /// The file caption.
         #[clap(short, long, validator = caption_validator)]
@@ -110,7 +110,7 @@ pub(crate) enum SendSubcommands {
     /// A message with video viewer.
     Video {
         /// The file to be sent.
-        #[clap(validator = file_presence_validator)]
+        #[clap(validator = video_validator)]
         file: path::PathBuf,
         /// The file caption.
         #[clap(short, long, validator = caption_validator)]
@@ -119,7 +119,7 @@ pub(crate) enum SendSubcommands {
     /// A message with audio player.
     Audio {
         /// The file to be sent.
-        #[clap(validator = file_presence_validator)]
+        #[clap(validator = audio_validator)]
         file: path::PathBuf,
         /// The file caption.
         #[clap(short, long, validator = caption_validator)]

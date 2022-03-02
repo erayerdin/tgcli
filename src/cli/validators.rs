@@ -51,3 +51,42 @@ pub(crate) fn file_presence_validator(value: &str) -> ValidatorResult<path::Path
         Err(format!("`{}` does not exist or is not a file.", value))
     }
 }
+
+pub(crate) fn image_validator(value: &str) -> ValidatorResult<path::PathBuf> {
+    let path = file_presence_validator(value)?;
+    let mimetype = mime_guess::from_path(&path)
+        .first()
+        .ok_or_else(|| "File type could not be recognized.".to_owned())?;
+
+    if mimetype.type_() == mime::IMAGE {
+        Ok(path)
+    } else {
+        Err("Provided file is not a valid image file.".to_owned())
+    }
+}
+
+pub(crate) fn video_validator(value: &str) -> ValidatorResult<path::PathBuf> {
+    let path = file_presence_validator(value)?;
+    let mimetype = mime_guess::from_path(&path)
+        .first()
+        .ok_or_else(|| "File type could not be recognized.".to_owned())?;
+
+    if mimetype.type_() == mime::VIDEO {
+        Ok(path)
+    } else {
+        Err("Provided file is not a valid video file.".to_owned())
+    }
+}
+
+pub(crate) fn audio_validator(value: &str) -> ValidatorResult<path::PathBuf> {
+    let path = file_presence_validator(value)?;
+    let mimetype = mime_guess::from_path(&path)
+        .first()
+        .ok_or_else(|| "File type could not be recognized.")?;
+
+    if mimetype.type_() == mime::AUDIO {
+        Ok(path)
+    } else {
+        Err("Provided file is not a valid audio file.".to_owned())
+    }
+}
