@@ -31,11 +31,11 @@ fn send_message_to_present_receiver(mut binary: Command) {
         .args([
             "bot",
             "send",
-            "message",
-            "foo",
             "--receiver",
             &env::var("TELEGRAM_RECEIVER")
                 .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+            "message",
+            "foo",
         ])
         .assert();
 
@@ -48,11 +48,11 @@ fn send_message_to_absent_receiver(mut binary: Command) {
         .args([
             "bot",
             "send",
-            "message",
-            "foo",
             "--receiver",
             &env::var("TELEGRAM_RECEIVER_ABSENT")
                 .expect("TELEGRAM_RECEIVER_ABSENT environment variable could not be found. Please create .env file and define it."),
+            "message",
+            "foo",
         ])
         .assert();
 
@@ -65,17 +65,17 @@ fn send_message_format(mut binary: Command, #[values("markdown", "html")] format
         .args([
             "bot",
             "send",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+            "--format",
+            format,
             "message",
             if format == "html" {
                 r#"<strong>foo</strong>"#
             } else {
                 "*foo*"
             },
-            "--receiver",
-            &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
-            "--format",
-            format,
         ])
         .assert();
 
@@ -88,12 +88,12 @@ fn send_message_silent(mut binary: Command) {
         .args([
             "bot",
             "send",
-            "message",
-            "foo",
-            "--silent",
             "--receiver",
             &env::var("TELEGRAM_RECEIVER")
                 .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+            "--silent",
+            "message",
+            "foo",
         ])
         .assert();
 
