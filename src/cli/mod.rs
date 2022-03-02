@@ -4,7 +4,8 @@ use crate::{
     cli::{
         logging::set_logger,
         validators::{
-            caption_validator, pathbuf_validator, poll_option_validator, poll_question_validator,
+            caption_validator, file_presence_validator, poll_option_validator,
+            poll_question_validator,
         },
     },
     operations::{
@@ -88,19 +89,19 @@ pub(crate) enum SendSubcommands {
     /// A file.
     Document {
         /// The file to be sent.
-        #[clap(validator = pathbuf_validator)]
+        #[clap(validator = file_presence_validator)]
         file: path::PathBuf,
         /// The file caption.
         #[clap(short, long, validator = caption_validator)]
         message: Option<String>,
         /// A preview image for file.
-        #[clap(long, validator = pathbuf_validator)]
+        #[clap(long, validator = file_presence_validator)]
         thumbnail: Option<path::PathBuf>,
     },
     /// A message with image viewer.
     Photo {
         /// The file to be sent.
-        #[clap(validator = pathbuf_validator)]
+        #[clap(validator = file_presence_validator)]
         file: path::PathBuf,
         /// The file caption.
         #[clap(short, long, validator = caption_validator)]
@@ -109,7 +110,7 @@ pub(crate) enum SendSubcommands {
     /// A message with video viewer.
     Video {
         /// The file to be sent.
-        #[clap(validator = pathbuf_validator)]
+        #[clap(validator = file_presence_validator)]
         file: path::PathBuf,
         /// The file caption.
         #[clap(short, long, validator = caption_validator)]
@@ -118,7 +119,7 @@ pub(crate) enum SendSubcommands {
     /// A message with audio player.
     Audio {
         /// The file to be sent.
-        #[clap(validator = pathbuf_validator)]
+        #[clap(validator = file_presence_validator)]
         file: path::PathBuf,
         /// The file caption.
         #[clap(short, long, validator = caption_validator)]

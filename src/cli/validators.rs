@@ -40,6 +40,12 @@ pub(crate) fn poll_option_validator(value: &str) -> Result<String, String> {
     }
 }
 
-pub(crate) fn pathbuf_validator(value: &str) -> Result<path::PathBuf, String> {
-    Ok(path::PathBuf::from(value))
+pub(crate) fn file_presence_validator(value: &str) -> Result<path::PathBuf, String> {
+    let path = path::PathBuf::from(value);
+
+    if path.is_file() {
+        Ok(path)
+    } else {
+        Err(format!("`{}` does not exist or is not a file.", value))
+    }
 }
