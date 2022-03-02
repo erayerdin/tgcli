@@ -99,7 +99,7 @@ guix install tgcli
 For now, the use case is pretty simple. To send a message:
 
 ```bash
-tgcli bot send message "Your message" --token "BotToken" --receiver "UserID"
+tgcli bot --token "BotToken" send --receiver "UserID" message "Your message"
 ```
 
 You don't need to expose your token as argument. If you set `TELEGRAM_BOT_TOKEN` environment variable, you do not need to set `--token` argument. Just set it before using `tgcli`:
