@@ -14,7 +14,9 @@ use std::path;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub(crate) fn caption_validator(value: &str) -> Result<String, String> {
+type ValidatorResult<T> = Result<T, String>;
+
+pub(crate) fn caption_validator(value: &str) -> ValidatorResult<String> {
     if value.chars().count() > 1024 {
         return Err(String::from(
             "Message cannot be larger than 1024 characters.",
@@ -24,14 +26,14 @@ pub(crate) fn caption_validator(value: &str) -> Result<String, String> {
     Ok(value.to_owned())
 }
 
-pub(crate) fn poll_question_validator(value: &str) -> Result<String, String> {
+pub(crate) fn poll_question_validator(value: &str) -> ValidatorResult<String> {
     match value.len() {
         l if l < 1 || l > 300 => Err("The question length must be between 1 and 300.".to_owned()),
         _ => Ok(value.to_owned()),
     }
 }
 
-pub(crate) fn poll_option_validator(value: &str) -> Result<String, String> {
+pub(crate) fn poll_option_validator(value: &str) -> ValidatorResult<String> {
     match value.len() {
         l if l < 1 || l > 100 => {
             return Err("The option length must be between 1 and 100.".to_owned())
@@ -40,7 +42,7 @@ pub(crate) fn poll_option_validator(value: &str) -> Result<String, String> {
     }
 }
 
-pub(crate) fn file_presence_validator(value: &str) -> Result<path::PathBuf, String> {
+pub(crate) fn file_presence_validator(value: &str) -> ValidatorResult<path::PathBuf> {
     let path = path::PathBuf::from(value);
 
     if path.is_file() {
