@@ -27,8 +27,6 @@ use super::{ChatId, InputFile, ParseMode};
 pub(crate) struct SendVideoRequestModel {
     chat_id: ChatId,
     video: InputFile,
-    width: Option<usize>,
-    height: Option<usize>,
     caption: Option<String>,
     parse_mode: ParseMode,
     disable_notification: bool,
@@ -59,19 +57,9 @@ impl TryFrom<SendVideoRequestModel> for Form {
             InputFile::Id(i) => caption_form.text("video", i),
         };
 
-        let width_form = match m.width {
-            Some(w) => video_form.text("width", w.to_string()),
-            None => video_form,
-        };
-
-        let height_form = match m.height {
-            Some(h) => width_form.text("height", h.to_string()),
-            None => width_form,
-        };
-
         let notification_form = match m.disable_notification {
-            true => height_form.text("disable_notification", "true"),
-            false => height_form,
+            true => video_form.text("disable_notification", "true"),
+            false => video_form,
         };
 
         Ok(notification_form)
@@ -95,8 +83,6 @@ impl From<SendVideoParams> for SendVideoRequestModel {
         };
 
         let video = InputFile::Local(params.3.file);
-        let width = params.3.horizontal;
-        let height = params.3.vertical;
 
         let disable_notification = params.2.silent;
 
@@ -105,8 +91,6 @@ impl From<SendVideoParams> for SendVideoRequestModel {
             caption,
             parse_mode,
             video,
-            width,
-            height,
             disable_notification,
         }
     }
