@@ -18,6 +18,7 @@ pub(crate) mod bot;
 
 #[derive(Debug)]
 pub(crate) struct RootParams {
+    #[allow(dead_code)]
     verbosity: u8,
 }
 

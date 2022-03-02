@@ -1,10 +1,4 @@
-use std::{
-    env::current_dir,
-    path::{self, PathBuf},
-};
-
-use mime::Name;
-use mime_guess::MimeGuess;
+use std::path;
 
 // Copyright 2021 Eray Erdin
 //
@@ -20,8 +14,6 @@ use mime_guess::MimeGuess;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-type ValidatorResult = Result<(), String>;
-
 pub(crate) fn caption_validator(value: &str) -> Result<String, String> {
     if value.chars().count() > 1024 {
         return Err(String::from(
@@ -30,98 +22,6 @@ pub(crate) fn caption_validator(value: &str) -> Result<String, String> {
     }
 
     Ok(value.to_owned())
-}
-
-pub(crate) fn file_validator(value: String) -> ValidatorResult {
-    let cwd = match current_dir() {
-        Ok(d) => d,
-        Err(_) => return Err(String::from("Could not get current working directory.")),
-    };
-
-    let path = if cwd.is_absolute() {
-        if value.starts_with("~") {
-            let home_expanded_path = shellexpand::tilde(&value).to_string();
-            PathBuf::new().join(home_expanded_path)
-        } else {
-            cwd.join(value)
-        }
-    } else {
-        PathBuf::from(value)
-    };
-
-    if path.exists() {
-        if path.is_file() {
-            Ok(())
-        } else {
-            Err(format!(
-                "Provided path is not a file.\nPath: {}",
-                path.to_string_lossy()
-            ))
-        }
-    } else {
-        Err(format!(
-            "Provided path does not exist.\nPath: {}",
-            path.to_string_lossy()
-        ))
-    }
-}
-
-fn validate_file_type(path: &PathBuf, file_type: Name) -> ValidatorResult {
-    match MimeGuess::from_path(path).first() {
-        Some(m) => {
-            if m.type_() == file_type {
-                Ok(())
-            } else {
-                Err(format!(
-                    "The file is not a valid {file_type} file. Please provide a valid {file_type} file.\nPath: {}",
-                    path.to_string_lossy(),
-                    file_type = file_type,
-                ))
-            }
-        }
-        None => Err(format!(
-            "Could not infer the file type. Please provide a valid {file_type} file.\nPath: {}",
-            path.to_string_lossy(),
-            file_type = file_type,
-        )),
-    }
-}
-
-pub(crate) fn image_validator(value: String) -> ValidatorResult {
-    if let Err(val) = file_validator(value.clone()) {
-        return Err(val);
-    }
-
-    let path = current_dir().unwrap().join(value);
-    validate_file_type(&path, mime::IMAGE)
-}
-
-pub(crate) fn video_validator(value: String) -> ValidatorResult {
-    if let Err(val) = file_validator(value.clone()) {
-        return Err(val);
-    }
-
-    let path = current_dir().unwrap().join(value);
-    validate_file_type(&path, mime::VIDEO)
-}
-
-pub(crate) fn audio_validator(value: String) -> ValidatorResult {
-    if let Err(val) = file_validator(value.clone()) {
-        return Err(val);
-    }
-
-    let path = current_dir().unwrap().join(value);
-    validate_file_type(&path, mime::AUDIO)
-}
-
-pub(crate) fn float_validator(value: String) -> ValidatorResult {
-    match value.parse::<f32>() {
-        Ok(_) => Ok(()),
-        Err(_) => Err(format!(
-            "Value must be a valid 32-bit float.\nValue: {}",
-            value
-        )),
-    }
 }
 
 pub(crate) fn poll_question_validator(value: &str) -> Result<String, String> {

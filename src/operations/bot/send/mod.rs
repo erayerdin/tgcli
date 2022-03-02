@@ -1,4 +1,4 @@
-use crate::{cli::SendSubcommands, operations::OperationError};
+use crate::operations::OperationError;
 
 // Copyright 2021 Eray Erdin
 //
