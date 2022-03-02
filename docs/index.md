@@ -7,17 +7,12 @@
 ![Github Release Download Count][github_download_counter_badge]
 ![License][license_badge]
 
-[pypi_url]: https://pypi.org/project/tgcli/
-[docs_url]: https://tgcli.readthedocs.io
-
 [stable_version_badge]: https://img.shields.io/github/v/release/erayerdin/tgcli?label=stable&style=flat-square
 [latest_version_badge]: https://img.shields.io/github/v/release/erayerdin/tgcli?include_prereleases&label=latest&style=flat-square
 [github_download_counter_badge]: https://img.shields.io/github/downloads/erayerdin/tgcli/total?logo=github&style=flat-square
 [license_badge]: https://img.shields.io/badge/license-Apache--2.0-lightgrey?style=flat-square
 
 `tgcli` is a Telegram client that you can use on terminal. You can automate repetitive tasks such as sending a message, photo, video, audio, location or poll using `tgcli`.
-
-`tgcli` is written in Rust and shipped as a standalone binary. You will not need any runtime dependencies (except `libc` on Linux) to run `tgcli`.
 
 ## License
 
