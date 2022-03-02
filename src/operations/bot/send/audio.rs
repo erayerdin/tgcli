@@ -63,7 +63,6 @@ impl SendAudioOperation {
     }
 }
 
-#[async_trait]
 impl SendOperation for SendAudioOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
         info!("🔊 Sending audio...");

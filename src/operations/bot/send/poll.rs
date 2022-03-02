@@ -51,7 +51,6 @@ impl SendPollOperation {
     }
 }
 
-#[async_trait]
 impl SendOperation for SendPollOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
         info!("🗯️ Sending poll...");
