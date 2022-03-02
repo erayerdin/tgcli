@@ -22,14 +22,14 @@ use mime_guess::MimeGuess;
 
 type ValidatorResult = Result<(), String>;
 
-pub(crate) fn caption_validator(value: String) -> ValidatorResult {
+pub(crate) fn caption_validator(value: &str) -> Result<String, String> {
     if value.chars().count() > 1024 {
         return Err(String::from(
             "Message cannot be larger than 1024 characters.",
         ));
     }
 
-    Ok(())
+    Ok(value.to_owned())
 }
 
 pub(crate) fn file_validator(value: String) -> ValidatorResult {
@@ -124,17 +124,19 @@ pub(crate) fn float_validator(value: String) -> ValidatorResult {
     }
 }
 
-pub(crate) fn poll_question_validator(value: String) -> ValidatorResult {
+pub(crate) fn poll_question_validator(value: &str) -> Result<String, String> {
     match value.len() {
         l if l < 1 || l > 300 => Err("The question length must be between 1 and 300.".to_owned()),
-        _ => Ok(()),
+        _ => Ok(value.to_owned()),
     }
 }
 
-pub(crate) fn poll_option_validator(value: String) -> ValidatorResult {
+pub(crate) fn poll_option_validator(value: &str) -> Result<String, String> {
     match value.len() {
-        l if l < 1 || l > 100 => Err("The option length must be between 1 and 100.".to_owned()),
-        _ => Ok(()),
+        l if l < 1 || l > 100 => {
+            return Err("The option length must be between 1 and 100.".to_owned())
+        }
+        _ => Ok(value.to_owned()),
     }
 }
 
