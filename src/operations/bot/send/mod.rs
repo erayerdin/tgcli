@@ -36,9 +36,9 @@ pub(crate) struct SendParams {
 }
 
 impl SendParams {
-    pub(crate) fn new(receiver: &str, format: MessageFormat, silent: bool) -> Self {
+    pub(crate) fn new(receiver: String, format: MessageFormat, silent: bool) -> Self {
         Self {
-            receiver: String::from(receiver),
+            receiver,
             format,
             silent,
         }

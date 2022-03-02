@@ -30,23 +30,11 @@ use super::{SendOperation, SendParams};
 pub(crate) struct VideoParams {
     pub(crate) file: PathBuf,
     pub(crate) message: Option<String>,
-    pub(crate) horizontal: Option<usize>,
-    pub(crate) vertical: Option<usize>,
 }
 
 impl VideoParams {
-    pub(crate) fn new(
-        file: PathBuf,
-        message: Option<String>,
-        horizontal: Option<usize>,
-        vertical: Option<usize>,
-    ) -> Self {
-        Self {
-            file,
-            message,
-            horizontal,
-            vertical,
-        }
+    pub(crate) fn new(file: PathBuf, message: Option<String>) -> Self {
+        Self { file, message }
     }
 }
 
