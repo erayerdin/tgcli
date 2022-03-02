@@ -31,11 +31,11 @@ fn send_audio(mut binary: Command) {
         .args([
             "bot",
             "send",
-            "audio",
-            "resources/test/audio.wav",
             "--receiver",
             &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+            "audio",
+            "resources/test/audio.wav",
         ])
         .assert();
 
@@ -48,13 +48,13 @@ fn send_audio_with_metadata(mut binary: Command) {
         .args([
             "bot",
             "send",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
             "audio",
             "resources/test/audio.wav",
             "--performer", "Eray Erdin",
             "--title", "White Noise",
-            "--receiver",
-            &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
         ])
         .assert();
 

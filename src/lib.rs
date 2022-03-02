@@ -21,8 +21,10 @@ extern crate serde;
 #[macro_use]
 extern crate async_trait;
 
+#[macro_use]
+extern crate clap;
+
 pub mod cli;
-pub(crate) mod convert;
 mod http;
 pub(crate) mod operations;
 

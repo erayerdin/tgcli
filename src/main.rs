@@ -1,11 +1,12 @@
 use std::process;
 
+use clap::StructOpt;
 use log::error;
-use tgcli::cli::{get_app, match_app};
+use tgcli::cli::{match_app, Cli};
 
 fn main() {
-    let app = get_app();
-    match match_app(app) {
+    let cli = Cli::parse();
+    match match_app(cli) {
         Ok(_) => (),
         Err(e) => {
             error!("{}", e);

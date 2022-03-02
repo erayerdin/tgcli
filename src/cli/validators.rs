@@ -1,4 +1,7 @@
-use std::{env::current_dir, path::PathBuf};
+use std::{
+    env::current_dir,
+    path::{self, PathBuf},
+};
 
 use mime::Name;
 use mime_guess::MimeGuess;
@@ -133,4 +136,8 @@ pub(crate) fn poll_option_validator(value: String) -> ValidatorResult {
         l if l < 1 || l > 100 => Err("The option length must be between 1 and 100.".to_owned()),
         _ => Ok(()),
     }
+}
+
+pub(crate) fn pathbuf_validator(value: &str) -> Result<path::PathBuf, String> {
+    Ok(path::PathBuf::from(value))
 }

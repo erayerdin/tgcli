@@ -1,4 +1,4 @@
-use crate::operations::OperationError;
+use crate::{cli::SendSubcommands, operations::OperationError};
 
 // Copyright 2021 Eray Erdin
 //
@@ -22,7 +22,7 @@ pub(crate) mod photo;
 pub(crate) mod poll;
 pub(crate) mod video;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, ArgEnum)]
 pub(crate) enum MessageFormat {
     Markdown,
     HTML,
@@ -45,7 +45,6 @@ impl SendParams {
     }
 }
 
-#[async_trait]
 pub(crate) trait SendOperation {
     fn send(self) -> Result<(), OperationError>;
 }
