@@ -13,7 +13,7 @@
 [stable_version_badge]: https://img.shields.io/github/v/release/erayerdin/tgcli?label=stable&style=flat-square
 [latest_version_badge]: https://img.shields.io/github/v/release/erayerdin/tgcli?include_prereleases&label=latest&style=flat-square
 [github_download_counter_badge]: https://img.shields.io/github/downloads/erayerdin/tgcli/total?logo=github&style=flat-square
-[license_badge]: https://img.shields.io/badge/license-Apache--2.0-lightgrey?style=flat-square
+[license_badge]: https://img.shields.io/badge/license-MPL--2.0-lightgrey?style=flat-square
 [badge_docs]: https://img.shields.io/readthedocs/tgcli?style=flat-square
 
 
