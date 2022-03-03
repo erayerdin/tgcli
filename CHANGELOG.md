@@ -16,6 +16,7 @@ and this project adheres to
 - Changed `bot send --receiver` argument from global to local.
 - Changed `bot send --format` argument from global to local.
 - Changed `bot send --silent` argument from global to local.
+- The license from [Apache-2.0](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)) to [MPL-2.0](https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)).
 
 ### Removed
 
