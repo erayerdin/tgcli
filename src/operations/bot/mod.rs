@@ -20,9 +20,7 @@ pub(crate) struct BotParams {
 }
 
 impl BotParams {
-    pub(crate) fn new(token: &str) -> Self {
-        Self {
-            token: String::from(token),
-        }
+    pub(crate) fn new(token: String) -> Self {
+        Self { token }
     }
 }

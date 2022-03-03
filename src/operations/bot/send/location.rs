@@ -55,7 +55,6 @@ impl SendLocationOperation {
     }
 }
 
-#[async_trait]
 impl SendOperation for SendLocationOperation {
     fn send(self) -> Result<(), crate::operations::OperationError> {
         info!("🌍 Sending location...");

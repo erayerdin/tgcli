@@ -31,11 +31,11 @@ fn send_video(mut binary: Command) {
         .args([
             "bot",
             "send",
-            "video",
-            "resources/test/video.mkv",
             "--receiver",
             &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+            "video",
+            "resources/test/video.mkv",
         ])
         .assert();
 

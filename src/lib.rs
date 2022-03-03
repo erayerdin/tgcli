@@ -19,10 +19,9 @@ extern crate log;
 extern crate serde;
 
 #[macro_use]
-extern crate async_trait;
+extern crate clap;
 
 pub mod cli;
-pub(crate) mod convert;
 mod http;
 pub(crate) mod operations;
 

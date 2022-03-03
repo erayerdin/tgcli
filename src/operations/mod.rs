@@ -17,11 +17,14 @@ use std::{error, fmt};
 pub(crate) mod bot;
 
 #[derive(Debug)]
-pub(crate) struct RootParams;
+pub(crate) struct RootParams {
+    #[allow(dead_code)]
+    verbosity: u8,
+}
 
 impl RootParams {
-    pub(crate) fn new() -> Self {
-        Self
+    pub(crate) fn new(verbosity: u8) -> Self {
+        Self { verbosity }
     }
 }
 

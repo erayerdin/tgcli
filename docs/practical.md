@@ -7,7 +7,7 @@ This page contains some examples about how to use `tgcli` practically.
 !!! warning
     This section is about Linux.
 
-`$HOME/.profile` script is run each time you log in as a particular user in a machine. This might be useful if you want to get a notification if someone logs in to your server.
+`$HOME/.profile` script is run each time you log in as a particular user in a machine. This might be useful if you want to get a notification if someone logs into your server.
 
 Add line below to `$HOME/.profile`:
 

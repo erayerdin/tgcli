@@ -2,9 +2,9 @@
 
 Root of `tgcli` application is itself.
 
-| Short Flag | Full Flag | Required/Optional     | Global/Local | Description               |
-| ---------- | --------- | --------------------- | ------------ | ------------------------- |
-| -v         |           | Optional and Multiple | Global       | Sets the verbosity level. |
+| Short Flag | Full Flag | Required/Optional     | Description               |
+| ---------- | --------- | --------------------- | ------------------------- |
+| -v         | --verbose | Optional and Multiple | Sets the verbosity level. |
 
 The root simply does nothing, which means you have to use one of the subcommands below for further functionality:
 

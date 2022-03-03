@@ -57,7 +57,6 @@ impl SendDocumentOperation {
     }
 }
 
-#[async_trait]
 impl SendOperation for SendDocumentOperation {
     fn send(self) -> Result<(), OperationError> {
         info!("📎 Sending document...");

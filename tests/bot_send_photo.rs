@@ -31,11 +31,11 @@ fn send_photo(mut binary: Command) {
         .args([
             "bot",
             "send",
-            "photo",
-            "resources/test/thumbnail512.png",
             "--receiver",
             &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+            "photo",
+            "resources/test/thumbnail512.png",
         ])
         .assert();
 
@@ -48,13 +48,13 @@ fn send_photo_with_message(mut binary: Command) {
         .args([
             "bot",
             "send",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
             "photo",
             "resources/test/thumbnail512.png",
             "--message",
             "example photo",
-            "--receiver",
-            &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
         ])
         .assert();
 

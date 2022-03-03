@@ -21,7 +21,7 @@ pub(crate) fn set_logger(
     // 2 - Debug, Info, Warn, Error + Self Target + Level Labels + Location Labels
     // 3 - Trace, Debug, Info, Warn, Error + Self Target + Level Labels + Location Labels
     // 4 - Trace, Debug, Info, Warn, Error + All Targets + Level Labels + Location Labels
-    verbosity: u64,
+    verbosity: u8,
 ) -> Result<(), log::SetLoggerError> {
     let colors = ColoredLevelConfig::new()
         .error(Color::BrightRed)
@@ -65,7 +65,7 @@ pub(crate) fn set_logger(
                             levelname = record.level(),
                             message = message,
                         )),
-                        2..=u64::MAX => out.finish(format_args!(
+                        2..=u8::MAX => out.finish(format_args!(
                             "[{levelname}][{targetname}] {message}",
                             levelname = record.level(),
                             targetname = record.target(),
@@ -105,7 +105,7 @@ pub(crate) fn set_logger(
                         levelname = record.level(),
                         message = message,
                     )),
-                    2..=u64::MAX => out.finish(format_args!(
+                    2..=u8::MAX => out.finish(format_args!(
                         "[{levelname}][{targetname}] {message}",
                         levelname = record.level(),
                         targetname = record.target(),

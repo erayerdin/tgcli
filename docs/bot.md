@@ -10,9 +10,9 @@ tgcli bot --help
 
 `bot` subcommand also has arguments that you might be interested.
 
-| Short Flag | Full Flag | Required/Optional | Global/Local | Description   |
-| ---------- | --------- | ----------------- | ------------ | ------------- |
-| -t         | --token   | Required[^1]      | Global       | Token of bot. |
+| Short Flag | Full Flag | Required/Optional |  Description   |
+| ---------- | --------- | ----------------- |  ------------- |
+| -t         | --token   | Required[^1]      |  Token of bot. |
 
 [^1]: It is not required if you have `TELEGRAM_BOT_TOKEN` environment variable
       set in your current shell session.
@@ -24,18 +24,8 @@ tgcli bot --help
         # or better
         export TELEGRAM_BOT_TOKEN="YourBotToken"
         tgcli bot send message "hello" --receiver "somebody"
-
-## Global Arguments
-
-Global arguments are arguments required by a subcommand and that is propogated down its children.
-
-To give an example, `-t`/`--token` argument is a global argument of `bot` subcommand. If you'd like to proceed with any child of `bot` command, such as `send message`, you have to provide it **as an argument on that child**. Consider the following example:
-
-```bash
-tgcli bot send message "foo" --token "abc" --receiver "somebody"
-# the example below is invalid
-tgcli bot --token "abc" send message "foo" --receiver "somebody"
-```
+        # or even better
+        TELEGRAM_BOT_TOKEN="YourBotToken" tgcli bot send message "hello" --receiver "somebody"
 
 ## send
 
@@ -46,17 +36,17 @@ operations. To get help:
 
 `send` has the arguments below:
 
-| Short Flag | Full Flag  | Required/Optional | Global/Local | Description                                                                                               |
-| ---------- | ---------- | ----------------- | ------------ | --------------------------------------------------------------------------------------------------------- |
-| -r         | --receiver | Required          | Global       | The receiver's ID, an integer.                                                                            |
-|            | --format   | Optional          | Global       | The format of message. Choices are `markdown` and `html`. Default is `markdown`.[^markdown_format_choice] |
-|            | --silent   | Optional          | Global       | The message will not play notification sound on target device if present.                                 |
+| Short Flag | Full Flag  | Required/Optional | Description                                                                                               |
+|------------|------------|-------------------|-----------------------------------------------------------------------------------------------------------|
+| -r         | --receiver | Required          | The receiver's ID, an integer.                                                                            |
+|            | --format   | Optional          | The format of message. Choices are `markdown` and `html`. Default is `markdown`.[^markdown_format_choice] |
+|            | --silent   | Optional          | The message will not play notification sound on target device if present.                                 |
 
 After you define the receiver's ID, then you can use any subcommand of `send`. To give an example:
 
 ```bash
 # assuming receiver id is 1234
-tgcli bot send message "Hello, world!" -r 1234
+tgcli bot send -r 1234 message "Hello, world!"
 # or --receiver
 ```
 
@@ -91,13 +81,13 @@ tgcli bot send message --help
 In order to send a message, do:
 
 ```bash
-tgcli bot send message "foo" --receiver 1234 
+tgcli bot send --receiver 1234 message "foo"
 ```
 
 `--format` helps you define the format of your message. See the example:
 
 ```bash
-tgcli bot send message "<b>bold</b>" --receiver 1234 --format html
+tgcli bot send --receiver 1234 --format html message "<b>bold</b>"
 ```
 
 !!! warning
@@ -145,7 +135,7 @@ While we don't know how long the files are kept in the server, it is safe to ass
 
 And it is even *safer to assume that bots' files will have higher priority in wiping operations*[^no_report_on_file_wiping]. That's why it is a good practice to forward the files sent by bots to *Saved Messages*, even better to backup them to a storage that you own if these files have higher importance to you.
 
-[^no_report_on_file_wiping]: One should keep in mind that there have been no reports of data loss complaint from Telegram's side to this day.
+[^no_report_on_file_wiping]: One should keep in mind that there have been few reports of data loss complaint from Telegram's side to this day.
 
 ### photo
 
@@ -232,7 +222,7 @@ To start a poll:
 
 ```bash
 # a plain poll
-tgcli bot send poll "Am I a ghost?" -o "Yes" -o "No" --receiver 1234
+tgcli bot send --receiver 1234 poll "Am I a ghost?" -o "Yes" -o "No"
 ```
 
 !!! note

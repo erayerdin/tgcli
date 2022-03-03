@@ -22,7 +22,7 @@ pub(crate) mod photo;
 pub(crate) mod poll;
 pub(crate) mod video;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, ArgEnum)]
 pub(crate) enum MessageFormat {
     Markdown,
     HTML,
@@ -36,16 +36,15 @@ pub(crate) struct SendParams {
 }
 
 impl SendParams {
-    pub(crate) fn new(receiver: &str, format: MessageFormat, silent: bool) -> Self {
+    pub(crate) fn new(receiver: String, format: MessageFormat, silent: bool) -> Self {
         Self {
-            receiver: String::from(receiver),
+            receiver,
             format,
             silent,
         }
     }
 }
 
-#[async_trait]
 pub(crate) trait SendOperation {
     fn send(self) -> Result<(), OperationError>;
 }

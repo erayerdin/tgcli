@@ -31,11 +31,11 @@ fn send_document(mut binary: Command) {
         .args([
             "bot",
             "send",
-            "document",
-            "resources/test/doc.txt",
             "--receiver",
             &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+            "document",
+            "resources/test/doc.txt",
         ])
         .assert();
 
@@ -48,13 +48,13 @@ fn send_document_with_message(mut binary: Command) {
         .args([
             "bot",
             "send",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
             "document",
             "resources/test/doc.txt",
             "--message",
             "example document",
-            "--receiver",
-            &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
         ])
         .assert();
 
@@ -69,17 +69,17 @@ fn send_document_with_long_message(mut binary: Command) {
         .args([
             "bot",
             "send",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
             "document",
             "resources/test/doc.txt",
             "--message",
             &msg,
-            "--receiver",
-            &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
         ])
         .assert();
 
-    assertion.failure().code(1); // Validation error code from clap on message
+    assertion.failure();
 }
 
 #[rstest]
@@ -88,13 +88,13 @@ fn send_document_with_thumbnail(mut binary: Command) {
         .args([
             "bot",
             "send",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
             "document",
             "resources/test/doc.txt",
             "--thumbnail",
             "resources/test/thumbnail512.png",
-            "--receiver",
-            &env::var("TELEGRAM_RECEIVER")
-                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it.")
         ])
         .assert();
 

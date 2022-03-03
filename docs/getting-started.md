@@ -2,7 +2,17 @@
 
 ## Installation
 
-`tgcli` is currently being migrated to Rust and is in its alpha stage. During that stage, the standalone binaries for Windows and Linux and a `deb` package for convenience is released. You can check out [Releases](https://github.com/erayerdin/tgcli/releases) page to get one of them.
+`tgcli` is currently being migrated to Rust and is in its alpha stage. You can install it via Snap.
+
+[![Snap Store](https://raw.githubusercontent.com/snapcore/snap-store-badges/master/EN/%5BEN%5D-snap-store-white.svg)](https://snapcraft.io/tgcli)
+
+However, since it is in alpha stage, the installation differs from a normal Snap installation.
+
+```bash
+sudo snap install tgcli --edge --devmode
+```
+
+Also, again, due to being in alpha stage, it does not update automatically like a regular Snap package does. In order to get the latest version, you have to reinstall it as above.
 
 ## A Basic Usage
 
@@ -51,12 +61,18 @@ Take note of your ID.
 Now, we have (i) token of our bot and (ii) our user ID. You are pretty much ready to go with these. Open up a terminal and...
 
 ```bash
-tgcli bot send message "Message" --token "BotToken" --receiver "1234567890"
+tgcli bot --token "BotToken" send --receiver "1234567890" message "Message"
 # or better
-tgcli bot send message "Message" -t "BotToken" -r "1234567890"
+tgcli bot -t "BotToken" send -r "1234567890" message "Message"
 ```
 
-You can also set `TELEGRAM_BOT_TOKEN` environment variable to protect your bot token in the current terminal session. For more information about how to use bot, refer to [Bot](bot.md) section.
+You can also set `TELEGRAM_BOT_TOKEN` environment variable to protect your bot token in the current terminal session.
+
+```bash
+TELEGRAM_BOT_TOKEN="BotToken" tgcli bot send -r "1234567890" message "Message"
+```
+
+For more information about how to use bot, refer to [Bot](bot.md) section.
 
 ## Getting Offline Information
 

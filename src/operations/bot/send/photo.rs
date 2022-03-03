@@ -51,7 +51,6 @@ impl SendPhotoOperation {
     }
 }
 
-#[async_trait]
 impl SendOperation for SendPhotoOperation {
     fn send(self) -> Result<(), OperationError> {
         info!("📷 Sending photo...");
