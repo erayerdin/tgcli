@@ -19,6 +19,7 @@ pub(crate) struct SendPollRequestModel {
     question: String,
     options: Vec<String>,
     disable_notification: bool,
+    protect_content: bool,
 }
 
 impl TryFrom<SendPollRequestModel> for Form {
@@ -39,7 +40,12 @@ impl TryFrom<SendPollRequestModel> for Form {
             false => initial_form,
         };
 
-        Ok(notification_form)
+        let protect_content_form = match m.protect_content {
+            true => notification_form.text("protect_content", "true"),
+            false => notification_form,
+        };
+
+        Ok(protect_content_form)
     }
 }
 
@@ -55,12 +61,14 @@ impl From<SendPollParams> for SendPollRequestModel {
         let question = params.3.question;
         let options = params.3.options;
         let disable_notification = params.2.silent;
+        let protect_content = params.2.protect_content;
 
         SendPollRequestModel {
             chat_id,
             question,
             options,
             disable_notification,
+            protect_content,
         }
     }
 }

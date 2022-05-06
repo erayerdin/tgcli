@@ -69,6 +69,9 @@ enum BotSubcommands {
         /// Whether to send notification to user.
         #[clap(long)]
         silent: bool,
+        /// Do not let user to forward or save message.
+        #[clap(long)]
+        protect_content: bool,
         #[clap(subcommand)]
         subcommands: SendSubcommands,
     },
@@ -156,9 +159,10 @@ pub fn match_app(cli: Cli) -> Result<(), OperationError> {
                     receiver,
                     format,
                     silent,
+                    protect_content,
                     subcommands,
                 } => {
-                    let send_params = SendParams::new(receiver, format, silent);
+                    let send_params = SendParams::new(receiver, format, silent, protect_content);
 
                     match subcommands {
                         SendSubcommands::Message { message } => {

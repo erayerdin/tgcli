@@ -22,6 +22,7 @@ pub(crate) struct SendPhotoRequestModel {
     caption: Option<String>,
     parse_mode: ParseMode,
     disable_notification: bool,
+    protect_content: bool,
 }
 
 impl TryFrom<SendPhotoRequestModel> for Form {
@@ -53,8 +54,12 @@ impl TryFrom<SendPhotoRequestModel> for Form {
             true => photo_form.text("disable_notification", "true"),
             false => photo_form,
         };
+        let protect_content_form = match m.protect_content {
+            true => notification_form.text("protect_content", "true"),
+            false => notification_form,
+        };
 
-        Ok(notification_form)
+        Ok(protect_content_form)
     }
 }
 
@@ -75,8 +80,8 @@ impl From<SendPhotoParams> for SendPhotoRequestModel {
         };
 
         let photo = InputFile::Local(params.3.file);
-
         let disable_notification = params.2.silent;
+        let protect_content = params.2.protect_content;
 
         SendPhotoRequestModel {
             chat_id,
@@ -84,6 +89,7 @@ impl From<SendPhotoParams> for SendPhotoRequestModel {
             parse_mode,
             photo,
             disable_notification,
+            protect_content,
         }
     }
 }

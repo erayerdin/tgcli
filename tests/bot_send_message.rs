@@ -91,3 +91,21 @@ fn send_message_silent(mut binary: Command) {
 
     assertion.success();
 }
+
+#[rstest]
+fn send_message_protect_content(mut binary: Command) {
+    let assertion = binary
+        .args([
+            "bot",
+            "send",
+            "--receiver",
+            &env::var("TELEGRAM_RECEIVER")
+                .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
+            "--protect-content",
+            "message",
+            "protected message",
+        ])
+        .assert();
+
+    assertion.success();
+}

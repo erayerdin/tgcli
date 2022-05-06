@@ -24,6 +24,7 @@ pub(crate) struct SendAudioRequestModel {
     caption: Option<String>,
     parse_mode: ParseMode,
     disable_notification: bool,
+    protect_content: bool,
 }
 
 impl TryFrom<SendAudioRequestModel> for Form {
@@ -67,7 +68,12 @@ impl TryFrom<SendAudioRequestModel> for Form {
             false => title_form,
         };
 
-        Ok(notification_form)
+        let protect_content_form = match m.protect_content {
+            true => notification_form.text("protect_content", "true"),
+            false => notification_form,
+        };
+
+        Ok(protect_content_form)
     }
 }
 
@@ -91,6 +97,7 @@ impl From<SendAudioParams> for SendAudioRequestModel {
         let performer = params.3.performer;
         let title = params.3.title;
         let disable_notification = params.2.silent;
+        let protect_content = params.2.protect_content;
 
         SendAudioRequestModel {
             chat_id,
@@ -100,6 +107,7 @@ impl From<SendAudioParams> for SendAudioRequestModel {
             performer,
             title,
             disable_notification,
+            protect_content,
         }
     }
 }

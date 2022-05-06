@@ -10,9 +10,9 @@ tgcli bot --help
 
 `bot` subcommand also has arguments that you might be interested.
 
-| Short Flag | Full Flag | Required/Optional |  Description   |
-| ---------- | --------- | ----------------- |  ------------- |
-| -t         | --token   | Required[^1]      |  Token of bot. |
+| Short Flag | Full Flag | Required/Optional | Description   |
+| ---------- | --------- | ----------------- | ------------- |
+| -t         | --token   | Required[^1]      | Token of bot. |
 
 [^1]: It is not required if you have `TELEGRAM_BOT_TOKEN` environment variable
       set in your current shell session.
@@ -36,13 +36,14 @@ operations. To get help:
 
 `send` has the arguments below:
 
-| Short Flag | Full Flag  | Required/Optional | Description                                                                                               |
-|------------|------------|-------------------|-----------------------------------------------------------------------------------------------------------|
-| -r         | --receiver | Required          | The receiver's ID, an integer.                                                                            |
-|            | --format   | Optional          | The format of message. Choices are `markdown` and `html`. Default is `markdown`.[^markdown_format_choice] |
-|            | --silent   | Optional          | The message will not play notification sound on target device if present.                                 |
+| Short Flag | Full Flag         | Required/Optional | Description                                                                                               |
+|------------|-------------------|-------------------|-----------------------------------------------------------------------------------------------------------|
+| -r         | --receiver        | Required          | The receiver's ID, an integer.                                                                            |
+|            | --format          | Optional          | The format of message. Choices are `markdown` and `html`. Default is `markdown`.[^markdown_format_choice] |
+|            | --silent          | Optional          | The message will not play notification sound on target device if present.                                 |
+|            | --protect-content | Optional          | Do not let user to forward or save the message.                                                           |
 
-After you define the receiver's ID, then you can use any subcommand of `send`. To give an example:
+After you find out the receiver's ID, then you can use any subcommand of `send`. To give an example:
 
 ```bash
 # assuming receiver id is 1234
@@ -61,6 +62,12 @@ tgcli bot send message "foo" -r 1234 --silent
 
 !!! warning
     `--silent` argument does not disable notification, it only supresses the notification sound. The user will still see the notification on device *unless the user willingly disabled the notifications from your bot*.
+
+If you'd like to send any kind of message but would not like any users to forward or save them, you can use `--protect-content` argument.
+
+```bash
+tgcli bot send message "foo" -r 1234 --protect-content
+```
 
 [^markdown_format_choice]: By default, [MarkdownV2](https://core.telegram.org/bots/api#markdownv2-style) style is used.
 
