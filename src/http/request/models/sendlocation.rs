@@ -18,6 +18,7 @@ pub(crate) struct SendLocationRequestModel {
     latitude: f32,
     longitude: f32,
     disable_notification: bool,
+    protect_content: bool,
 }
 
 impl TryFrom<SendLocationRequestModel> for Form {
@@ -36,8 +37,12 @@ impl TryFrom<SendLocationRequestModel> for Form {
             true => initial_form.text("disable_notification", "true"),
             false => initial_form,
         };
+        let protect_content_form = match m.protect_content {
+            true => notification_form.text("protect_content", "true"),
+            false => notification_form,
+        };
 
-        Ok(notification_form)
+        Ok(protect_content_form)
     }
 }
 
@@ -53,12 +58,14 @@ impl From<SendLocationParams> for SendLocationRequestModel {
         let latitude = params.3.latitude;
         let longitude = params.3.longitude;
         let disable_notification = params.2.silent;
+        let protect_content = params.2.protect_content;
 
         SendLocationRequestModel {
             chat_id,
             latitude,
             longitude,
             disable_notification,
+            protect_content,
         }
     }
 }
