@@ -103,7 +103,7 @@ fn send_message_protect_content(mut binary: Command) {
                 .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
             "--protect-content",
             "message",
-            "foo",
+            "protected message",
         ])
         .assert();
 
