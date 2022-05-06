@@ -25,14 +25,21 @@ pub(crate) struct SendParams {
     pub(crate) receiver: String,
     pub(crate) format: MessageFormat,
     pub(crate) silent: bool,
+    pub(crate) protect_content: bool,
 }
 
 impl SendParams {
-    pub(crate) fn new(receiver: String, format: MessageFormat, silent: bool) -> Self {
+    pub(crate) fn new(
+        receiver: String,
+        format: MessageFormat,
+        silent: bool,
+        protect_content: bool,
+    ) -> Self {
         Self {
             receiver,
             format,
             silent,
+            protect_content,
         }
     }
 }
