@@ -1,0 +1,14 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/*.lock": true,
+        "target": true
+    },
+    "explorerExclude.backup": null,
+    "licenser.license": "MPLv2"
+}
