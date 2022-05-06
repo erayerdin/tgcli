@@ -22,6 +22,7 @@ pub(crate) struct SendMessageRequestModel {
     text: String,
     parse_mode: ParseMode,
     disable_notification: bool,
+    protect_content: bool,
 }
 
 impl TryFrom<SendMessageRequestModel> for Form {
@@ -42,7 +43,12 @@ impl TryFrom<SendMessageRequestModel> for Form {
             false => initial_form,
         };
 
-        Ok(notification_form)
+        let protect_content_form = match m.protect_content {
+            true => notification_form.text("protect_content", "true"),
+            false => notification_form,
+        };
+
+        Ok(protect_content_form)
     }
 }
 
@@ -63,12 +69,14 @@ impl From<SendMessageParams> for SendMessageRequestModel {
         };
 
         let disable_notification = params.2.silent;
+        let protect_content = params.2.protect_content;
 
         SendMessageRequestModel {
             chat_id,
             text,
             parse_mode,
             disable_notification,
+            protect_content,
         }
     }
 }
