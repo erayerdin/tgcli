@@ -24,6 +24,7 @@ pub(crate) struct SendDocumentRequestModel {
     caption: Option<String>,
     parse_mode: ParseMode,
     disable_notification: bool,
+    protect_content: bool,
 }
 
 impl TryFrom<SendDocumentRequestModel> for Form {
@@ -67,7 +68,12 @@ impl TryFrom<SendDocumentRequestModel> for Form {
             false => thumbnail_form,
         };
 
-        Ok(notification_form)
+        let protect_content_form = match m.protect_content {
+            true => notification_form.text("protect_content", "true"),
+            false => notification_form,
+        };
+
+        Ok(protect_content_form)
     }
 }
 
@@ -95,6 +101,7 @@ impl From<SendDocumentParams> for SendDocumentRequestModel {
         };
 
         let disable_notification = params.2.silent;
+        let protect_content = params.2.protect_content;
 
         SendDocumentRequestModel {
             chat_id,
@@ -103,6 +110,7 @@ impl From<SendDocumentParams> for SendDocumentRequestModel {
             document,
             thumbnail,
             disable_notification,
+            protect_content,
         }
     }
 }
