@@ -94,8 +94,7 @@ fn send_message_silent(mut binary: Command) {
 
 #[rstest]
 fn send_message_protect_content(mut binary: Command) {
-    let assertion = Command::cargo_bin("tgcli")
-        .unwrap()
+    let assertion = binary
         .args([
             "bot",
             "send",
