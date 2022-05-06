@@ -22,6 +22,7 @@ pub(crate) struct SendVideoRequestModel {
     caption: Option<String>,
     parse_mode: ParseMode,
     disable_notification: bool,
+    protect_content: bool,
 }
 
 impl TryFrom<SendVideoRequestModel> for Form {
@@ -54,7 +55,12 @@ impl TryFrom<SendVideoRequestModel> for Form {
             false => video_form,
         };
 
-        Ok(notification_form)
+        let protect_content_form = match m.protect_content {
+            true => notification_form.text("protect_content", "true"),
+            false => notification_form,
+        };
+
+        Ok(protect_content_form)
     }
 }
 
@@ -77,6 +83,7 @@ impl From<SendVideoParams> for SendVideoRequestModel {
         let video = InputFile::Local(params.3.file);
 
         let disable_notification = params.2.silent;
+        let protect_content = params.2.protect_content;
 
         SendVideoRequestModel {
             chat_id,
@@ -84,6 +91,7 @@ impl From<SendVideoParams> for SendVideoRequestModel {
             parse_mode,
             video,
             disable_notification,
+            protect_content,
         }
     }
 }
