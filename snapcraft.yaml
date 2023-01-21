@@ -1,0 +1,24 @@
+name: tgcli
+version: git
+summary: A Telegram Terminal Application
+description: |
+  A terminal application for Telegram. You can send
+  messages, documents, photos, videos, location or
+  polls with tgcli.
+
+base: core18
+confinement: devmode
+
+parts:
+  tgcli:
+    stage-packages:
+      - openssl
+      - pkg-config
+    build-packages:
+      - libssl-dev
+    plugin: rust
+    source: .
+
+apps:
+  tgcli:
+    command: bin/tgcli

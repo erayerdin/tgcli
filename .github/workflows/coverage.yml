@@ -1,0 +1,39 @@
+name: coverage
+
+on: [push, pull_request]
+
+jobs:
+  Test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        rust: [stable]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Generate Coverage
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.SECRET_TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_RECEIVER: ${{ secrets.SECRET_TELEGRAM_RECEIVER }}
+          TELEGRAM_RECEIVER_ABSENT: ${{ secrets.SECRET_TELEGRAM_RECEIVER_ABSENT }}
+        run: |
+          cargo install cargo-tarpaulin
+          cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true

@@ -1,0 +1,116 @@
+use fern::colors::{Color, ColoredLevelConfig};
+
+// Copyright (c) 2022 Eray Erdin
+//
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+pub(crate) fn set_logger(
+    // Defines verbosity level.
+    // 0 - Info, Warn, Error + Self Target
+    // 1 - Debug, Info, Warn, Error + Self Target + Level Labels
+    // 2 - Debug, Info, Warn, Error + Self Target + Level Labels + Location Labels
+    // 3 - Trace, Debug, Info, Warn, Error + Self Target + Level Labels + Location Labels
+    // 4 - Trace, Debug, Info, Warn, Error + All Targets + Level Labels + Location Labels
+    verbosity: u8,
+) -> Result<(), log::SetLoggerError> {
+    let colors = ColoredLevelConfig::new()
+        .error(Color::BrightRed)
+        .warn(Color::Yellow)
+        .debug(Color::Blue)
+        .trace(Color::Cyan);
+
+    fern::Dispatch::new()
+        .filter(move |metadata| {
+            if verbosity >= 4 {
+                true
+            } else {
+                metadata.target().starts_with("tgcli")
+            }
+        })
+        // stdout chain
+        .chain(
+            fern::Dispatch::new()
+                .filter(|metadata| {
+                    metadata.level() != log::LevelFilter::Error
+                        || metadata.level() != log::LevelFilter::Warn
+                })
+                .format(move |out, message, record| {
+                    // if cfg!(debug_assertions) {
+                    //     out.finish(format_args!(
+                    //         "[{}][{}] {}",
+                    //         record.level(),
+                    //         record.target(),
+                    //         message
+                    //     ))
+                    // } else {
+                    //     match record.level() {
+                    //         log::Level::Error => out.finish(format_args!("Error: {}", message)),
+                    //         log::Level::Warn => out.finish(format_args!("Warning: {}", message)),
+                    //         _ => out.finish(format_args!("{}", message)),
+                    //     }
+                    // }
+                    match verbosity {
+                        1 => out.finish(format_args!(
+                            "[{levelname}] {message}",
+                            levelname = record.level(),
+                            message = message,
+                        )),
+                        2..=u8::MAX => out.finish(format_args!(
+                            "[{levelname}][{targetname}] {message}",
+                            levelname = record.level(),
+                            targetname = record.target(),
+                            message = message,
+                        )),
+                        0 => out.finish(format_args!(
+                            "\x1B[{}m{}\x1B[0m",
+                            colors.get_color(&record.level()).to_fg_str(),
+                            message
+                        )),
+                    }
+                })
+                .level(
+                    // if cfg!(debug_assertions) {
+                    //     log::LevelFilter::Trace
+                    // } else {
+                    //     log::LevelFilter::Info
+                    // }
+                    match verbosity {
+                        0 => log::LevelFilter::Info,
+                        1 | 2 => log::LevelFilter::Debug,
+                        _ => log::LevelFilter::Trace,
+                    },
+                )
+                .chain(std::io::stdout()),
+        )
+        // stderr chain
+        .chain(
+            fern::Dispatch::new()
+                .filter(|metadata| {
+                    metadata.level() == log::LevelFilter::Error
+                        || metadata.level() == log::LevelFilter::Warn
+                })
+                .format(move |out, message, record| match verbosity {
+                    1 => out.finish(format_args!(
+                        "[{levelname}] {message}",
+                        levelname = record.level(),
+                        message = message,
+                    )),
+                    2..=u8::MAX => out.finish(format_args!(
+                        "[{levelname}][{targetname}] {message}",
+                        levelname = record.level(),
+                        targetname = record.target(),
+                        message = message,
+                    )),
+                    0 => out.finish(format_args!(
+                        "\x1B[{colorbyte}m{message}\x1B[0m",
+                        colorbyte = colors.get_color(&record.level()).to_fg_str(),
+                        message = message,
+                    )),
+                })
+                .level(log::LevelFilter::Warn)
+                .chain(std::io::stderr()),
+        )
+        .apply()
+}

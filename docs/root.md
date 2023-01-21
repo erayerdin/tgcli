@@ -1,26 +1,78 @@
 # Root
 
-Root of `tgcli` application is itself. The root simply does nothing, which
-means you have to use one of the subcommands below for further functionality:
+Root of `tgcli` application is itself.
+
+| Short Flag | Full Flag | Required/Optional     | Description               |
+| ---------- | --------- | --------------------- | ------------------------- |
+| -v         | --verbose | Optional and Multiple | Sets the verbosity level. |
+
+The root simply does nothing, which means you have to use one of the subcommands below for further functionality:
 
  - [bot](bot.md)
 
-## Global Options
+## Verbosity
 
-Root contains some global options that you might be interested.
+You can set the verbosity level multiple times to get more outputs.
 
-Short Flag | Full Flag | Required/Optional | Description
---- | --- | --- | ---
- | --secure/--no-secure | Optional | Whether to verify HTTPS certificate or not. Default is `True` except OSX[^1].
+```bash
+# 3 level verbosity
+tgcli bot send message "foo" -r 1234 -vvv
+```
 
-[^1]: OSX might be bundled with an older version of OpenSSL, which
-      requires to point at certificate manually and causes `tgcli` to fail.
-      That's why the requests in OSX is `--no-secure` by default. Easiest way
-      to overcome this problem is to [update OpenSSL on your system](https://apple.stackexchange.com/a/126832). Then manually trigger `--secure` flag everytime.
+Each level increases the verbosity level a little bit. Below shows what tgcli shows on each level:
 
-### Examples
+| Verbosity Level | Log Levels                      | Colorized | Level Prefix | Location Prefix | Location Target |
+| --------------- | ------------------------------- | --------- | ------------ | --------------- | --------------- |
+| 0               | Info, Warn, Error               | ✅         | ❌            | ❌               | tgcli           |
+| 1               | Debug, Info, Error, Warn        | ❌         | ✅            | ❌               | tgcli           |
+| 2               | Debug, Info, Error, Warn        | ❌         | ✅            | ✅               | tgcli           |
+| 3               | Trace, Debug, Info, Error, Warn | ❌         | ✅            | ✅               | tgcli           |
+| 4               | Trace, Debug, Info, Error, Warn | ❌         | ✅            | ✅               | All             |
 
-    # note that this will not work
-    tgcli --no-secure whatever
-    # you need to set secure option after root for it to work properly
-    # this will make every request non-secure on its subcommand
+### Verbosity Levels
+
+Verbosity level represents how many times `-v` argument is used. `-vv` means verbosity level is 2 while the absense means verbosity level is 0.
+
+### Log Levels
+
+Each level defines has different purposes.
+
+ - **Trace**: The values of some important variables.
+ - **Debug**: Low-level logs of operation e.g. converting types.
+ - **Info**: Logs targeting the end-user. This is the default in 0 verbosity level.
+ - **Warn**: Logs that were needed but did not cause the program the halt due to having a default or fallback value to progress.
+ - **Error**: Logs that caused the program to not be able to progress further and immediately halt.
+
+!!! warning
+    This is how levels are used by tgcli. The libraries it depends is not in our control and might use the levels for different purposes.
+
+### Colorization
+
+tgcli colorizes the entire line depending on the verbosity level.
+
+The default verbosity level, info, does not have a color value, resulting in the default color of the terminal. The other levels have predefined colors by tgcli.
+
+ - *Error* results in **bright red** color.
+ - *Warn* results in **yellow** color.
+ - *Debug* results in **blue** color.
+ - *Trace* results in **cyan** color.
+
+!!! warning
+    The colors are disabled if the verbosity level is set above 0.
+
+### Prefixes
+
+Prefixes are some metadata prepended to the logging output.
+
+```plain
+[PREFIX1][PREFIX2] message
+```
+
+There are two kinds of prefixes in tgcli:
+
+ - **Level Prefix**: It contains level name e.g. `[INFO]`.
+ - **Location Prefix**: It contains where the error originates from e.g. `[tgcli::operation]`.
+
+### Location
+
+Not all logs originate from tgcli, some logs originate from other libraries such as reqwest, mio, want etc.

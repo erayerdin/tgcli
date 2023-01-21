@@ -1,0 +1,33 @@
+# nfpm example config file
+#
+# check https://nfpm.goreleaser.com/configuration for detailed usage
+#
+name: "tgcli"
+arch: "amd64"
+platform: "linux"
+version: "v0.5.0-alpha.6"
+section: "default"
+priority: "extra"
+provides:
+- tgcli
+depends:
+- libc6
+maintainer: "Eray Erdin <eraygezer.94@gmail.com>"
+description: |
+  A terminal application for Telegram.
+  It can send messages, photos, videos, audios, locations or polls with bots.
+vendor: "Eray Erdin"
+homepage: "http://github.com/erayerdin/tgcli"
+license: "Apache-2.0"
+contents:
+- src: ./target/release/tgcli
+  dst: /usr/local/bin/tgcli
+# overrides:
+#   rpm:
+#     scripts:
+#       preinstall: ./scripts/preinstall.sh
+#       postremove: ./scripts/postremove.sh
+#   deb:
+#     scripts:
+#       postinstall: ./scripts/postinstall.sh
+#       preremove: ./scripts/preremove.sh
