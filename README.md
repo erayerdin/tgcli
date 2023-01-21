@@ -54,7 +54,7 @@ The details of the build status can be seen [here][build_url]. The details of th
 
 <!-- Miscellaneous Badges -->
 
-[format_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/format/master?label=format&logo=linux&logoColor=white&style=flat-square
+[format_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/format.yml?branch=development&style=flat-square
 [coverage_badge]: https://img.shields.io/coveralls/github/erayerdin/tgcli/master?logo=linux&logoColor=white&style=flat-square
 
 ## Installing
