@@ -38,7 +38,7 @@ The details of the build status can be seen [here][build_url]. The details of th
 
 <!-- MacOS Badges -->
 
-[macos_build_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/master?logo=apple&logoColor=white&style=flat-square
+[macos_build_status_master_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/build.macos.yml?branch=master&style=flat-square
 [macos_build_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/development?logo=apple&logoColor=white&style=flat-square
 
 [macos_test_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/master?label=test&logo=apple&logoColor=white&style=flat-square
