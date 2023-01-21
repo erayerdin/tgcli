@@ -31,7 +31,7 @@ The details of the build status can be seen [here][build_url]. The details of th
 <!-- Linux Badges -->
 
 [linux_build_status_master_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/build.linux.yml?branch=master&style=flat-square
-[linux_build_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/development?logo=linux&logoColor=white&style=flat-square
+[linux_build_status_development_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/build.linux.yml?branch=development&style=flat-square
 
 [linux_test_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/master?label=test&logo=linux&logoColor=white&style=flat-square
 [linux_test_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/development?label=test&logo=linux&logoColor=white&style=flat-square
