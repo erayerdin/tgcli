@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.1-alpha.1] - 2023-01-21
+
+### Changed
+
+ - Update `clap` to `3.2.23`.
+
 ## [v0.5.0-alpha.9] - 2022-05-06
 
 ### Added
