@@ -30,31 +30,31 @@ The details of the build status can be seen [here][build_url]. The details of th
 
 <!-- Linux Badges -->
 
-[linux_build_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/master?logo=linux&logoColor=white&style=flat-square
-[linux_build_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/development?logo=linux&logoColor=white&style=flat-square
+[linux_build_status_master_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/build.linux.yml?branch=master&style=flat-square
+[linux_build_status_development_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/build.linux.yml?branch=development&style=flat-square
 
-[linux_test_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/master?label=test&logo=linux&logoColor=white&style=flat-square
-[linux_test_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_linux/development?label=test&logo=linux&logoColor=white&style=flat-square
+[linux_test_status_master_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/test.linux.yml?branch=master&style=flat-square
+[linux_test_status_development_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/test.linux.yml?branch=development&style=flat-square
 
 <!-- MacOS Badges -->
 
-[macos_build_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/master?logo=apple&logoColor=white&style=flat-square
-[macos_build_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/development?logo=apple&logoColor=white&style=flat-square
+[macos_build_status_master_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/build.macos.yml?branch=master&style=flat-square
+[macos_build_status_development_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/build.macos.yml?branch=development&style=flat-square
 
-[macos_test_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/master?label=test&logo=apple&logoColor=white&style=flat-square
-[macos_test_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_macos/development?label=test&logo=apple&logoColor=white&style=flat-square
+[macos_test_status_master_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/test.macos.yml?branch=master&style=flat-square
+[macos_test_status_development_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/test.macos.yml?branch=development&style=flat-square
 
 <!-- Windows Badges -->
 
-[windows_build_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_windows/master?logo=windows&logoColor=white&style=flat-square
-[windows_build_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_windows/development?logo=windows&logoColor=white&style=flat-square
+[windows_build_status_master_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/build.windows.yml?branch=master&style=flat-square
+[windows_build_status_development_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/build.windows.yml?branch=development&style=flat-square
 
-[windows_test_status_master_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_windows/master?label=test&logo=windows&logoColor=white&style=flat-square
-[windows_test_status_development_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/build_windows/development?label=test&logo=windows&logoColor=white&style=flat-square
+[windows_test_status_master_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/test.windows.yml?branch=master&style=flat-square
+[windows_test_status_development_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/test.windows.yml?branch=development&style=flat-square
 
 <!-- Miscellaneous Badges -->
 
-[format_badge]: https://img.shields.io/github/workflow/status/erayerdin/tgcli/format/master?label=format&logo=linux&logoColor=white&style=flat-square
+[format_badge]: https://img.shields.io/github/actions/workflow/status/erayerdin/tgcli/format.yml?branch=development&style=flat-square
 [coverage_badge]: https://img.shields.io/coveralls/github/erayerdin/tgcli/master?logo=linux&logoColor=white&style=flat-square
 
 ## Installing
