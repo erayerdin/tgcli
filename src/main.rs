@@ -6,7 +6,7 @@
 
 use std::process;
 
-use clap::StructOpt;
+use clap::Parser;
 use log::error;
 use tgcli::cli::{match_app, Cli};
 
