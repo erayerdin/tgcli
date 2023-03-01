@@ -11,11 +11,11 @@ pub(crate) mod bot;
 #[derive(Debug)]
 pub(crate) struct RootParams {
     #[allow(dead_code)]
-    verbosity: u8,
+    verbosity: clap_verbosity_flag::Verbosity,
 }
 
 impl RootParams {
-    pub(crate) fn new(verbosity: u8) -> Self {
+    pub(crate) fn new(verbosity: clap_verbosity_flag::Verbosity) -> Self {
         Self { verbosity }
     }
 }
