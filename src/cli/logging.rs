@@ -13,7 +13,7 @@ pub(crate) fn set_logger(
     // 2 - Debug, Info, Warn, Error + Self Target + Level Labels + Location Labels
     // 3 - Trace, Debug, Info, Warn, Error + Self Target + Level Labels + Location Labels
     // 4 - Trace, Debug, Info, Warn, Error + All Targets + Level Labels + Location Labels
-    verbosity_level: clap_verbosity_flag::Verbosity,
+    verbosity_level: &clap_verbosity_flag::Verbosity,
 ) -> Result<(), log::SetLoggerError> {
     let verbosity: u8 = match verbosity_level.log_level_filter() {
         log::LevelFilter::Off => 0,
