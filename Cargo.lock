@@ -1104,7 +1104,7 @@ checksum = "13a4ec180a2de59b57434704ccfad967f789b12737738798fa08798cd5824c16"
 
 [[package]]
 name = "tgcli"
-version = "0.5.1-alpha.1"
+version = "0.6.0-alpha.1"
 dependencies = [
  "assert_cmd",
  "clap",
