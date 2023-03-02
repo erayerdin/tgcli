@@ -27,8 +27,7 @@ fn send_poll(mut binary: Command) {
             .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
         "poll",
         "foo",
-        "-o", "bar",
-        "-o", "baz",
+        "-o", "bar", "baz",
     ]).assert();
 
     assertion.success();
@@ -80,8 +79,7 @@ fn send_poll_overused_chars_option(mut binary: Command) {
             .expect("TELEGRAM_RECEIVER environment variable could not be found. Please create .env file and define it."),
         "poll",
         "foo",
-        "-o", &option,
-        "-o", "bar",
+        "-o", &option, "bar",
     ]).assert();
 
     assertion.failure();
