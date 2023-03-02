@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+ - Update `clap` to `4.1.6`
+
+### Changed
+
+ - Uniformed the `option` argument of `bot send poll`: instead of `-o foo -o bar`, now it is `-o foo bar`
+
 ## [v0.5.1-alpha.1] - 2023-01-21
 
 ### Changed

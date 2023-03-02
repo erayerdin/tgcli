@@ -223,19 +223,19 @@ tgcli bot send poll --help
 | Short Flag | Full Flag | Required/Optional | Description                                                |
 | ---------- | --------- | ----------------- | ---------------------------------------------------------- |
 |            | question  | Required          | The question for poll.                                     |
-| -o         | --option  | Required[^2]      | A single option for poll. You can define multiple options. |
+| -o         | --option  | Required[^2]      | A single option for poll. |
 
 To start a poll:
 
 ```bash
 # a plain poll
-tgcli bot send --receiver 1234 poll "Am I a ghost?" -o "Yes" -o "No"
+tgcli bot send --receiver 1234 poll "Am I a ghost?" -o "Yes" "No"
 ```
 
 !!! note
     Also keep in mind the the order of `-o`/`--option` is preserved for polls.
 
-[^2]: You need to define at least two options for a valid poll.
+[^2]: You need to define at least two options and at most 10 options for a valid poll. See [Telegram documentation](https://core.telegram.org/bots/api#sendpoll) for its limitations.
 
 ### location
 

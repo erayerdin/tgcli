@@ -14,7 +14,7 @@ pub(crate) mod photo;
 pub(crate) mod poll;
 pub(crate) mod video;
 
-#[derive(Debug, Clone, ArgEnum)]
+#[derive(Debug, Clone, ValueEnum)]
 pub(crate) enum MessageFormat {
     Markdown,
     HTML,

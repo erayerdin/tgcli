@@ -38,8 +38,8 @@ pub(crate) mod validators;
 #[derive(Parser)]
 pub struct Cli {
     /// How much verbose the output should be.
-    #[clap(short, long = "verbose", max_occurrences = 4, parse(from_occurrences))]
-    verbosity: u8,
+    #[clap(flatten)]
+    verbose: clap_verbosity_flag::Verbosity,
     #[clap(subcommand)]
     subcommands: CliSubcommands,
 }
@@ -64,7 +64,7 @@ enum BotSubcommands {
         #[clap(short, long)]
         receiver: String,
         /// The format of message.
-        #[clap(long, arg_enum, default_value = "markdown")]
+        #[clap(long, value_enum, default_value = "markdown")]
         format: MessageFormat,
         /// Whether to send notification to user.
         #[clap(long)]
@@ -84,40 +84,40 @@ pub(crate) enum SendSubcommands {
     /// A file.
     Document {
         /// The file to be sent.
-        #[clap(validator = file_presence_validator)]
+        #[clap(value_parser = file_presence_validator)]
         file: path::PathBuf,
         /// The file caption.
-        #[clap(short, long, validator = caption_validator)]
+        #[clap(short, long, value_parser = caption_validator)]
         message: Option<String>,
         /// A preview image for file.
-        #[clap(long, validator = file_presence_validator)]
+        #[clap(long, value_parser = file_presence_validator)]
         thumbnail: Option<path::PathBuf>,
     },
     /// A message with image viewer.
     Photo {
         /// The file to be sent.
-        #[clap(validator = image_validator)]
+        #[clap(value_parser = image_validator)]
         file: path::PathBuf,
         /// The file caption.
-        #[clap(short, long, validator = caption_validator)]
+        #[clap(short, long, value_parser = caption_validator)]
         message: Option<String>,
     },
     /// A message with video viewer.
     Video {
         /// The file to be sent.
-        #[clap(validator = video_validator)]
+        #[clap(value_parser = video_validator)]
         file: path::PathBuf,
         /// The file caption.
-        #[clap(short, long, validator = caption_validator)]
+        #[clap(short, long, value_parser = caption_validator)]
         message: Option<String>,
     },
     /// A message with audio player.
     Audio {
         /// The file to be sent.
-        #[clap(validator = audio_validator)]
+        #[clap(value_parser = audio_validator)]
         file: path::PathBuf,
         /// The file caption.
-        #[clap(short, long, validator = caption_validator)]
+        #[clap(short, long, value_parser = caption_validator)]
         message: Option<String>,
         #[clap(long)]
         performer: Option<String>,
@@ -127,10 +127,11 @@ pub(crate) enum SendSubcommands {
     /// A message with question and options.
     Poll {
         /// Question.
-        #[clap(validator = poll_question_validator)]
+        #[clap(value_parser = poll_question_validator)]
         question: String,
         /// One of options.
-        #[clap(short = 'o', long = "option", multiple_occurrences = true, min_values = 2, validator = poll_option_validator)]
+        // max 10, ref: https://core.telegram.org/bots/api#sendpoll
+        #[clap(short = 'o', long = "option", num_args = 2..10, value_parser = poll_option_validator)]
         options: Vec<String>,
     },
     /// A location on earth.
@@ -145,10 +146,10 @@ pub(crate) enum SendSubcommands {
 }
 
 pub fn match_app(cli: Cli) -> Result<(), OperationError> {
-    set_logger(cli.verbosity)
+    set_logger(&cli.verbose)
         .map_err(|set_logger_error| OperationError::LoggerError(set_logger_error))?;
 
-    let root_params = RootParams::new(cli.verbosity);
+    let root_params = RootParams::new(cli.verbose);
 
     match cli.subcommands {
         CliSubcommands::Bot { token, subcommands } => {
